@@ -4,10 +4,14 @@
   "sourceRoot": "src",
   "entryFile": "main",
   "compilerOptions": {
-    "deleteOutDir": true,
-    "assets": [
-      "infra/mail/templates/**/*"
-    ],
+    "builder": {
+      "type": "swc",
+      "options": {
+        "swcrcPath": ".swcrc"
+      }
+    },
+    "deleteOutDir": false,
+    "assets": ["infra/mail/templates/**/*"],
     "watchAssets": true
   }
 }
