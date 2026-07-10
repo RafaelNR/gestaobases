@@ -1,0 +1,23 @@
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #ffffff;">
+
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <table cellspacing="0" cellpadding="0" style="background-color: #ffffff; border: 1px solid #ddd;">
+
+          {{> email-header}} {{!-- Partial do cabeçalho --}}
+
+          <tr>
+            <td style="padding: 20px;">
+              {{> @partial-block }}
+            </td>
+          </tr>
+
+          {{> email-footer}} {{!-- Partial do rodapé --}}
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>

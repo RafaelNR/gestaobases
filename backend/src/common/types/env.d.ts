@@ -1,0 +1,36 @@
+export interface EnvironmentVariables {
+  NODE_ENV: string;
+  MYSQL_USER: string;
+  MYSQL_PASSWORD: string;
+  MYSQL_DB: string;
+  DB_HOST: string;
+  DB_PORT: number;
+  DATABASE_URL: string;
+  IP: string;
+  PORT_HTTPS: string;
+  DNS_HTTPS: string;
+  JWT_ACCESS_SECRET: string;
+  JWT_EXPIRED_IN: string;
+  JWT_REFRESH_SECRET: string;
+  JWT_REFRESH_EXPIRED_IN: string;
+  BCRYPT_ROUNDS: string;
+  SSL_KEY: string;
+  SSL_CERT: string;
+  FRONT_END: string;
+  SMTP_HOST: string;
+  SMTP_PORT: string;
+  SMTP_TLS: string;
+  SMTP_USERNAME: string;
+  SMTP_PASSWORD: string;
+  SMTP_BCC: string;
+  LOGO_URL: string;
+  FROM_EMAIL: string;
+  FROM_NAME: string;
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET: string;
+  GOOGLE_CALLBACK_URL: string;
+  STRIPE_SECRET_KEY: string;
+  STRIPE_WEBHOOK_SECRET: string;
+  PAGARME_API_KEY: string;
+  PAGARME_WEBHOOK_SECRET: string;
+}

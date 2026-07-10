@@ -1,0 +1,63 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var JwtRefreshAuthGuard_1;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JwtRefreshAuthGuard = void 0;
+const common_1 = require("@nestjs/common");
+const passport_1 = require("@nestjs/passport");
+const isProd = process.env.NODE_ENV === 'production';
+const COOKIE_OPTS = {
+    httpOnly: true,
+    secure: true,
+    sameSite: (isProd ? 'strict' : 'none'),
+    path: '/',
+};
+const REFRESH_COOKIE_OPTS = {
+    ...COOKIE_OPTS,
+    path: '/auth',
+};
+let JwtRefreshAuthGuard = JwtRefreshAuthGuard_1 = class JwtRefreshAuthGuard extends (0, passport_1.AuthGuard)('jwt-refresh') {
+    logger = new common_1.Logger(JwtRefreshAuthGuard_1.name);
+    handleRequest(err, user, info, context) {
+        if (err || !user) {
+            const request = context.switchToHttp().getRequest();
+            const response = context.switchToHttp().getResponse();
+            this.clearAuthCookies(response);
+            this.logger.warn('Refresh token rejeitado antes da renovação.', {
+                error: this.getErrorMessage(err, info),
+                ip: (request.ip ?? '').slice(0, 45) || undefined,
+                userAgent: request.headers?.['user-agent']?.slice(0, 512),
+                hasRefreshCookie: Boolean(request.cookies?.jwt_refresh),
+                hasRefreshBody: Boolean(request.body?.refreshToken),
+            });
+            throw err || new common_1.UnauthorizedException();
+        }
+        return user;
+    }
+    getErrorMessage(err, info) {
+        if (err instanceof Error)
+            return err.message;
+        if (info instanceof Error)
+            return info.message;
+        if (typeof err === 'string')
+            return err;
+        if (typeof info === 'string')
+            return info;
+        return 'Refresh token inválido ou ausente.';
+    }
+    clearAuthCookies(response) {
+        response.clearCookie('jwt_token', COOKIE_OPTS);
+        response.clearCookie('jwt_refresh', REFRESH_COOKIE_OPTS);
+        response.clearCookie('jwt_refresh', COOKIE_OPTS);
+    }
+};
+exports.JwtRefreshAuthGuard = JwtRefreshAuthGuard;
+exports.JwtRefreshAuthGuard = JwtRefreshAuthGuard = JwtRefreshAuthGuard_1 = __decorate([
+    (0, common_1.Injectable)()
+], JwtRefreshAuthGuard);
+//# sourceMappingURL=jwt-refresh-auth.guard.js.map

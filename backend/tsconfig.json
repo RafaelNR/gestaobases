@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "nodenext",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "strict": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["./src/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@common/*": ["./src/common/*"],
+      "@middlewares/*": ["./src/app/middlewares/*"],
+      "@database/*": ["./src/infra/database/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@generated/*": ["./generated/*"]
+    }
+  },
+  "include": ["./src/**/*.ts", "./prisma/**/*.ts"],
+  "exclude": ["./node_modules/*", "dist", ".vscode", "_test", "node_modules/*"],
+  "typeRoots": ["./src", "./node_modules/@types", "./src/types"]
+}

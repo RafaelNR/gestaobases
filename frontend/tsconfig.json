@@ -1,0 +1,39 @@
+{
+	"compilerOptions": {
+		"target": "ES2021",
+		"useDefineForClassFields": true,
+		"lib": ["ES2021", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
+		"allowJs": true,
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"paths": {
+			"@/*": ["./src/*"],
+			"@/Contexts": ["./src/Contexts/*"],
+			"@/Components": ["./src/Components/*"],
+			"@/Hooks": ["./src/Hooks/*"],
+			"@/Schemas": ["./src/Schemas/*"],
+			"@/Service": ["./src/Service/*"],
+			"@/Store": ["./src/Store/*"],
+			"@/Utils": ["./src/Utils/*"],
+			"@/Types": ["./src/Types/*"],
+			"@/Pages": ["./src/Pages/*"]
+		}
+	},
+	"include": ["src", "app", "react-router.config.ts"],
+	"exclude": ["./node_modules/*", "dist", ".vscode", "test", "node_modules"],
+	"references": [{ "path": "./tsconfig.node.json" }]
+}

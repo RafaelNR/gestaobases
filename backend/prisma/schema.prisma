@@ -1,0 +1,506 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+}
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  moduleFormat    = "cjs"
+  previewFeatures = ["relationJoins"]
+}
+
+model Config {
+  id    Int    @id @default(autoincrement())
+  key   String @unique(map: "key_value")
+  value String
+}
+
+model Setor {
+  id            String         @id @default(uuid())
+  nome          String         @unique(map: "setores_nome_key")
+  nomeVisivel   String         @unique(map: "setores_visivel_key")
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  Users         User[]         @relation("user_setor")
+  Requerimentos Requerimento[] @relation("requerimentos_setor")
+  cargos        Cargo[]
+
+  @@map("setores")
+}
+
+model Cargo {
+  id            String         @id @default(uuid())
+  nome          String         @unique(map: "cargos_nome_key")
+  nomeVisivel   String         @unique(map: "cargos_visivel_key")
+  setor         String
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  Users         User[]         @relation("user_cargo")
+  Setor         Setor          @relation(fields: [setor], references: [nome], onDelete: Cascade, map: "cargos_setor_fkey")
+  requerimentos Requerimento[] @relation("requerimentos_cargo")
+
+  @@map("cargos")
+}
+
+model Base {
+  id               String          @id @default(uuid())
+  nome             String          @unique(map: "bases_nome_key")
+  tipo_ambulancias TipoAmbulancias @default(USB)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+  users            User[]          @relation("user_base")
+  Requerimentos    Requerimento[]  @relation("requerimentos_base")
+  Ambulancias      Ambulancia[]
+  VisitasBases     VisitasBases[]
+  receituarios     Receituario[]
+
+  @@map("bases")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique(map: "username")
+  nome       String
+  email      String?
+  telefone   String?
+  password   String
+  baseId     String
+  setorId    String
+  cargoId    String
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Base                    Base                      @relation("user_base", fields: [baseId], references: [id], map: "Base_id_fkey")
+  Setor                   Setor                     @relation("user_setor", fields: [setorId], references: [id], map: "Setor_id_fkey")
+  Cargo                   Cargo                     @relation("user_cargo", fields: [cargoId], references: [id], map: "Cargo_id_fkey")
+  RefreshTokens           RefreshToken[]
+  Produtos                Produto[]                 @relation("user_produtos")
+  Medicamentos            Medicamento[]             @relation("user_medicamentos")
+  Requerimentos           Requerimento[]            @relation("requerimentos_user")
+  CategoriaProdutos       CategoriaProduto[]        @relation("user_categoria_produto")
+  CategoriasMedicamento   CategoriasMedicamento[]
+  RequerimentoStatus      RequerimentoStatus[]
+  RequerimentoItem        RequerimentoItem[]        @relation("carrinho_user")
+  VisitasBases            VisitasBases[]
+  Logs                    Log[]
+  Medicos                 Medico[]
+  Receituarios            Receituario[]
+  ReceituarioMedicamentos ReceituarioMedicamentos[]
+  notificacaos            Notificacao[]
+  passwordResetTokens     PasswordResetToken[]
+  RequerimentoItemDeleted RequerimentoItem[]        @relation("carrinho_deleted_by")
+  Ambulancias             Ambulancia[]
+
+  @@index([username, password], map: "username_password_index")
+  @@map("usuarios")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  family    String
+  expiresAt DateTime
+  revokedAt DateTime?
+  userAgent String?   @db.VarChar(512)
+  ip        String?   @db.VarChar(45)
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([family])
+  @@map("refresh_tokens")
+}
+
+model Ambulancia {
+  id         String      @id @default(uuid())
+  tipo       TipoUnidade
+  nome       String
+  baseId     String
+  userId     String
+  active     Boolean     @default(true)
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+
+  Base          Base           @relation(fields: [baseId], references: [id], onDelete: Cascade, map: "ambulancias_base_fkey")
+  User          User           @relation(fields: [userId], references: [id], onDelete: Cascade, map: "ambulancias_user_fkey")
+  Requerimentos Requerimento[]
+  receituarios  Receituario[]
+
+  @@unique([tipo, nome, baseId], map: "ambulancias_tipo_nome_base_key")
+  @@map("ambulancias")
+}
+
+model CategoriaProduto {
+  id         String   @id @default(uuid())
+  nome       String   @unique(map: "nome")
+  userId     String
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  produtos Produto[] @relation("categoria_produtos")
+  User     User      @relation("user_categoria_produto", fields: [userId], references: [id], onDelete: Cascade, map: "user_categoria_produto_fkey")
+
+  @@map("categoria_produtos")
+}
+
+model Produto {
+  id         String   @id @default(uuid())
+  nome       String
+  codigo     Int
+  unidade    Unidade
+  categoria  String
+  usa        Boolean  @default(false)
+  cme        Boolean  @default(false)
+  fora_alx   Boolean  @default(false)
+  ordem      Int?
+  userId     String
+  descricao  String?  @db.Text
+  active     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  CategoriaProduto CategoriaProduto   @relation("categoria_produtos", fields: [categoria], references: [nome], onDelete: Cascade, map: "categoria_produtos_fkey")
+  User             User               @relation("user_produtos", fields: [userId], references: [id], onDelete: Cascade, map: "user_produtos_fkey")
+  RequerimentoItem RequerimentoItem[]
+
+  @@unique([nome, codigo])
+  @@map("produtos")
+}
+
+model CategoriasMedicamento {
+  id          String        @id @default(uuid())
+  nome        String        @unique(map: "nome")
+  active      Boolean       @default(true)
+  userId      String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  Medicamento Medicamento[] @relation("categoria_medicamento")
+  User        User?         @relation(fields: [userId], references: [id])
+
+  @@map("categorias_medicamento")
+}
+
+model Medicamento {
+  id            String   @id @default(uuid())
+  nome          String
+  codigo        Int
+  especificacao String
+  categoria     String
+  userId        String
+  descricao     String?  @db.Text
+  active        Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  User                    User                      @relation("user_medicamentos", fields: [userId], references: [id], onDelete: Cascade, map: "user_medicamentos_fkey")
+  CategoriasMedicamento   CategoriasMedicamento     @relation("categoria_medicamento", fields: [categoria], references: [nome], onDelete: Cascade, map: "categoria_medicamento_fkey")
+  RequerimentoItem        RequerimentoItem[]
+  ReceituarioMedicamentos ReceituarioMedicamentos[]
+
+  @@unique([nome, codigo])
+  @@map("medicamentos")
+}
+
+model Requerimento {
+  id           String           @id @default(uuid())
+  numero       Int              @unique(map: "numero") @db.Int
+  tipo         TipoRequerimento
+  status       Status           @default(Recebido)
+  data_inicio  DateTime
+  data_fim     DateTime?
+  base         String
+  setor        String
+  cargo        String
+  userId       String
+  ambulanciaId String? // se tipo farmacia tem q ter ambulancia
+  obs          String?
+  created_at   DateTime         @default(now())
+  updated_at   DateTime         @updatedAt
+
+  User               User                 @relation("requerimentos_user", fields: [userId], references: [id], onDelete: Cascade, map: "requerimentos_user_fkey")
+  Setor              Setor                @relation("requerimentos_setor", fields: [setor], references: [nome], onDelete: Cascade, map: "requerimentos_setor_fkey")
+  Cargo              Cargo                @relation("requerimentos_cargo", fields: [cargo], references: [nome], onDelete: Cascade, map: "requerimentos_cargo_fkey")
+  Base               Base                 @relation("requerimentos_base", fields: [base], references: [nome], onDelete: Cascade, map: "requerimentos_base_fkey")
+  Ambulancia         Ambulancia?          @relation(fields: [ambulanciaId], references: [id])
+  RequerimentoStatus RequerimentoStatus[]
+  RequerimentoItems  RequerimentoItem[]
+  Receituarios       Receituario[]
+
+  @@map("requerimentos")
+}
+
+model RequerimentoStatus {
+  id             String   @id @default(uuid())
+  requerimentoId String
+  status         Status
+  userId         String
+  created_at     DateTime @default(now())
+
+  User         User         @relation(fields: [userId], references: [id], onDelete: Cascade, map: "requerimento_status_user_fkey")
+  Requerimento Requerimento @relation(fields: [requerimentoId], references: [id], onDelete: Cascade, map: "requerimento_status_requerimento_fkey")
+
+  @@map("requerimento_status")
+}
+
+model RequerimentoItem {
+  id             String    @id @default(uuid())
+  requerimentoId String
+  produtoId      String? // Se for um produto, medicamentoId será nulo
+  medicamentoId  String? // Se for um medicamento, produtoId será nulo
+  quantidade     Int
+  ocorrencia     String? // Se medicamento deve ter ocorrencia   
+  userId         String
+  ativo          Boolean   @default(true)
+  deleted_at     DateTime?
+  deleted_by     String?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  User         User         @relation("carrinho_user", fields: [userId], references: [id], onDelete: Cascade, map: "carrinho_user_fkey")
+  Produto      Produto?     @relation(fields: [produtoId], references: [id], onDelete: Cascade, map: "carrinho_produto_fkey")
+  Medicamento  Medicamento? @relation(fields: [medicamentoId], references: [id], onDelete: Cascade, map: "carrinho_medicamento_fkey")
+  DeletedBy    User?        @relation("carrinho_deleted_by", fields: [deleted_by], references: [id], onDelete: Cascade, map: "carrinho_deleted_by_fkey")
+  Requerimento Requerimento @relation(fields: [requerimentoId], references: [id], onDelete: Cascade, map: "carrinho_requerimento_fkey")
+
+  @@index([requerimentoId], map: "requerimento_index")
+  @@index([produtoId], map: "produto_index")
+  @@index([medicamentoId], map: "medicamento_index")
+  @@map("requerimento_itens")
+}
+
+model VisitasBases {
+  id           String   @id @default(uuid())
+  data         DateTime @db.Date
+  base         String?
+  outro_motivo String?
+  descricao    String?
+  userId       String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  Base Base? @relation(fields: [base], references: [nome], onDelete: Cascade, map: "visitas_bases_base_fkey")
+  User User  @relation(fields: [userId], references: [id], onDelete: Cascade, map: "visitas_bases_user_fkey")
+
+  @@index([base], map: "visitas_bases_base_index")
+  @@index([data], map: "visitas_bases_data_index")
+  @@map("visitas_bases")
+}
+
+model SendEmail {
+  id           String      @id @default(uuid())
+  status       StatusEmail
+  tipo         TipoEmail
+  email        String
+  artefatoUUID String
+  message      String?     @db.Text
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([tipo])
+  @@map("send_email")
+}
+
+model Log {
+  id        String   @id @default(uuid())
+  tipo      TipoLog
+  modulo    String
+  artefato  String?
+  ip        String
+  mensagem  String   @db.TinyText
+  userId    String
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([modulo], map: "modulo_index")
+  @@index([userId], map: "user_index")
+  @@map("logs")
+}
+
+model Medico {
+  id          String        @id @default(uuid())
+  nome        String        @unique(map: "nome")
+  crm         String        @unique(map: "crm")
+  telefone    String?       @unique(map: "telefone")
+  userId      String
+  active      Boolean       @default(true)
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  User        User          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "medico_user_fkey")
+  Receituario Receituario[]
+
+  @@index([userId], map: "medicos_user_index")
+  @@map("medicos")
+}
+
+model Receituario {
+  id                      String                    @id @default(uuid())
+  requerimentoId          String?
+  status                  StatusReceituario
+  numero                  String                    @unique(map: "numero")
+  data                    DateTime
+  ocorrencia              Int
+  data_ocorrencia         DateTime
+  medicoId                String
+  baseId                  String
+  ambulanciaId            String
+  obs                     String?
+  userId                  String
+  created_at              DateTime                  @default(now())
+  updated_at              DateTime                  @updatedAt
+  User                    User                      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "receituario_user_fkey")
+  Medico                  Medico?                   @relation(fields: [medicoId], references: [id], onDelete: Cascade, map: "receituario_medico _fkey")
+  Requerimento            Requerimento?             @relation(fields: [requerimentoId], references: [id], onDelete: Cascade, map: "receituario_requerimento_fkey")
+  Base                    Base                      @relation(fields: [baseId], references: [id], onDelete: Cascade, map: "receituario_base_fkey")
+  Ambulancia              Ambulancia?               @relation(fields: [ambulanciaId], references: [id], onDelete: Cascade, map: "receituario_ambulancia_fkey")
+  ReceituarioMedicamentos ReceituarioMedicamentos[]
+
+  @@map("receituarios")
+}
+
+model ReceituarioMedicamentos {
+  id            String             @id @default(uuid())
+  receituarioId String
+  medicamentoId String
+  qnt           Int
+  unidade       UnidadeMedicamento
+  administracao TipoAdministracao
+  diluente      TipoDiluente?
+  qnt_diluente  Int?
+  qnt_tempo     Int?
+  userId        String
+  obs           String?
+  created_at    DateTime           @default(now())
+  updated_at    DateTime           @updatedAt
+  User          User               @relation(fields: [userId], references: [id], onDelete: Cascade, map: "receituario_medicamentos_user_fkey")
+  Receituario   Receituario        @relation(fields: [receituarioId], references: [id], onDelete: Cascade, map: "receituario_medicamento_receiturario_fkey")
+  Medicamento   Medicamento        @relation(fields: [medicamentoId], references: [id], onDelete: Cascade, map: "receituario_medicamentos_fkey")
+
+  @@map("receituario_medicamentos")
+}
+
+model Notificacao {
+  id           String          @id @default(uuid())
+  mensagem     String          @db.VarChar(254)
+  artefatoUUID String
+  tipo         TipoNotificacao
+  evento       String          @db.VarChar(50)
+  link         String?         @db.VarChar(254)
+  lida         Boolean         @default(false)
+  removida     Boolean         @default(false)
+  userId       String
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt
+  User         User            @relation(fields: [userId], references: [id], onDelete: Cascade, map: "notificacao_user_fkey")
+
+  @@map("notificacoes")
+}
+
+enum TipoAmbulancias {
+  USA     @map("USA")
+  USB     @map("USB")
+  USA_USB @map("USA/USB")
+}
+
+enum TipoNotificacao {
+  CME
+  Farmacia       @map("Farmácia")
+  Almoxarifado   @map("Almoxarifado")
+  Administrativo @map("Administrativo")
+}
+
+enum TipoRequerimento {
+  CME
+  Farmacia       @map("Farmácia")
+  Almoxarifado   @map("Almoxarifado")
+  Administrativo @map("Administrativo")
+}
+
+enum Unidade {
+  Unidade
+  Pacote
+  Kit
+  Caixa
+}
+
+enum UnidadeMedicamento {
+  ampolas
+  ml
+}
+
+enum Status {
+  Rascunho   @map("Rascunho")
+  Recebido   @map("Recebido")
+  Analise    @map("Análise")
+  Separacao  @map("Separação")
+  Finalizado
+  Cancelado
+}
+
+enum TipoLog {
+  created
+  updated
+  deleted
+  status
+  active
+  disable
+  view
+}
+
+enum StatusEmail {
+  success
+  error
+  pendent
+}
+
+enum TipoEmail {
+  Almoxarifado
+  CME
+  Farmacia
+  Status
+  Calendario
+}
+
+enum TipoUnidade {
+  USA
+  USB
+}
+
+enum StatusReceituario {
+  Aberto
+  Finalizado
+  Cancelado
+}
+
+enum TipoDiluente {
+  agua_destilada
+  nacl09
+}
+
+enum TipoAdministracao {
+  EV
+  IM
+  SC
+  IN
+  IR
+  IO
+}
