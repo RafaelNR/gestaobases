@@ -111,7 +111,7 @@
     "tsconfig-paths": "^4.2.0",
     "tscpaths": "^0.0.9",
     "tsx": "^4.22.3",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -132,5 +132,5 @@
     "silent": false
   },
   "main": "index.js",
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.17.1"
 }

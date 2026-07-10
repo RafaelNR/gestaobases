@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "moduleResolution": "NodeNext",
+    "types": ["node", "jest"],
     "paths": {
       "@/*": ["./*"],
       "@src/*": ["./src/*"],
