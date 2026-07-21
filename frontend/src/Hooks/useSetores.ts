@@ -7,6 +7,8 @@ import type {
 	SetorSchemaInputUpdate,
 } from "@/Types/Setor";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const setoresKeys = {
 	all: ["setores"] as const,
 	detail: (id: string) => ["setores", id] as const,
@@ -16,6 +18,7 @@ export function useGetSetores() {
 	return useQuery<Setor[]>({
 		queryKey: setoresKeys.all,
 		queryFn: () => setoresService.findAll() as Promise<Setor[]>,
+		staleTime: TTL,
 	});
 }
 

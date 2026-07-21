@@ -3,6 +3,8 @@ import { usersService } from "@/Service/Usuarios.service";
 import snackBar from "@/Hooks/useSnackBar";
 import type { Usuario } from "@/Types/Usuarios";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const usuariosKeys = {
 	all: ["usuarios"] as const,
 	cargo: (cargo: string) => ["usuarios", cargo] as const,
@@ -15,6 +17,7 @@ export function useGetUsuarios() {
 	return useQuery<Usuario[]>({
 		queryKey: usuariosKeys.all,
 		queryFn: () => usersService.findAll() as Promise<Usuario[]>,
+		staleTime: TTL,
 	});
 }
 

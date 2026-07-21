@@ -7,6 +7,8 @@ import type {
 	AmbulanciaUpdateSchemaInput,
 } from "@/Types/Ambulancia";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const ambulanciasKeys = { all: ["ambulancias"] as const };
 
 export function useGetAmbulancias({
@@ -16,6 +18,7 @@ export function useGetAmbulancias({
 		queryKey: ambulanciasKeys.all,
 		queryFn: () => ambulanciasService.findAll() as Promise<Ambulancia[]>,
 		enabled,
+		staleTime: TTL,
 	});
 }
 
@@ -33,6 +36,7 @@ export function useGetAmbulanciasOrBase(
 			return ambulanciasService.findAll() as Promise<Ambulancia[]>;
 		},
 		enabled,
+		staleTime: TTL,
 	});
 }
 

@@ -5,11 +5,14 @@ import type { Receituario } from "@/Types/Receituario";
 
 export const receituariosKeys = { all: ["receituarios"] as const };
 
+const TTL = 1000 * 60 * 10; // 10 minutos
+
 export function useGetReceituarios(params?: Record<string, any>) {
 	return useQuery<Receituario[]>({
 		queryKey: [...receituariosKeys.all, params],
 		queryFn: () =>
 			receituariosService.findAll(params) as Promise<Receituario[]>,
+		staleTime: TTL,
 	});
 }
 

@@ -51,14 +51,15 @@ export default function VisitasBasesPage() {
 	return (
 		<>
 			<Stack
-				direction="row"
+				direction={{ xs: "column", sm: "row" }}
 				justifyContent="space-between"
 				alignItems="center"
 				mb={2}
+				gap={1}
 				className="no-print"
 			>
 				<Typography variant="h6"></Typography>
-				<Stack direction="row" spacing={1}>
+				<Stack direction="row" spacing={1} sx={{ width: { xs: "100%", sm: "auto" } }}>
 					{can("visitas-bases:imagem") && (
 						<Tooltip title="Exportar como imagem">
 							<Button
@@ -66,6 +67,7 @@ export default function VisitasBasesPage() {
 								startIcon={<Image />}
 								size="small"
 								onClick={handleExportImage}
+								sx={{ flex: { xs: 1, sm: "initial" } }}
 							>
 								Imagem
 							</Button>

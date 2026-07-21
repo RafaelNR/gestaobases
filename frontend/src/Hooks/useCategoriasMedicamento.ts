@@ -3,6 +3,8 @@ import { categoriasMedicamentoService } from "@/Service/CategoriasMedicamento.se
 import snackBar from "@/Hooks/useSnackBar";
 import type { CategoriaMedicamento } from "@/Types/Medicamento";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const categoriasMedicamentoKeys = {
 	all: ["categorias-medicamento"] as const,
 };
@@ -12,6 +14,7 @@ export function useGetCategoriasMedicamento() {
 		queryKey: categoriasMedicamentoKeys.all,
 		queryFn: () =>
 			categoriasMedicamentoService.findAll() as Promise<CategoriaMedicamento[]>,
+		staleTime: TTL,
 	});
 }
 

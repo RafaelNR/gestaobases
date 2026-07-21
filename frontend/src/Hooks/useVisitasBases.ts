@@ -9,6 +9,7 @@ export function useGetVisitasBases(params?: Record<string, any>) {
 	return useQuery<VisitaBase[]>({
 		queryKey: [...visitasKeys.all, params],
 		queryFn: () => visitasBasesService.findAll(params) as Promise<VisitaBase[]>,
+		refetchInterval: 1000 * 60 * 10, // 10 minutos
 	});
 }
 
@@ -20,7 +21,8 @@ export function useCreateVisitaBase() {
 			qc.invalidateQueries({ queryKey: visitasKeys.all });
 			snackBar.success("Visita registrada.");
 		},
-		onError: (e: any) => snackBar.error(e?.message ?? "Erro ao registrar visita."),
+		onError: (e: any) =>
+			snackBar.error(e?.message ?? "Erro ao registrar visita."),
 	});
 }
 
@@ -33,7 +35,8 @@ export function useUpdateVisitaBase() {
 			qc.invalidateQueries({ queryKey: visitasKeys.all });
 			snackBar.success("Visita atualizada.");
 		},
-		onError: (e: any) => snackBar.error(e?.message ?? "Erro ao atualizar visita."),
+		onError: (e: any) =>
+			snackBar.error(e?.message ?? "Erro ao atualizar visita."),
 	});
 }
 
@@ -45,6 +48,7 @@ export function useDeleteVisitaBase() {
 			qc.invalidateQueries({ queryKey: visitasKeys.all });
 			snackBar.success("Visita removida.");
 		},
-		onError: (e: any) => snackBar.error(e?.message ?? "Erro ao remover visita."),
+		onError: (e: any) =>
+			snackBar.error(e?.message ?? "Erro ao remover visita."),
 	});
 }

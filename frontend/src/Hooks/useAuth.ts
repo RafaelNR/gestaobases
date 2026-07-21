@@ -41,7 +41,7 @@ export function useMe() {
 	const query = useQuery({
 		queryKey: authKeys.me,
 		queryFn: () => authService.me(),
-		staleTime: 10 * 60 * 1000,
+		staleTime: 10 * 60 * 1000, // 10 minutos
 		retry: false,
 		initialData: () =>
 			typeof window !== "undefined" ? (loadUser() ?? undefined) : undefined,

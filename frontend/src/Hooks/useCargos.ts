@@ -7,6 +7,8 @@ import type {
 	CargoSchemaUpdate,
 } from "@/Types/Cargo";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const CargosKeys = {
 	all: ["cargos"] as const,
 	forSetor: (setor: string) => ["cargos", setor] as const,
@@ -17,6 +19,7 @@ export function useGetCargos() {
 	return useQuery<Cargo[]>({
 		queryKey: CargosKeys.all,
 		queryFn: () => cargosService.findAll() as Promise<Cargo[]>,
+		staleTime: TTL,
 	});
 }
 
@@ -25,6 +28,7 @@ export function useGetCargosBySetor(setor: string) {
 		queryKey: CargosKeys.forSetor(setor),
 		queryFn: () => cargosService.findAllBySetor(setor) as Promise<Cargo[]>,
 		enabled: Boolean(setor),
+		staleTime: TTL,
 	});
 }
 
@@ -33,6 +37,7 @@ export function useGetCargosBySetorId(setorId: string) {
 		queryKey: CargosKeys.forSetor(setorId),
 		queryFn: () => cargosService.findAllBySetorId(setorId) as Promise<Cargo[]>,
 		enabled: Boolean(setorId),
+		staleTime: TTL,
 	});
 }
 

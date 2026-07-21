@@ -25,7 +25,11 @@ export default function useNotificacoes() {
 	const { data: user } = useMe();
 
 	// ─── Query inicial ─────────────────────────────────────────────────────────
-	const { data: notificacoes, isLoading, refetch } = useQuery({
+	const {
+		data: notificacoes,
+		isLoading,
+		refetch,
+	} = useQuery({
 		queryKey: notificacoesKeys.all,
 		queryFn: () => notificacoesService.getNotificacoes(),
 		enabled: !!user,
@@ -41,18 +45,14 @@ export default function useNotificacoes() {
 
 		if (_socket?.connected) return;
 
-		const backendUrl =
-			window.location.protocol === "https:"
-				? import.meta.env.VITE_API_BACKEND_HTTPS_URL
-				: import.meta.env.VITE_API_BACKEND_HTTP_URL;
-
-		const socket = io(`${backendUrl}/notificacoes`, { withCredentials: true });
+		const socket = io(`${import.meta.env.VITE_API_URL}/notificacoes`, {
+			withCredentials: true,
+		});
 		_socket = socket;
 
 		socket.on("notificacao.nova", (nova: Notificacao) => {
-			queryClient.setQueryData<Notificacao[]>(
-				notificacoesKeys.all,
-				(prev) => (prev ? [nova, ...prev] : [nova]),
+			queryClient.setQueryData<Notificacao[]>(notificacoesKeys.all, (prev) =>
+				prev ? [nova, ...prev] : [nova],
 			);
 		});
 
@@ -68,7 +68,9 @@ export default function useNotificacoes() {
 
 	// ─── Computed ─────────────────────────────────────────────────────────────
 	const totalNaoLidas = (notificacoes ?? []).filter((n) => !n.lida).length;
-	const totalNaoRemovidas = (notificacoes ?? []).filter((n) => !n.removida).length;
+	const totalNaoRemovidas = (notificacoes ?? []).filter(
+		(n) => !n.removida,
+	).length;
 
 	// ─── Mutations com optimistic update ──────────────────────────────────────
 

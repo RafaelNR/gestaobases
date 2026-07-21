@@ -1,16 +1,17 @@
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import {
-	Box,
 	Button,
+	Collapse,
 	Grid,
-	MenuItem,
 	Paper,
-	Select,
 	Stack,
 	Typography,
+	useMediaQuery,
 } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
+import { useState } from "react";
 
 import AutocompleteAmbulanciaController from "@/Components/Autocomplete/AutoCompleteAmbulanciasController";
 import AutocompleteBaseController from "@/Components/Autocomplete/AutoCompleteBasesController";
@@ -18,10 +19,8 @@ import AutocompleteFacilitadorController from "@/Components/Autocomplete/AutoCom
 import DataPickController from "@/Components/DatePick/DatePickController";
 import type {
 	FiltroRequerimentos,
-	RequerimentoStatus,
 	TipoRequerimento,
 } from "@/Types/Requerimento";
-import { STATUS_REQUERIMENTO_LABELS } from "@/Types/Requerimento";
 import {
 	cleanRequerimentoFiltro,
 	type RequerimentoFiltroFormValues,
@@ -44,17 +43,11 @@ const DEFAULT_FILTER_VALUES: RequerimentoFiltroFormValues = {
 	numero: undefined,
 };
 
-const STATUS_OPTIONS = Object.entries(STATUS_REQUERIMENTO_LABELS).map(
-	([value, label]) => ({
-		value: value as RequerimentoStatus,
-		label,
-	}),
-);
-
 export default function RequerimentoTableFiltro({
-	tipo,
 	onFilterChange,
 }: Props) {
+	const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 	const methods = useForm<RequerimentoFiltroFormValues>({
 		defaultValues: DEFAULT_FILTER_VALUES,
 	});
@@ -83,59 +76,90 @@ export default function RequerimentoTableFiltro({
 		>
 			<FormProvider {...methods}>
 				<Stack spacing={1.5}>
-					<Typography variant="subtitle2" fontWeight={700}>
-						Filtros
-					</Typography>
-
-					<Grid container spacing={1.5}>
-						<Grid size={{ xs: 12, md: 6, lg: 1 }}>
-							<TextFieldController name="numero" label="Número" size="small" />
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 1 }}>
-							<SelectStatusController />
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-							<AutocompleteBaseController />
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-							<AutocompleteFacilitadorController />
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-							<AutocompleteAmbulanciaController />
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-							<DataPickController
-								name="data_inicial"
-								label="Data inicial"
-								fullWidth
-							/>
-						</Grid>
-						<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-							<DataPickController
-								name="data_final"
-								label="Data final"
-								fullWidth
-							/>
-						</Grid>
-					</Grid>
-
-					<Stack direction="row" spacing={1} justifyContent="flex-end">
-						<Button
-							type="button"
-							variant="outlined"
-							startIcon={<FilterAltOffIcon />}
-							onClick={clearFiltro}
-						>
-							Limpar
-						</Button>
-						<Button
-							type="submit"
-							variant="contained"
-							startIcon={<SearchIcon />}
-						>
-							Filtrar
-						</Button>
+					<Stack
+						direction="row"
+						alignItems="center"
+						justifyContent="space-between"
+					>
+						<Typography variant="subtitle2" fontWeight={700}>
+							Filtros
+						</Typography>
+						{isMobile && (
+							<Button
+								type="button"
+								variant={mobileFiltersOpen ? "contained" : "outlined"}
+								size="small"
+								startIcon={<FilterAltIcon />}
+								onClick={() => setMobileFiltersOpen((open) => !open)}
+								aria-expanded={mobileFiltersOpen}
+								aria-controls="requerimentos-filtros-mobile"
+							>
+								{mobileFiltersOpen ? "Ocultar filtros" : "Abrir filtros"}
+							</Button>
+						)}
 					</Stack>
+
+					<Collapse
+						in={!isMobile || mobileFiltersOpen}
+						id="requerimentos-filtros-mobile"
+						unmountOnExit={isMobile}
+					>
+						<Stack spacing={1.5}>
+							<Grid container spacing={1.5}>
+								<Grid size={{ xs: 12, md: 6, lg: 1 }}>
+									<TextFieldController name="numero" label="Número" size="small" />
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 1 }}>
+									<SelectStatusController />
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+									<AutocompleteBaseController />
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+									<AutocompleteFacilitadorController />
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+									<AutocompleteAmbulanciaController />
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+									<DataPickController
+										name="data_inicial"
+										label="Data inicial"
+										fullWidth
+									/>
+								</Grid>
+								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+									<DataPickController
+										name="data_final"
+										label="Data final"
+										fullWidth
+									/>
+								</Grid>
+							</Grid>
+
+							<Stack
+								direction={{ xs: "column-reverse", sm: "row" }}
+								spacing={1}
+								justifyContent="flex-end"
+							>
+								<Button
+									type="button"
+									variant="outlined"
+									startIcon={<FilterAltOffIcon />}
+									onClick={clearFiltro}
+								>
+									Limpar
+								</Button>
+								<Button
+									type="submit"
+									variant="contained"
+									startIcon={<SearchIcon />}
+								>
+									Filtrar
+								</Button>
+							</Stack>
+						</Stack>
+					</Collapse>
 				</Stack>
 			</FormProvider>
 		</Paper>

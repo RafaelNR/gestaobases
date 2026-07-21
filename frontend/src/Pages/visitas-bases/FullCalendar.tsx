@@ -11,11 +11,24 @@ import type {
 } from "@fullcalendar/core";
 import ptBrLocale from "@fullcalendar/core/locales/pt-br";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TodayIcon from "@mui/icons-material/Today";
 import type { VisitaBase } from "@/Types/VisitaBase";
 import useDialog from "@/Contexts/DialogContext";
 import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 import snackBar from "@/Hooks/useSnackBar";
-import { Box } from "@mui/material";
+import {
+	Box,
+	Button,
+	Chip,
+	IconButton,
+	Stack,
+	Typography,
+	useMediaQuery,
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { usePermissions } from "@/Hooks/usePermissions";
 import PopperEvent from "./PopperEvent";
@@ -82,6 +95,10 @@ function getVisitaColor(visita: VisitaBase): string {
 	return visita.base ? getBaseColor(visita.base) : FALLBACK_EVENT_COLOR;
 }
 
+function getMobileVisitaDate(visita: VisitaBase): string {
+	return dayjs(visita.data).locale("pt-br").format("DD/MM - dddd");
+}
+
 function renderEventContent(eventInfo: EventContentArg) {
 	const hasDescricao = Boolean(eventInfo.event.extendedProps.hasDescricao);
 
@@ -114,6 +131,161 @@ type MyFullCalendarProps = {
 	onFiltersChange: (filters: VisitasBasesCalendarFilters) => void;
 };
 
+type MobileVisitasAgendaProps = MyFullCalendarProps & {
+	onCreate: (date: string) => void;
+	onEdit: (visita: VisitaBase) => void;
+};
+
+function MobileVisitasAgenda({
+	visitas,
+	filters,
+	onFiltersChange,
+	onCreate,
+	onEdit,
+}: MobileVisitasAgendaProps) {
+	const orderedVisitas = [...visitas].sort(
+		(a, b) => dayjs(a.data).valueOf() - dayjs(b.data).valueOf(),
+	);
+	const monthDate = dayjs()
+		.year(filters.ano)
+		.month(filters.mes - 1)
+		.date(1);
+
+	function changeMonth(amount: number) {
+		const nextMonth = monthDate.add(amount, "month");
+		onFiltersChange({ mes: nextMonth.month() + 1, ano: nextMonth.year() });
+	}
+
+	function goToToday() {
+		const today = dayjs();
+		onFiltersChange({ mes: today.month() + 1, ano: today.year() });
+	}
+
+	return (
+		<Box
+			sx={(theme) => ({
+				backgroundColor: "background.paper",
+				border: `1px solid ${theme.palette.divider}`,
+				borderRadius: 2,
+				boxShadow: `0 10px 28px ${alpha(theme.palette.common.black, 0.08)}`,
+				p: 1.5,
+			})}
+		>
+			<Stack spacing={1.5}>
+				<Stack direction="row" alignItems="center" justifyContent="space-between">
+					<IconButton
+						aria-label="Mês anterior"
+						onClick={() => changeMonth(-1)}
+						size="small"
+					>
+						<ChevronLeftIcon />
+					</IconButton>
+					<Typography variant="h6" fontWeight={800} textTransform="capitalize">
+						{monthDate.locale("pt-br").format("MMMM [de] YYYY")}
+					</Typography>
+					<IconButton
+						aria-label="Próximo mês"
+						onClick={() => changeMonth(1)}
+						size="small"
+					>
+						<ChevronRightIcon />
+					</IconButton>
+				</Stack>
+
+				<Stack direction="row" spacing={1}>
+					<Button
+						variant="outlined"
+						size="small"
+						startIcon={<TodayIcon />}
+						onClick={goToToday}
+						sx={{ flex: 1 }}
+					>
+						Hoje
+					</Button>
+					<Button
+						variant="contained"
+						size="small"
+						startIcon={<AddIcon />}
+						onClick={() => onCreate(monthDate.format("YYYY-MM-DD"))}
+						sx={{ flex: 1 }}
+					>
+						Nova visita
+					</Button>
+				</Stack>
+
+				{orderedVisitas.length === 0 ? (
+					<Box sx={{ py: 6, textAlign: "center" }}>
+						<Typography color="text.secondary">
+							Nenhuma visita agendada neste mês.
+						</Typography>
+					</Box>
+				) : (
+					<Stack spacing={1}>
+						{orderedVisitas.map((visita) => {
+							const color = getVisitaColor(visita);
+
+							return (
+								<Box
+									key={visita.id}
+									onClick={() => onEdit(visita)}
+									role="button"
+									tabIndex={0}
+									onKeyDown={(event) => {
+										if (event.key === "Enter" || event.key === " ") {
+											event.preventDefault();
+											onEdit(visita);
+										}
+									}}
+									sx={(theme) => ({
+										alignItems: "center",
+										border: `1px solid ${alpha(color, 0.28)}`,
+										borderLeft: `5px solid ${color}`,
+										borderRadius: 1.5,
+										cursor: "pointer",
+										display: "flex",
+										gap: 1,
+										justifyContent: "space-between",
+										p: 1.25,
+										transition: "background-color 160ms ease",
+										"&:hover, &:focus-visible": {
+											backgroundColor: alpha(theme.palette.primary.main, 0.05),
+											outline: "none",
+										},
+									})}
+								>
+									<Box sx={{ minWidth: 0 }}>
+										<Typography variant="caption" color="text.secondary" fontWeight={700}>
+											{getMobileVisitaDate(visita)}
+										</Typography>
+										<Typography variant="body1" fontWeight={800} noWrap>
+											{getVisitaTitle(visita)}
+										</Typography>
+										{visita.descricao?.trim() && (
+											<Typography variant="body2" color="text.secondary" noWrap>
+												{visita.descricao}
+											</Typography>
+										)}
+									</Box>
+									<Chip
+										size="small"
+										label={visita.base ? "Base" : "Outro"}
+										sx={{
+											backgroundColor: color,
+											color: "common.white",
+											fontWeight: 800,
+											flexShrink: 0,
+										}}
+									/>
+								</Box>
+							);
+						})}
+					</Stack>
+				)}
+			</Stack>
+		</Box>
+	);
+}
+
 export default function MyFullCalendar({
 	visitas,
 	filters,
@@ -121,6 +293,7 @@ export default function MyFullCalendar({
 }: MyFullCalendarProps) {
 	const { can } = usePermissions();
 	const { handleClickOpenDialog } = useDialog();
+	const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 	const calendarRef = useRef<FullCalendar>(null);
 	const [hoveredVisita, setHoveredVisita] = useState<HoveredVisita | null>(
 		null,
@@ -199,6 +372,37 @@ export default function MyFullCalendar({
 		setHoveredVisita(null);
 	}
 
+	function handleMobileCreate(date: string) {
+		if (!can("visitas-bases:new")) {
+			snackBar.error("Você não tem permissão para criar visitas.");
+			return;
+		}
+
+		handleClickOpenDialog({
+			m: "created",
+			ID: "",
+			s: { data: date, base: null, outro_motivo: null, descricao: null },
+		});
+	}
+
+	function handleMobileEdit(visita: VisitaBase) {
+		if (!can("visitas-bases:edit")) {
+			snackBar.error("Você não tem permissão para atualizar visitas.");
+			return;
+		}
+
+		handleClickOpenDialog({
+			m: "updated",
+			ID: visita.id,
+			s: {
+				data: visita.data,
+				base: visita.base ?? null,
+				outro_motivo: visita.outro_motivo ?? null,
+				descricao: visita.descricao ?? "",
+			},
+		});
+	}
+
 	// quando trocar de mes
 	function handleDatesSet(event: DatesSetArg) {
 		const currentMonth = dayjs(event.view.currentStart);
@@ -215,6 +419,18 @@ export default function MyFullCalendar({
 	}
 
 	const events = toEvents(visitas);
+
+	if (isMobile) {
+		return (
+			<MobileVisitasAgenda
+				visitas={visitas}
+				filters={filters}
+				onFiltersChange={onFiltersChange}
+				onCreate={handleMobileCreate}
+				onEdit={handleMobileEdit}
+			/>
+		);
+	}
 
 	return (
 		<Box

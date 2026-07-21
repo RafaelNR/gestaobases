@@ -3,6 +3,8 @@ import { basesService } from "@/Service/Bases.service";
 import snackBar from "@/Hooks/useSnackBar";
 import type { Base, BaseUpdateInput, BaseInsertInput } from "@/Types/Base";
 
+const TTL = 1000 * 60 * 60 * 24; // 1 dia
+
 export const basesKeys = {
 	all: ["bases"] as const,
 	detail: (id: string) => ["bases", id] as const,
@@ -13,6 +15,7 @@ export function useGetBases({ enabled = true }: { enabled?: boolean } = {}) {
 		queryKey: basesKeys.all,
 		queryFn: () => basesService.findAll() as Promise<Base[]>,
 		enabled,
+		staleTime: TTL,
 	});
 }
 
