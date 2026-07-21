@@ -3,7 +3,6 @@ import { Box, Divider, Grid } from "@mui/material";
 //* COMPONENTS
 import Save from "@/Components/Button/SaveHookForm";
 import FormInput from "@/Components/TextField/TextFieldController";
-import CPFController from "@/Components/TextField/CPFController";
 import TelefoneInput from "@/Components/TextField/TelefoneController";
 
 export default function MyForm({ isSubmitting }: { isSubmitting: boolean }) {
@@ -31,20 +30,9 @@ export default function MyForm({ isSubmitting }: { isSubmitting: boolean }) {
 					/>
 				</Grid>
 				<Grid size={{ sm: 3 }} sx={{ width: "100%" }}>
-					<CPFController
-						name="cpf"
-						required
-						fullWidth
-						label="CPF"
-						type="text"
-						sx={{ mb: 2 }}
-					/>
-				</Grid>
-				<Grid size={{ sm: 3 }} sx={{ width: "100%" }}>
 					<FormInput
 						name="email"
 						fullWidth
-						required
 						label="Email"
 						type="email"
 						sx={{ mb: 2 }}

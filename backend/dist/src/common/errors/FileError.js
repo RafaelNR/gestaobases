@@ -1,12 +1,18 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class FileError extends Error {
-    message;
-    constructor(message) {
-        super(message);
-        this.message = message;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return FileError;
+    }
+});
+let FileError = class FileError extends Error {
+    constructor(message){
+        super(message), this.message = message;
         this.name = 'FileError';
     }
-}
-exports.default = FileError;
+};
+
 //# sourceMappingURL=FileError.js.map

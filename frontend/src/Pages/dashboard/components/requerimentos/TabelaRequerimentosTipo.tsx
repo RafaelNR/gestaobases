@@ -25,6 +25,7 @@ import ChipStatusRequerimento from "@/Components/Chip/ChipStatusRequerimento";
 import { DateFormat } from "@/Utils/dates";
 
 const OPEN_STATUSES: RequerimentoStatus[] = [
+	"Rascunho",
 	"Recebido",
 	"Analise",
 	"Separacao",

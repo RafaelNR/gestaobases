@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Prisma, Status, TipoRequerimento } from '@generated/prisma/client';
 import { IUser } from '@src/common/decorator/user.decorator';
 import { TypeCargo, TypeSetor } from '@src/infra/guard/roles.decorator';
@@ -26,6 +26,7 @@ import {
   assertFound,
   assertPermission,
 } from '@/src/common/helpers/assert';
+import { NotificacaoRequerimentoUseCase } from '../../notificacoes/use-case/notificacao-requerimento.use-case';
 
 // Transições de status permitidas para não-admins
 const STATUS_TRANSITIONS: Partial<Record<Status, Status[]>> = {
@@ -51,13 +52,18 @@ export type FiltroRequerimentos = {
 
 @Injectable()
 export class RequerimentoService {
-  constructor(private readonly repo: RequerimentoRepository) {}
+  private readonly logger = new Logger(RequerimentoService.name);
+
+  constructor(
+    private readonly repo: RequerimentoRepository,
+    private readonly notificacaoUseCase: NotificacaoRequerimentoUseCase
+  ) {}
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
   // Verifica se o usuario tem permissão para ver todos os requerimentos
   private isGetAll(user: IUser, TIPO: TipoRequerimento): boolean {
-    console.log('isGetAll', user, TIPO);
+    // console.log('isGetAll', user, TIPO);
 
     if (TIPO === TipoRequerimento.Farmacia) {
       return (
@@ -207,7 +213,19 @@ export class RequerimentoService {
     tipo: TipoRequerimento,
     user: IUser
   ): Promise<RequerimentoResult[]> {
-    const where = this.isGetAll(user, tipo) ? {} : { base: user.base };
+    let where: Prisma.RequerimentoWhereInput = {};
+
+    if (this.isGetAll(user, tipo)) {
+      where = {
+        status: { notIn: [Status.Rascunho, Status.Cancelado] },
+      };
+    } else {
+      where = {
+        // status: { notIn: [Status.Rascunho, Status.Cancelado] },
+        base: user.base,
+      };
+    }
+
     return this.repo.findAll(tipo, where);
   }
 
@@ -246,14 +264,14 @@ export class RequerimentoService {
       );
     }
 
-    if (req?.base !== user.base) {
+    if (TypeSetor.Base === user.setor && req?.base !== user.base) {
       assertPermission(
         this.isGetAll(user, tipo),
         'Sem permissão para acessar requerimento de outra base.'
       );
     }
 
-    if (req?.setor !== user.setor) {
+    if (TypeSetor.Administrativo === user.setor && req?.setor !== user.setor) {
       assertPermission(
         this.isGetAll(user, tipo),
         'Sem permissão para acessar requerimento de outro setor.'
@@ -340,6 +358,18 @@ export class RequerimentoService {
       return reqCreated;
     });
 
+    if (requerimento.status === Status.Recebido) {
+      this.notificacaoUseCase.dispatchNotification(
+        () =>
+          this.notificacaoUseCase.notifyCreated({
+            id: requerimento.id,
+            numero: requerimento.numero,
+            tipo: requerimento.tipo,
+          }),
+        `Falha ao notificar criação do requerimento #${requerimento.numero}`
+      );
+    }
+
     return this.findOne(requerimento.id, tipo, user);
   }
 
@@ -398,6 +428,15 @@ export class RequerimentoService {
     );
 
     await this.repo.updateStatus(id, Status.Recebido, user.id);
+    this.notificacaoUseCase.dispatchNotification(
+      () =>
+        this.notificacaoUseCase.notifyCreated({
+          id: req.id,
+          numero: req.numero,
+          tipo: req.tipo,
+        }),
+      `Falha ao notificar criação o status do requerimento #${req.numero}`
+    );
     return this.findOne(id, tipo, user);
   }
 
@@ -429,6 +468,21 @@ export class RequerimentoService {
     }
 
     await this.repo.updateStatus(id, novoStatus, user.id);
+
+    // USADO NAS PAGINAS DE GESTÃO DOS REQUERIMENTOS COM BUTTONS STATUS
+    this.notificacaoUseCase.dispatchNotification(
+      () =>
+        this.notificacaoUseCase.notifyStatusChanged(
+          {
+            id: req.id,
+            numero: req.numero,
+            tipo: req.tipo,
+            base: req.base,
+          },
+          novoStatus
+        ),
+      `Falha ao notificar status alterado do requerimento #${req.numero}`
+    );
     return this.findOne(id, tipo, user);
   }
 

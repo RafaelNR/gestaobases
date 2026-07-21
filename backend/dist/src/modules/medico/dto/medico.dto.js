@@ -1,12 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateMedicoRequestDto = exports.CreateMedicoRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const medico_schema_1 = require("../validation/medico.schema");
-class CreateMedicoRequestDto extends (0, zod_nestjs_1.createZodDto)(medico_schema_1.CreateMedicoSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateMedicoRequestDto = CreateMedicoRequestDto;
-class UpdateMedicoRequestDto extends (0, zod_nestjs_1.createZodDto)(medico_schema_1.UpdateMedicoSchema) {
-}
-exports.UpdateMedicoRequestDto = UpdateMedicoRequestDto;
+_export(exports, {
+    get CreateMedicoRequestDto () {
+        return CreateMedicoRequestDto;
+    },
+    get UpdateMedicoRequestDto () {
+        return UpdateMedicoRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _medicoschema = require("../validation/medico.schema");
+let CreateMedicoRequestDto = class CreateMedicoRequestDto extends (0, _zodnestjs.createZodDto)(_medicoschema.CreateMedicoSchema) {
+};
+let UpdateMedicoRequestDto = class UpdateMedicoRequestDto extends (0, _zodnestjs.createZodDto)(_medicoschema.UpdateMedicoSchema) {
+};
+
 //# sourceMappingURL=medico.dto.js.map

@@ -1,160 +1,182 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "AppModule", {
+    enumerable: true,
+    get: function() {
+        return AppModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _config = require("@nestjs/config");
+const _throttler = require("@nestjs/throttler");
+const _servestatic = require("@nestjs/serve-static");
+const _path = require("path");
+const _rolesmodule = require("./infra/guard/roles.module");
+const _authmodule = require("./infra/auth/auth.module");
+const _nestjspino = require("nestjs-pino");
+const _core = require("@nestjs/core");
+const _logdecorator = require("./common/decorator/log.decorator");
+const _customLoggerservice = require("./infra/logger/customLogger.service");
+const _logmodule = require("./infra/logger/log.module");
+const _responseinterceptor = require("./common/interceptors/response.interceptor");
+const _requestidmiddleware = require("./common/middleware/request-id.middleware");
+const _createlogdirs = require("./infra/logger/create-log-dirs");
+const _modules = /*#__PURE__*/ _interop_require_wildcard(require("./modules/modules"));
+const _bootstrapmodule = require("./bootstrap/bootstrap.module");
+const _healthmodule = require("./modules/online/health.module");
+const _envvalidation = require("./common/config/env.validation");
+const _morgan = require("./common/middleware/morgan");
+const _TaskModule = require("./infra/schedulers/TaskModule");
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
-const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const throttler_1 = require("@nestjs/throttler");
-const serve_static_1 = require("@nestjs/serve-static");
-const path_1 = require("path");
-const roles_module_1 = require("./infra/guard/roles.module");
-const auth_module_1 = require("./infra/auth/auth.module");
-const nestjs_pino_1 = require("nestjs-pino");
-const core_1 = require("@nestjs/core");
-const log_decorator_1 = require("./common/decorator/log.decorator");
-const customLogger_service_1 = require("./infra/logger/customLogger.service");
-const log_module_1 = require("./infra/logger/log.module");
-const response_interceptor_1 = require("./common/interceptors/response.interceptor");
-const request_id_middleware_1 = require("./common/middleware/request-id.middleware");
-const create_log_dirs_1 = require("./infra/logger/create-log-dirs");
-const Modules = __importStar(require("./modules/modules"));
-const bootstrap_module_1 = require("./bootstrap/bootstrap.module");
-const health_module_1 = require("./modules/online/health.module");
-const env_validation_1 = require("./common/config/env.validation");
-const morgan_1 = require("./common/middleware/morgan");
-const TaskModule_1 = require("./infra/schedulers/TaskModule");
-const imports = Object.values(Modules).map((module) => module);
-(0, create_log_dirs_1.ensureLogDir)('logs/app.log');
-(0, create_log_dirs_1.ensureLogDir)('logs/error.log');
+}
+const imports = Object.values(_modules).map((module)=>module);
+(0, _createlogdirs.ensureLogDir)('logs/app.log');
+(0, _createlogdirs.ensureLogDir)('logs/error.log');
 let AppModule = class AppModule {
     configure(consumer) {
-        consumer.apply(request_id_middleware_1.RequestIdMiddleware).forRoutes('{*splat}');
-        consumer.apply(morgan_1.MorganMiddleware).forRoutes('{*splat}');
+        consumer.apply(_requestidmiddleware.RequestIdMiddleware).forRoutes('{*splat}');
+        consumer.apply(_morgan.MorganMiddleware).forRoutes('{*splat}');
     }
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
-    (0, common_1.Module)({
+AppModule = _ts_decorate([
+    (0, _common.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
+            _config.ConfigModule.forRoot({
                 cache: true,
                 isGlobal: true,
-                validate: env_validation_1.validateEnv,
+                validate: _envvalidation.validateEnv
             }),
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, '..', 'public/images'),
-                exclude: ['/{*splat}'],
+            _servestatic.ServeStaticModule.forRoot({
+                rootPath: (0, _path.join)(__dirname, '..', 'public/images'),
+                exclude: [
+                    '/{*splat}'
+                ],
                 serveStaticOptions: {
-                    immutable: true,
-                },
+                    immutable: true
+                }
             }),
-            throttler_1.ThrottlerModule.forRoot([
+            _throttler.ThrottlerModule.forRoot([
                 {
                     name: 'default',
                     ttl: 60000,
-                    limit: 30,
+                    limit: 30
                 },
                 {
                     name: 'login',
                     ttl: 60000,
-                    limit: 5,
+                    limit: 5
                 },
                 {
                     name: 'logout',
                     ttl: 60000,
-                    limit: 5,
-                },
+                    limit: 5
+                }
             ]),
-            auth_module_1.AuthModule.forRoot(),
-            roles_module_1.RolesModule.forRoot(),
-            log_module_1.LogModule.forRoot(),
-            nestjs_pino_1.LoggerModule.forRoot({
+            _authmodule.AuthModule.forRoot(),
+            _rolesmodule.RolesModule.forRoot(),
+            _logmodule.LogModule.forRoot(),
+            _nestjspino.LoggerModule.forRoot({
                 pinoHttp: {
                     level: 'info',
                     autoLogging: true,
-                    customSuccessMessage: (req, res) => {
-                        const rawIp = req.headers['x-forwarded-for'] ||
-                            req.headers['x-real-ip'] ||
-                            req.socket?.remoteAddress ||
-                            '';
-                        const ip = Array.isArray(rawIp)
-                            ? rawIp[0]
-                            : rawIp.split(',')[0].trim();
+                    // customLevels: [],
+                    // useOnlyCustomLevels: true,
+                    customSuccessMessage: (req, res)=>{
+                        const rawIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket?.remoteAddress || '';
+                        const ip = Array.isArray(rawIp) ? rawIp[0] : rawIp.split(',')[0].trim();
                         return `${req.method} ${req.url} ${res.statusCode} - ${ip}`;
                     },
-                    customProps: (req) => ({
-                        ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
-                        userAgent: req.headers['user-agent'],
-                    }),
+                    customProps: (req)=>({
+                            ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+                            userAgent: req.headers['user-agent']
+                        }),
                     transport: {
                         targets: [
                             {
                                 target: 'pino/file',
-                                options: { destination: 'logs/app.log', level: 'info' },
+                                options: {
+                                    destination: 'logs/app.log',
+                                    level: 'info'
+                                }
                             },
                             {
                                 target: 'pino/file',
-                                options: { destination: 'logs/error.log', level: 'error' },
-                            },
-                        ],
-                    },
-                },
+                                options: {
+                                    destination: 'logs/error.log',
+                                    level: 'error'
+                                }
+                            }
+                        ]
+                    }
+                }
             }),
-            bootstrap_module_1.BootStrapModule,
-            health_module_1.HealthModule,
-            TaskModule_1.TasksModule,
-            ...imports,
+            _bootstrapmodule.BootStrapModule,
+            _healthmodule.HealthModule,
+            _TaskModule.TasksModule,
+            ...imports
         ],
         providers: [
             {
-                provide: core_1.APP_INTERCEPTOR,
-                useClass: log_decorator_1.LogDecorator,
+                provide: _core.APP_INTERCEPTOR,
+                useClass: _logdecorator.LogDecorator
             },
             {
-                provide: core_1.APP_INTERCEPTOR,
-                useClass: response_interceptor_1.ResponseInterceptor,
+                provide: _core.APP_INTERCEPTOR,
+                useClass: _responseinterceptor.ResponseInterceptor
             },
-            customLogger_service_1.CustomLogger,
+            _customLoggerservice.CustomLogger
         ],
-        exports: [customLogger_service_1.CustomLogger],
+        exports: [
+            _customLoggerservice.CustomLogger
+        ]
     })
 ], AppModule);
+
 //# sourceMappingURL=app.module.js.map

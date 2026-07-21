@@ -90,6 +90,9 @@ export class AuthService {
       Setor: { nome: string };
       Cargo: { nome: string };
       Base: { nome: string };
+      baseId: string;
+      setorId: string;
+      cargoId: string;
     },
     req?: Request,
     existingFamily?: string
@@ -104,6 +107,9 @@ export class AuthService {
         setor: user.Setor.nome,
         cargo: user.Cargo.nome,
         base: user.Base.nome,
+        setorId: user.setorId,
+        baseId: user.baseId,
+        cargoId: user.cargoId,
         jti,
       },
       {

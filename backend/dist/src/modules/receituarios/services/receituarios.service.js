@@ -1,43 +1,50 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "ReceituariosService", {
+    enumerable: true,
+    get: function() {
+        return ReceituariosService;
+    }
+});
+const _common = require("@nestjs/common");
+const _client = require("../../../../generated/prisma/client");
+const _rolesdecorator = require("../../../infra/guard/roles.decorator");
+const _receituariosrepository = require("../repository/receituarios.repository");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReceituariosService = void 0;
-const common_1 = require("@nestjs/common");
-const client_1 = require("../../../../generated/prisma/client");
-const roles_decorator_1 = require("../../../infra/guard/roles.decorator");
-const receituarios_repository_1 = require("../repository/receituarios.repository");
-const TERMINAL_STATUSES = [client_1.StatusReceituario.Cancelado];
+}
+const TERMINAL_STATUSES = [
+    _client.StatusReceituario.Cancelado
+];
 let ReceituariosService = class ReceituariosService {
-    repository;
-    constructor(repository) {
+    constructor(repository){
         this.repository = repository;
     }
+    // ---------- helpers privados ----------
     assertFound(value, message = 'Registro não encontrado.') {
-        if (value == null)
-            throw new common_1.NotFoundException(message);
+        if (value == null) throw new _common.NotFoundException(message);
     }
     assertPermission(condition, message = 'Ação não permitida.') {
-        if (!condition)
-            throw new common_1.ForbiddenException(message);
+        if (!condition) throw new _common.ForbiddenException(message);
     }
     assertCondition(condition, message) {
-        if (!condition)
-            throw new common_1.BadRequestException(message);
+        if (!condition) throw new _common.BadRequestException(message);
     }
+    // ---------- métodos públicos ----------
     async findAll(filters, user) {
-        const isAdmin = user.setor === roles_decorator_1.TypeSetor.Administrador;
+        const isAdmin = user.setor === _rolesdecorator.TypeSetor.Administrador;
         const effectiveBase = isAdmin ? filters.base : user.baseId;
         return this.repository.findAll({
             base: effectiveBase,
-            status: filters.status,
+            status: filters.status
         });
     }
     async findOne(id) {
@@ -54,8 +61,8 @@ let ReceituariosService = class ReceituariosService {
     async update(id, dto, user) {
         const rec = await this.repository.findRawById(id);
         this.assertFound(rec, 'Receituário não encontrado.');
-        const isAdmin = user.setor === roles_decorator_1.TypeSetor.Administrador;
-        if (rec.status !== client_1.StatusReceituario.Aberto) {
+        const isAdmin = user.setor === _rolesdecorator.TypeSetor.Administrador;
+        if (rec.status !== _client.StatusReceituario.Aberto) {
             this.assertPermission(isAdmin, 'Apenas administradores podem editar receituários que não estão Abertos.');
         }
         return this.repository.update(id, dto);
@@ -69,13 +76,13 @@ let ReceituariosService = class ReceituariosService {
     async remove(id) {
         const rec = await this.repository.findRawById(id);
         this.assertFound(rec, 'Receituário não encontrado.');
-        this.assertCondition(rec.status === client_1.StatusReceituario.Aberto, 'Apenas receituários com status Aberto podem ser removidos.');
+        this.assertCondition(rec.status === _client.StatusReceituario.Aberto, 'Apenas receituários com status Aberto podem ser removidos.');
         await this.repository.remove(id);
     }
     async addMedicamento(receituarioId, dto, userId) {
         const rec = await this.repository.findRawById(receituarioId);
         this.assertFound(rec, 'Receituário não encontrado.');
-        this.assertCondition(rec.status === client_1.StatusReceituario.Aberto, 'Medicamentos só podem ser adicionados a receituários com status Aberto.');
+        this.assertCondition(rec.status === _client.StatusReceituario.Aberto, 'Medicamentos só podem ser adicionados a receituários com status Aberto.');
         return this.repository.addMedicamento(receituarioId, dto, userId);
     }
     async updateMedicamento(receituarioId, medId, dto) {
@@ -91,9 +98,12 @@ let ReceituariosService = class ReceituariosService {
         await this.repository.removeMedicamento(medId);
     }
 };
-exports.ReceituariosService = ReceituariosService;
-exports.ReceituariosService = ReceituariosService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [receituarios_repository_1.ReceituariosRepository])
+ReceituariosService = _ts_decorate([
+    (0, _common.Injectable)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _receituariosrepository.ReceituariosRepository === "undefined" ? Object : _receituariosrepository.ReceituariosRepository
+    ])
 ], ReceituariosService);
+
 //# sourceMappingURL=receituarios.service.js.map

@@ -22,14 +22,14 @@ export default function RequerimentoHeader({
 
 	const canEdit = useMemo(() => {
 		if (
-			can("requerimentos:editAny") &&
+			can("requerimentos:edit:any") &&
 			!["Finalizado", "Cancelado"].includes(requerimento.status)
 		) {
 			return true;
 		}
 
 		if (
-			can("requerimentos:edit") &&
+			can("requerimentos:edit:base") &&
 			requerimento.status === "Rascunho" &&
 			user?.id === requerimento.userId &&
 			!["Finalizado", "Cancelado"].includes(requerimento.status)

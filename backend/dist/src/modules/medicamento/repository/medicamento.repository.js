@@ -1,55 +1,88 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "MedicamentoRepository", {
+    enumerable: true,
+    get: function() {
+        return MedicamentoRepository;
+    }
+});
+const _common = require("@nestjs/common");
+const _prismaservice = require("../../../infra/database/prisma/prisma.service");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MedicamentoRepository = void 0;
-const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../../../infra/database/prisma/prisma.service");
+}
 let MedicamentoRepository = class MedicamentoRepository {
-    prisma;
-    constructor(prisma) {
+    constructor(prisma){
         this.prisma = prisma;
     }
     async findAll() {
         return this.prisma.medicamento.findMany({
-            orderBy: { nome: 'asc' },
-            include: { User: { select: { nome: true } } },
+            orderBy: {
+                nome: 'asc'
+            },
+            include: {
+                User: {
+                    select: {
+                        nome: true
+                    }
+                }
+            }
         });
     }
     async findOne(id) {
         return this.prisma.medicamento.findUnique({
-            where: { id },
-            include: { User: { select: { nome: true } } },
+            where: {
+                id
+            },
+            include: {
+                User: {
+                    select: {
+                        nome: true
+                    }
+                }
+            }
         });
     }
     async create(data) {
-        return this.prisma.medicamento.create({ data });
+        return this.prisma.medicamento.create({
+            data
+        });
     }
     async update(id, data) {
         return this.prisma.medicamento.update({
-            where: { id },
-            data,
+            where: {
+                id
+            },
+            data
         });
     }
     async remove(id) {
         return this.prisma.medicamento.delete({
-            where: { id },
+            where: {
+                id
+            }
         });
     }
     async count(where) {
-        return this.prisma.medicamento.count({ where });
+        return this.prisma.medicamento.count({
+            where
+        });
     }
 };
-exports.MedicamentoRepository = MedicamentoRepository;
-exports.MedicamentoRepository = MedicamentoRepository = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+MedicamentoRepository = _ts_decorate([
+    (0, _common.Injectable)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _prismaservice.PrismaService === "undefined" ? Object : _prismaservice.PrismaService
+    ])
 ], MedicamentoRepository);
+
 //# sourceMappingURL=medicamento.repository.js.map

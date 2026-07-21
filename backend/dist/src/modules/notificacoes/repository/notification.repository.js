@@ -1,36 +1,108 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "NotificacoesRepository", {
+    enumerable: true,
+    get: function() {
+        return NotificacoesRepository;
+    }
+});
+const _common = require("@nestjs/common");
+const _prismaservice = require("../../../infra/database/prisma/prisma.service");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificacoesRepository = void 0;
-const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../../../infra/database/prisma/prisma.service");
+}
 let NotificacoesRepository = class NotificacoesRepository {
-    prisma;
-    constructor(prisma) {
+    constructor(prisma){
         this.prisma = prisma;
+    }
+    async createManyForUsers(userIds, data) {
+        if (!userIds.length) return;
+        await this.prisma.notificacao.createMany({
+            data: userIds.map((userId)=>({
+                    ...data,
+                    userId
+                }))
+        });
     }
     async findByUser(userId) {
         return this.prisma.notificacao.findMany({
             where: {
                 userId,
-                removida: false,
+                removida: false
             },
-            orderBy: { created_at: 'desc' },
-            take: 50,
+            orderBy: {
+                created_at: 'desc'
+            },
+            take: 50
+        });
+    }
+    async countUnread(userId) {
+        return this.prisma.notificacao.count({
+            where: {
+                userId,
+                lida: false,
+                removida: false
+            }
+        });
+    }
+    async markAsRead(id, userId) {
+        await this.prisma.notificacao.updateMany({
+            where: {
+                id,
+                userId
+            },
+            data: {
+                lida: true
+            }
+        });
+    }
+    async markAllAsRead(userId) {
+        await this.prisma.notificacao.updateMany({
+            where: {
+                userId,
+                lida: false
+            },
+            data: {
+                lida: true
+            }
+        });
+    }
+    async remove(id, userId) {
+        await this.prisma.notificacao.updateMany({
+            where: {
+                id,
+                userId
+            },
+            data: {
+                removida: true
+            }
+        });
+    }
+    async removeAll(userId) {
+        await this.prisma.notificacao.updateMany({
+            where: {
+                userId
+            },
+            data: {
+                removida: true
+            }
         });
     }
 };
-exports.NotificacoesRepository = NotificacoesRepository;
-exports.NotificacoesRepository = NotificacoesRepository = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+NotificacoesRepository = _ts_decorate([
+    (0, _common.Injectable)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _prismaservice.PrismaService === "undefined" ? Object : _prismaservice.PrismaService
+    ])
 ], NotificacoesRepository);
+
 //# sourceMappingURL=notification.repository.js.map

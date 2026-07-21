@@ -1,28 +1,36 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "LogController", {
+    enumerable: true,
+    get: function() {
+        return LogController;
+    }
+});
+const _common = require("@nestjs/common");
+const _BaseController = require("../../common/bases/BaseController");
+const _logrepository = require("./repository/log.repository");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogController = void 0;
-const common_1 = require("@nestjs/common");
-const BaseController_1 = require("../../common/bases/BaseController");
-const log_repository_1 = require("./repository/log.repository");
-let LogController = class LogController extends BaseController_1.BaseController {
-    service;
-    constructor(service) {
-        super();
-        this.service = service;
+}
+let LogController = class LogController extends _BaseController.BaseController {
+    constructor(service){
+        super(), this.service = service;
     }
 };
-exports.LogController = LogController;
-exports.LogController = LogController = __decorate([
-    (0, common_1.Controller)('logs'),
-    __metadata("design:paramtypes", [log_repository_1.LogRepository])
+LogController = _ts_decorate([
+    (0, _common.Controller)('logs'),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _logrepository.LogRepository === "undefined" ? Object : _logrepository.LogRepository
+    ])
 ], LogController);
+
 //# sourceMappingURL=log.controller.js.map

@@ -423,6 +423,23 @@ export type EnumTipoNotificacaoWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTipoNotificacaoFilter<$PrismaModel>
 }
 
+export type EnumTipoMovimentacaoEstoqueFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoMovimentacaoEstoque | Prisma.EnumTipoMovimentacaoEstoqueFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoMovimentacaoEstoque[]
+  notIn?: $Enums.TipoMovimentacaoEstoque[]
+  not?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel> | $Enums.TipoMovimentacaoEstoque
+}
+
+export type EnumTipoMovimentacaoEstoqueWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoMovimentacaoEstoque | Prisma.EnumTipoMovimentacaoEstoqueFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoMovimentacaoEstoque[]
+  notIn?: $Enums.TipoMovimentacaoEstoque[]
+  not?: Prisma.NestedEnumTipoMovimentacaoEstoqueWithAggregatesFilter<$PrismaModel> | $Enums.TipoMovimentacaoEstoque
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -847,6 +864,23 @@ export type NestedEnumTipoNotificacaoWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTipoNotificacaoFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTipoNotificacaoFilter<$PrismaModel>
+}
+
+export type NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoMovimentacaoEstoque | Prisma.EnumTipoMovimentacaoEstoqueFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoMovimentacaoEstoque[]
+  notIn?: $Enums.TipoMovimentacaoEstoque[]
+  not?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel> | $Enums.TipoMovimentacaoEstoque
+}
+
+export type NestedEnumTipoMovimentacaoEstoqueWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoMovimentacaoEstoque | Prisma.EnumTipoMovimentacaoEstoqueFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoMovimentacaoEstoque[]
+  notIn?: $Enums.TipoMovimentacaoEstoque[]
+  not?: Prisma.NestedEnumTipoMovimentacaoEstoqueWithAggregatesFilter<$PrismaModel> | $Enums.TipoMovimentacaoEstoque
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoMovimentacaoEstoqueFilter<$PrismaModel>
 }
 
 

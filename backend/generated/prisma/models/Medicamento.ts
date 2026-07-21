@@ -260,6 +260,7 @@ export type MedicamentoWhereInput = {
   CategoriasMedicamento?: Prisma.XOR<Prisma.CategoriasMedicamentoScalarRelationFilter, Prisma.CategoriasMedicamentoWhereInput>
   RequerimentoItem?: Prisma.RequerimentoItemListRelationFilter
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }
 
 export type MedicamentoOrderByWithRelationInput = {
@@ -277,6 +278,7 @@ export type MedicamentoOrderByWithRelationInput = {
   CategoriasMedicamento?: Prisma.CategoriasMedicamentoOrderByWithRelationInput
   RequerimentoItem?: Prisma.RequerimentoItemOrderByRelationAggregateInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosOrderByRelationAggregateInput
+  estoques?: Prisma.EstoqueOrderByRelationAggregateInput
   _relevance?: Prisma.MedicamentoOrderByRelevanceInput
 }
 
@@ -299,6 +301,7 @@ export type MedicamentoWhereUniqueInput = Prisma.AtLeast<{
   CategoriasMedicamento?: Prisma.XOR<Prisma.CategoriasMedicamentoScalarRelationFilter, Prisma.CategoriasMedicamentoWhereInput>
   RequerimentoItem?: Prisma.RequerimentoItemListRelationFilter
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }, "id" | "nome_codigo">
 
 export type MedicamentoOrderByWithAggregationInput = {
@@ -348,6 +351,7 @@ export type MedicamentoCreateInput = {
   CategoriasMedicamento: Prisma.CategoriasMedicamentoCreateNestedOneWithoutMedicamentoInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUncheckedCreateInput = {
@@ -363,6 +367,7 @@ export type MedicamentoUncheckedCreateInput = {
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUpdateInput = {
@@ -378,6 +383,7 @@ export type MedicamentoUpdateInput = {
   CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateOneRequiredWithoutMedicamentoNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateInput = {
@@ -393,6 +399,7 @@ export type MedicamentoUncheckedUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoCreateManyInput = {
@@ -624,6 +631,22 @@ export type MedicamentoUpdateOneRequiredWithoutReceituarioMedicamentosNestedInpu
   update?: Prisma.XOR<Prisma.XOR<Prisma.MedicamentoUpdateToOneWithWhereWithoutReceituarioMedicamentosInput, Prisma.MedicamentoUpdateWithoutReceituarioMedicamentosInput>, Prisma.MedicamentoUncheckedUpdateWithoutReceituarioMedicamentosInput>
 }
 
+export type MedicamentoCreateNestedOneWithoutEstoquesInput = {
+  create?: Prisma.XOR<Prisma.MedicamentoCreateWithoutEstoquesInput, Prisma.MedicamentoUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.MedicamentoCreateOrConnectWithoutEstoquesInput
+  connect?: Prisma.MedicamentoWhereUniqueInput
+}
+
+export type MedicamentoUpdateOneWithoutEstoquesNestedInput = {
+  create?: Prisma.XOR<Prisma.MedicamentoCreateWithoutEstoquesInput, Prisma.MedicamentoUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.MedicamentoCreateOrConnectWithoutEstoquesInput
+  upsert?: Prisma.MedicamentoUpsertWithoutEstoquesInput
+  disconnect?: Prisma.MedicamentoWhereInput | boolean
+  delete?: Prisma.MedicamentoWhereInput | boolean
+  connect?: Prisma.MedicamentoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MedicamentoUpdateToOneWithWhereWithoutEstoquesInput, Prisma.MedicamentoUpdateWithoutEstoquesInput>, Prisma.MedicamentoUncheckedUpdateWithoutEstoquesInput>
+}
+
 export type MedicamentoCreateWithoutUserInput = {
   id?: string
   nome: string
@@ -636,6 +659,7 @@ export type MedicamentoCreateWithoutUserInput = {
   CategoriasMedicamento: Prisma.CategoriasMedicamentoCreateNestedOneWithoutMedicamentoInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUncheckedCreateWithoutUserInput = {
@@ -650,6 +674,7 @@ export type MedicamentoUncheckedCreateWithoutUserInput = {
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoCreateOrConnectWithoutUserInput = {
@@ -706,6 +731,7 @@ export type MedicamentoCreateWithoutCategoriasMedicamentoInput = {
   User: Prisma.UserCreateNestedOneWithoutMedicamentosInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUncheckedCreateWithoutCategoriasMedicamentoInput = {
@@ -720,6 +746,7 @@ export type MedicamentoUncheckedCreateWithoutCategoriasMedicamentoInput = {
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoCreateOrConnectWithoutCategoriasMedicamentoInput = {
@@ -760,6 +787,7 @@ export type MedicamentoCreateWithoutRequerimentoItemInput = {
   User: Prisma.UserCreateNestedOneWithoutMedicamentosInput
   CategoriasMedicamento: Prisma.CategoriasMedicamentoCreateNestedOneWithoutMedicamentoInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUncheckedCreateWithoutRequerimentoItemInput = {
@@ -774,6 +802,7 @@ export type MedicamentoUncheckedCreateWithoutRequerimentoItemInput = {
   created_at?: Date | string
   updated_at?: Date | string
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoCreateOrConnectWithoutRequerimentoItemInput = {
@@ -804,6 +833,7 @@ export type MedicamentoUpdateWithoutRequerimentoItemInput = {
   User?: Prisma.UserUpdateOneRequiredWithoutMedicamentosNestedInput
   CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateOneRequiredWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateWithoutRequerimentoItemInput = {
@@ -818,6 +848,7 @@ export type MedicamentoUncheckedUpdateWithoutRequerimentoItemInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoCreateWithoutReceituarioMedicamentosInput = {
@@ -832,6 +863,7 @@ export type MedicamentoCreateWithoutReceituarioMedicamentosInput = {
   User: Prisma.UserCreateNestedOneWithoutMedicamentosInput
   CategoriasMedicamento: Prisma.CategoriasMedicamentoCreateNestedOneWithoutMedicamentoInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoUncheckedCreateWithoutReceituarioMedicamentosInput = {
@@ -846,6 +878,7 @@ export type MedicamentoUncheckedCreateWithoutReceituarioMedicamentosInput = {
   created_at?: Date | string
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutMedicamentoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutMedicamentoInput
 }
 
 export type MedicamentoCreateOrConnectWithoutReceituarioMedicamentosInput = {
@@ -876,6 +909,7 @@ export type MedicamentoUpdateWithoutReceituarioMedicamentosInput = {
   User?: Prisma.UserUpdateOneRequiredWithoutMedicamentosNestedInput
   CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateOneRequiredWithoutMedicamentoNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateWithoutReceituarioMedicamentosInput = {
@@ -890,6 +924,83 @@ export type MedicamentoUncheckedUpdateWithoutReceituarioMedicamentosInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutMedicamentoNestedInput
+}
+
+export type MedicamentoCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  codigo: number
+  especificacao: string
+  descricao?: string | null
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  User: Prisma.UserCreateNestedOneWithoutMedicamentosInput
+  CategoriasMedicamento: Prisma.CategoriasMedicamentoCreateNestedOneWithoutMedicamentoInput
+  RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutMedicamentoInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutMedicamentoInput
+}
+
+export type MedicamentoUncheckedCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  codigo: number
+  especificacao: string
+  categoria: string
+  userId: string
+  descricao?: string | null
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutMedicamentoInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutMedicamentoInput
+}
+
+export type MedicamentoCreateOrConnectWithoutEstoquesInput = {
+  where: Prisma.MedicamentoWhereUniqueInput
+  create: Prisma.XOR<Prisma.MedicamentoCreateWithoutEstoquesInput, Prisma.MedicamentoUncheckedCreateWithoutEstoquesInput>
+}
+
+export type MedicamentoUpsertWithoutEstoquesInput = {
+  update: Prisma.XOR<Prisma.MedicamentoUpdateWithoutEstoquesInput, Prisma.MedicamentoUncheckedUpdateWithoutEstoquesInput>
+  create: Prisma.XOR<Prisma.MedicamentoCreateWithoutEstoquesInput, Prisma.MedicamentoUncheckedCreateWithoutEstoquesInput>
+  where?: Prisma.MedicamentoWhereInput
+}
+
+export type MedicamentoUpdateToOneWithWhereWithoutEstoquesInput = {
+  where?: Prisma.MedicamentoWhereInput
+  data: Prisma.XOR<Prisma.MedicamentoUpdateWithoutEstoquesInput, Prisma.MedicamentoUncheckedUpdateWithoutEstoquesInput>
+}
+
+export type MedicamentoUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.IntFieldUpdateOperationsInput | number
+  especificacao?: Prisma.StringFieldUpdateOperationsInput | string
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  User?: Prisma.UserUpdateOneRequiredWithoutMedicamentosNestedInput
+  CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateOneRequiredWithoutMedicamentoNestedInput
+  RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutMedicamentoNestedInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutMedicamentoNestedInput
+}
+
+export type MedicamentoUncheckedUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.IntFieldUpdateOperationsInput | number
+  especificacao?: Prisma.StringFieldUpdateOperationsInput | string
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutMedicamentoNestedInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoCreateManyUserInput = {
@@ -916,6 +1027,7 @@ export type MedicamentoUpdateWithoutUserInput = {
   CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateOneRequiredWithoutMedicamentoNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateWithoutUserInput = {
@@ -930,6 +1042,7 @@ export type MedicamentoUncheckedUpdateWithoutUserInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateManyWithoutUserInput = {
@@ -968,6 +1081,7 @@ export type MedicamentoUpdateWithoutCategoriasMedicamentoInput = {
   User?: Prisma.UserUpdateOneRequiredWithoutMedicamentosNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateWithoutCategoriasMedicamentoInput = {
@@ -982,6 +1096,7 @@ export type MedicamentoUncheckedUpdateWithoutCategoriasMedicamentoInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutMedicamentoNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutMedicamentoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutMedicamentoNestedInput
 }
 
 export type MedicamentoUncheckedUpdateManyWithoutCategoriasMedicamentoInput = {
@@ -1004,11 +1119,13 @@ export type MedicamentoUncheckedUpdateManyWithoutCategoriasMedicamentoInput = {
 export type MedicamentoCountOutputType = {
   RequerimentoItem: number
   ReceituarioMedicamentos: number
+  estoques: number
 }
 
 export type MedicamentoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   RequerimentoItem?: boolean | MedicamentoCountOutputTypeCountRequerimentoItemArgs
   ReceituarioMedicamentos?: boolean | MedicamentoCountOutputTypeCountReceituarioMedicamentosArgs
+  estoques?: boolean | MedicamentoCountOutputTypeCountEstoquesArgs
 }
 
 /**
@@ -1035,6 +1152,13 @@ export type MedicamentoCountOutputTypeCountReceituarioMedicamentosArgs<ExtArgs e
   where?: Prisma.ReceituarioMedicamentosWhereInput
 }
 
+/**
+ * MedicamentoCountOutputType without action
+ */
+export type MedicamentoCountOutputTypeCountEstoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EstoqueWhereInput
+}
+
 
 export type MedicamentoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1051,6 +1175,7 @@ export type MedicamentoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   CategoriasMedicamento?: boolean | Prisma.CategoriasMedicamentoDefaultArgs<ExtArgs>
   RequerimentoItem?: boolean | Prisma.Medicamento$RequerimentoItemArgs<ExtArgs>
   ReceituarioMedicamentos?: boolean | Prisma.Medicamento$ReceituarioMedicamentosArgs<ExtArgs>
+  estoques?: boolean | Prisma.Medicamento$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.MedicamentoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["medicamento"]>
 
@@ -1075,6 +1200,7 @@ export type MedicamentoInclude<ExtArgs extends runtime.Types.Extensions.Internal
   CategoriasMedicamento?: boolean | Prisma.CategoriasMedicamentoDefaultArgs<ExtArgs>
   RequerimentoItem?: boolean | Prisma.Medicamento$RequerimentoItemArgs<ExtArgs>
   ReceituarioMedicamentos?: boolean | Prisma.Medicamento$ReceituarioMedicamentosArgs<ExtArgs>
+  estoques?: boolean | Prisma.Medicamento$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.MedicamentoCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1085,6 +1211,7 @@ export type $MedicamentoPayload<ExtArgs extends runtime.Types.Extensions.Interna
     CategoriasMedicamento: Prisma.$CategoriasMedicamentoPayload<ExtArgs>
     RequerimentoItem: Prisma.$RequerimentoItemPayload<ExtArgs>[]
     ReceituarioMedicamentos: Prisma.$ReceituarioMedicamentosPayload<ExtArgs>[]
+    estoques: Prisma.$EstoquePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1441,6 +1568,7 @@ export interface Prisma__MedicamentoClient<T, Null = never, ExtArgs extends runt
   CategoriasMedicamento<T extends Prisma.CategoriasMedicamentoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoriasMedicamentoDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoriasMedicamentoClient<runtime.Types.Result.GetResult<Prisma.$CategoriasMedicamentoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   RequerimentoItem<T extends Prisma.Medicamento$RequerimentoItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medicamento$RequerimentoItemArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequerimentoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ReceituarioMedicamentos<T extends Prisma.Medicamento$ReceituarioMedicamentosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medicamento$ReceituarioMedicamentosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReceituarioMedicamentosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  estoques<T extends Prisma.Medicamento$estoquesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medicamento$estoquesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstoquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1882,6 +2010,30 @@ export type Medicamento$ReceituarioMedicamentosArgs<ExtArgs extends runtime.Type
   take?: number
   skip?: number
   distinct?: Prisma.ReceituarioMedicamentosScalarFieldEnum | Prisma.ReceituarioMedicamentosScalarFieldEnum[]
+}
+
+/**
+ * Medicamento.estoques
+ */
+export type Medicamento$estoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Estoque
+   */
+  select?: Prisma.EstoqueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Estoque
+   */
+  omit?: Prisma.EstoqueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EstoqueInclude<ExtArgs> | null
+  where?: Prisma.EstoqueWhereInput
+  orderBy?: Prisma.EstoqueOrderByWithRelationInput | Prisma.EstoqueOrderByWithRelationInput[]
+  cursor?: Prisma.EstoqueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EstoqueScalarFieldEnum | Prisma.EstoqueScalarFieldEnum[]
 }
 
 /**

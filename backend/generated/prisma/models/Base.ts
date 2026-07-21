@@ -187,6 +187,7 @@ export type BaseWhereInput = {
   Ambulancias?: Prisma.AmbulanciaListRelationFilter
   VisitasBases?: Prisma.VisitasBasesListRelationFilter
   receituarios?: Prisma.ReceituarioListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }
 
 export type BaseOrderByWithRelationInput = {
@@ -200,6 +201,7 @@ export type BaseOrderByWithRelationInput = {
   Ambulancias?: Prisma.AmbulanciaOrderByRelationAggregateInput
   VisitasBases?: Prisma.VisitasBasesOrderByRelationAggregateInput
   receituarios?: Prisma.ReceituarioOrderByRelationAggregateInput
+  estoques?: Prisma.EstoqueOrderByRelationAggregateInput
   _relevance?: Prisma.BaseOrderByRelevanceInput
 }
 
@@ -217,6 +219,7 @@ export type BaseWhereUniqueInput = Prisma.AtLeast<{
   Ambulancias?: Prisma.AmbulanciaListRelationFilter
   VisitasBases?: Prisma.VisitasBasesListRelationFilter
   receituarios?: Prisma.ReceituarioListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }, "id" | "nome">
 
 export type BaseOrderByWithAggregationInput = {
@@ -252,6 +255,7 @@ export type BaseCreateInput = {
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateInput = {
@@ -265,6 +269,7 @@ export type BaseUncheckedCreateInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUpdateInput = {
@@ -278,6 +283,7 @@ export type BaseUpdateInput = {
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateInput = {
@@ -291,6 +297,7 @@ export type BaseUncheckedUpdateInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseCreateManyInput = {
@@ -433,6 +440,20 @@ export type BaseUpdateOneRequiredWithoutReceituariosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BaseUpdateToOneWithWhereWithoutReceituariosInput, Prisma.BaseUpdateWithoutReceituariosInput>, Prisma.BaseUncheckedUpdateWithoutReceituariosInput>
 }
 
+export type BaseCreateNestedOneWithoutEstoquesInput = {
+  create?: Prisma.XOR<Prisma.BaseCreateWithoutEstoquesInput, Prisma.BaseUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.BaseCreateOrConnectWithoutEstoquesInput
+  connect?: Prisma.BaseWhereUniqueInput
+}
+
+export type BaseUpdateOneRequiredWithoutEstoquesNestedInput = {
+  create?: Prisma.XOR<Prisma.BaseCreateWithoutEstoquesInput, Prisma.BaseUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.BaseCreateOrConnectWithoutEstoquesInput
+  upsert?: Prisma.BaseUpsertWithoutEstoquesInput
+  connect?: Prisma.BaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BaseUpdateToOneWithWhereWithoutEstoquesInput, Prisma.BaseUpdateWithoutEstoquesInput>, Prisma.BaseUncheckedUpdateWithoutEstoquesInput>
+}
+
 export type BaseCreateWithoutUsersInput = {
   id?: string
   nome: string
@@ -443,6 +464,7 @@ export type BaseCreateWithoutUsersInput = {
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateWithoutUsersInput = {
@@ -455,6 +477,7 @@ export type BaseUncheckedCreateWithoutUsersInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseCreateOrConnectWithoutUsersInput = {
@@ -483,6 +506,7 @@ export type BaseUpdateWithoutUsersInput = {
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateWithoutUsersInput = {
@@ -495,6 +519,7 @@ export type BaseUncheckedUpdateWithoutUsersInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseCreateWithoutAmbulanciasInput = {
@@ -507,6 +532,7 @@ export type BaseCreateWithoutAmbulanciasInput = {
   Requerimentos?: Prisma.RequerimentoCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateWithoutAmbulanciasInput = {
@@ -519,6 +545,7 @@ export type BaseUncheckedCreateWithoutAmbulanciasInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseCreateOrConnectWithoutAmbulanciasInput = {
@@ -547,6 +574,7 @@ export type BaseUpdateWithoutAmbulanciasInput = {
   Requerimentos?: Prisma.RequerimentoUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateWithoutAmbulanciasInput = {
@@ -559,6 +587,7 @@ export type BaseUncheckedUpdateWithoutAmbulanciasInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseCreateWithoutRequerimentosInput = {
@@ -571,6 +600,7 @@ export type BaseCreateWithoutRequerimentosInput = {
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateWithoutRequerimentosInput = {
@@ -583,6 +613,7 @@ export type BaseUncheckedCreateWithoutRequerimentosInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseCreateOrConnectWithoutRequerimentosInput = {
@@ -611,6 +642,7 @@ export type BaseUpdateWithoutRequerimentosInput = {
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateWithoutRequerimentosInput = {
@@ -623,6 +655,7 @@ export type BaseUncheckedUpdateWithoutRequerimentosInput = {
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseCreateWithoutVisitasBasesInput = {
@@ -635,6 +668,7 @@ export type BaseCreateWithoutVisitasBasesInput = {
   Requerimentos?: Prisma.RequerimentoCreateNestedManyWithoutBaseInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateWithoutVisitasBasesInput = {
@@ -647,6 +681,7 @@ export type BaseUncheckedCreateWithoutVisitasBasesInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedCreateNestedManyWithoutBaseInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
   receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseCreateOrConnectWithoutVisitasBasesInput = {
@@ -675,6 +710,7 @@ export type BaseUpdateWithoutVisitasBasesInput = {
   Requerimentos?: Prisma.RequerimentoUpdateManyWithoutBaseNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateWithoutVisitasBasesInput = {
@@ -687,6 +723,7 @@ export type BaseUncheckedUpdateWithoutVisitasBasesInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedUpdateManyWithoutBaseNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
   receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseCreateWithoutReceituariosInput = {
@@ -699,6 +736,7 @@ export type BaseCreateWithoutReceituariosInput = {
   Requerimentos?: Prisma.RequerimentoCreateNestedManyWithoutBaseInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutBaseInput
 }
 
 export type BaseUncheckedCreateWithoutReceituariosInput = {
@@ -711,6 +749,7 @@ export type BaseUncheckedCreateWithoutReceituariosInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedCreateNestedManyWithoutBaseInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
   VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutBaseInput
 }
 
 export type BaseCreateOrConnectWithoutReceituariosInput = {
@@ -739,6 +778,7 @@ export type BaseUpdateWithoutReceituariosInput = {
   Requerimentos?: Prisma.RequerimentoUpdateManyWithoutBaseNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutBaseNestedInput
 }
 
 export type BaseUncheckedUpdateWithoutReceituariosInput = {
@@ -751,6 +791,75 @@ export type BaseUncheckedUpdateWithoutReceituariosInput = {
   Requerimentos?: Prisma.RequerimentoUncheckedUpdateManyWithoutBaseNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
   VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutBaseNestedInput
+}
+
+export type BaseCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  tipo_ambulancias?: $Enums.TipoAmbulancias
+  created_at?: Date | string
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutBaseInput
+  Requerimentos?: Prisma.RequerimentoCreateNestedManyWithoutBaseInput
+  Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutBaseInput
+  VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutBaseInput
+  receituarios?: Prisma.ReceituarioCreateNestedManyWithoutBaseInput
+}
+
+export type BaseUncheckedCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  tipo_ambulancias?: $Enums.TipoAmbulancias
+  created_at?: Date | string
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBaseInput
+  Requerimentos?: Prisma.RequerimentoUncheckedCreateNestedManyWithoutBaseInput
+  Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutBaseInput
+  VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutBaseInput
+  receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutBaseInput
+}
+
+export type BaseCreateOrConnectWithoutEstoquesInput = {
+  where: Prisma.BaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.BaseCreateWithoutEstoquesInput, Prisma.BaseUncheckedCreateWithoutEstoquesInput>
+}
+
+export type BaseUpsertWithoutEstoquesInput = {
+  update: Prisma.XOR<Prisma.BaseUpdateWithoutEstoquesInput, Prisma.BaseUncheckedUpdateWithoutEstoquesInput>
+  create: Prisma.XOR<Prisma.BaseCreateWithoutEstoquesInput, Prisma.BaseUncheckedCreateWithoutEstoquesInput>
+  where?: Prisma.BaseWhereInput
+}
+
+export type BaseUpdateToOneWithWhereWithoutEstoquesInput = {
+  where?: Prisma.BaseWhereInput
+  data: Prisma.XOR<Prisma.BaseUpdateWithoutEstoquesInput, Prisma.BaseUncheckedUpdateWithoutEstoquesInput>
+}
+
+export type BaseUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo_ambulancias?: Prisma.EnumTipoAmbulanciasFieldUpdateOperationsInput | $Enums.TipoAmbulancias
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutBaseNestedInput
+  Requerimentos?: Prisma.RequerimentoUpdateManyWithoutBaseNestedInput
+  Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutBaseNestedInput
+  VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutBaseNestedInput
+  receituarios?: Prisma.ReceituarioUpdateManyWithoutBaseNestedInput
+}
+
+export type BaseUncheckedUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo_ambulancias?: Prisma.EnumTipoAmbulanciasFieldUpdateOperationsInput | $Enums.TipoAmbulancias
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBaseNestedInput
+  Requerimentos?: Prisma.RequerimentoUncheckedUpdateManyWithoutBaseNestedInput
+  Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutBaseNestedInput
+  VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutBaseNestedInput
+  receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutBaseNestedInput
 }
 
 
@@ -764,6 +873,7 @@ export type BaseCountOutputType = {
   Ambulancias: number
   VisitasBases: number
   receituarios: number
+  estoques: number
 }
 
 export type BaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -772,6 +882,7 @@ export type BaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   Ambulancias?: boolean | BaseCountOutputTypeCountAmbulanciasArgs
   VisitasBases?: boolean | BaseCountOutputTypeCountVisitasBasesArgs
   receituarios?: boolean | BaseCountOutputTypeCountReceituariosArgs
+  estoques?: boolean | BaseCountOutputTypeCountEstoquesArgs
 }
 
 /**
@@ -819,6 +930,13 @@ export type BaseCountOutputTypeCountReceituariosArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ReceituarioWhereInput
 }
 
+/**
+ * BaseCountOutputType without action
+ */
+export type BaseCountOutputTypeCountEstoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EstoqueWhereInput
+}
+
 
 export type BaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -831,6 +949,7 @@ export type BaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   Ambulancias?: boolean | Prisma.Base$AmbulanciasArgs<ExtArgs>
   VisitasBases?: boolean | Prisma.Base$VisitasBasesArgs<ExtArgs>
   receituarios?: boolean | Prisma.Base$receituariosArgs<ExtArgs>
+  estoques?: boolean | Prisma.Base$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.BaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["base"]>
 
@@ -851,6 +970,7 @@ export type BaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   Ambulancias?: boolean | Prisma.Base$AmbulanciasArgs<ExtArgs>
   VisitasBases?: boolean | Prisma.Base$VisitasBasesArgs<ExtArgs>
   receituarios?: boolean | Prisma.Base$receituariosArgs<ExtArgs>
+  estoques?: boolean | Prisma.Base$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.BaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -862,6 +982,7 @@ export type $BasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     Ambulancias: Prisma.$AmbulanciaPayload<ExtArgs>[]
     VisitasBases: Prisma.$VisitasBasesPayload<ExtArgs>[]
     receituarios: Prisma.$ReceituarioPayload<ExtArgs>[]
+    estoques: Prisma.$EstoquePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1214,6 +1335,7 @@ export interface Prisma__BaseClient<T, Null = never, ExtArgs extends runtime.Typ
   Ambulancias<T extends Prisma.Base$AmbulanciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Base$AmbulanciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AmbulanciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   VisitasBases<T extends Prisma.Base$VisitasBasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Base$VisitasBasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VisitasBasesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   receituarios<T extends Prisma.Base$receituariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Base$receituariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReceituarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  estoques<T extends Prisma.Base$estoquesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Base$estoquesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstoquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1722,6 +1844,30 @@ export type Base$receituariosArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ReceituarioScalarFieldEnum | Prisma.ReceituarioScalarFieldEnum[]
+}
+
+/**
+ * Base.estoques
+ */
+export type Base$estoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Estoque
+   */
+  select?: Prisma.EstoqueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Estoque
+   */
+  omit?: Prisma.EstoqueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EstoqueInclude<ExtArgs> | null
+  where?: Prisma.EstoqueWhereInput
+  orderBy?: Prisma.EstoqueOrderByWithRelationInput | Prisma.EstoqueOrderByWithRelationInput[]
+  cursor?: Prisma.EstoqueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EstoqueScalarFieldEnum | Prisma.EstoqueScalarFieldEnum[]
 }
 
 /**

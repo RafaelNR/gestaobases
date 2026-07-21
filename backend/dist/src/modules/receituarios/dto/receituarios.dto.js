@@ -1,21 +1,41 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChangeStatusReceituarioRequestDto = exports.UpdateMedicamentoRequestDto = exports.AddMedicamentoRequestDto = exports.UpdateReceituarioRequestDto = exports.CreateReceituarioRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const receituarios_schema_1 = require("../validation/receituarios.schema");
-class CreateReceituarioRequestDto extends (0, zod_nestjs_1.createZodDto)(receituarios_schema_1.CreateReceituarioSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateReceituarioRequestDto = CreateReceituarioRequestDto;
-class UpdateReceituarioRequestDto extends (0, zod_nestjs_1.createZodDto)(receituarios_schema_1.UpdateReceituarioSchema) {
-}
-exports.UpdateReceituarioRequestDto = UpdateReceituarioRequestDto;
-class AddMedicamentoRequestDto extends (0, zod_nestjs_1.createZodDto)(receituarios_schema_1.AddMedicamentoSchema) {
-}
-exports.AddMedicamentoRequestDto = AddMedicamentoRequestDto;
-class UpdateMedicamentoRequestDto extends (0, zod_nestjs_1.createZodDto)(receituarios_schema_1.UpdateMedicamentoSchema) {
-}
-exports.UpdateMedicamentoRequestDto = UpdateMedicamentoRequestDto;
-class ChangeStatusReceituarioRequestDto extends (0, zod_nestjs_1.createZodDto)(receituarios_schema_1.ChangeStatusReceituarioSchema) {
-}
-exports.ChangeStatusReceituarioRequestDto = ChangeStatusReceituarioRequestDto;
+_export(exports, {
+    get AddMedicamentoRequestDto () {
+        return AddMedicamentoRequestDto;
+    },
+    get ChangeStatusReceituarioRequestDto () {
+        return ChangeStatusReceituarioRequestDto;
+    },
+    get CreateReceituarioRequestDto () {
+        return CreateReceituarioRequestDto;
+    },
+    get UpdateMedicamentoRequestDto () {
+        return UpdateMedicamentoRequestDto;
+    },
+    get UpdateReceituarioRequestDto () {
+        return UpdateReceituarioRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _receituariosschema = require("../validation/receituarios.schema");
+let CreateReceituarioRequestDto = class CreateReceituarioRequestDto extends (0, _zodnestjs.createZodDto)(_receituariosschema.CreateReceituarioSchema) {
+};
+let UpdateReceituarioRequestDto = class UpdateReceituarioRequestDto extends (0, _zodnestjs.createZodDto)(_receituariosschema.UpdateReceituarioSchema) {
+};
+let AddMedicamentoRequestDto = class AddMedicamentoRequestDto extends (0, _zodnestjs.createZodDto)(_receituariosschema.AddMedicamentoSchema) {
+};
+let UpdateMedicamentoRequestDto = class UpdateMedicamentoRequestDto extends (0, _zodnestjs.createZodDto)(_receituariosschema.UpdateMedicamentoSchema) {
+};
+let ChangeStatusReceituarioRequestDto = class ChangeStatusReceituarioRequestDto extends (0, _zodnestjs.createZodDto)(_receituariosschema.ChangeStatusReceituarioSchema) {
+};
+
 //# sourceMappingURL=receituarios.dto.js.map

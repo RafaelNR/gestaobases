@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import {
   Badge,
   Box,
-  Button,
   Divider,
   IconButton,
   List,
@@ -41,8 +40,8 @@ export default function NotificacoesBell() {
   }, []);
 
   const handleClick = useCallback(
-    async (uuid: string, link: string | null, lida: boolean) => {
-      if (!lida) await marcarComoLida(uuid);
+    async (id: string, link: string | null, lida: boolean) => {
+      if (!lida) await marcarComoLida(id);
       if (link) {
         handleClose();
         navigate(link);
@@ -52,9 +51,9 @@ export default function NotificacoesBell() {
   );
 
   const handleRemover = useCallback(
-    async (e: React.MouseEvent, uuid: string) => {
+    async (e: React.MouseEvent, id: string) => {
       e.stopPropagation();
-      await remover(uuid);
+      await remover(id);
     },
     [remover]
   );
@@ -130,7 +129,7 @@ export default function NotificacoesBell() {
               <Tooltip title="Marcar todas como lidas">
                 <IconButton
                   size="small"
-                  onClick={marcarTodasComoLidas}
+                  onClick={() => void marcarTodasComoLidas()}
                   sx={{ fontSize: 11 }}
                   color="success"
                 >
@@ -143,7 +142,7 @@ export default function NotificacoesBell() {
 
                 <IconButton
                   size="small"
-                  onClick={removerAllMyUser}
+                  onClick={() => void removerAllMyUser()}
                   sx={{ fontSize: 11 }}
                   color="error"
                 >
@@ -171,11 +170,11 @@ export default function NotificacoesBell() {
 
           <List disablePadding>
             {lista.map((n, index) => (
-              <React.Fragment key={n.uuid}>
+              <React.Fragment key={n.id}>
                 {index > 0 && <Divider component="li" />}
                 <ListItem
                   alignItems="flex-start"
-                  onClick={() => handleClick(n.uuid, n.link, n.lida)}
+                  onClick={() => handleClick(n.id, n.link, n.lida)}
                   sx={{
                     cursor: n.link ? 'pointer' : 'default',
                     bgcolor: n.lida ? 'transparent' : 'action.hover',
@@ -187,7 +186,7 @@ export default function NotificacoesBell() {
                     <IconButton
                       edge="end"
                       size="small"
-                      onClick={(e) => handleRemover(e, n.uuid)}
+                      onClick={(e) => handleRemover(e, n.id)}
                       sx={{ color: 'text.disabled' }}
                     >
                       <DeleteOutlineIcon fontSize="small" />

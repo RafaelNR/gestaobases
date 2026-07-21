@@ -36,33 +36,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetUsuarios, useBlockUsuario } from "@/Hooks/useUsuarios";
 import type { Usuario } from "@/Types/Usuarios";
 import useDialog from "@/Hooks/useDialog";
-
-function formatDate(iso: string) {
-	return new Date(iso).toLocaleDateString("pt-BR", {
-		day: "2-digit",
-		month: "2-digit",
-		year: "numeric",
-	});
-}
-
-const statusChip = (active: boolean | string) =>
-	active === true || active === "true" ? (
-		<Chip
-			label="Ativo"
-			size="small"
-			icon={<CheckCircleIcon />}
-			color="success"
-			variant="outlined"
-		/>
-	) : (
-		<Chip
-			label="Bloqueado"
-			size="small"
-			icon={<CancelIcon />}
-			color="error"
-			variant="outlined"
-		/>
-	);
+import ChipAtivoInativo from "@/Components/Chip/ChipAtivoInativo";
+import ButtonActionTable from "./components/ButtonsActionTable";
 
 export default function UsuariosTable() {
 	const navigate = useNavigate();
@@ -214,39 +189,11 @@ export default function UsuariosTable() {
 												sx={{ fontSize: "0.75rem" }}
 											/>
 										</TableCell>
-										<TableCell>{statusChip(u.active)}</TableCell>
+										<TableCell>
+											<ChipAtivoInativo active={u.active} />
+										</TableCell>
 										<TableCell align="center">
-											<Tooltip title="Visualizar">
-												<IconButton
-													size="small"
-													onClick={() =>
-														handleClickOpenDialog({ m: "view", s: u })
-													}
-													sx={{ color: "info.main" }}
-												>
-													<VisibilityIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Editar">
-												<IconButton
-													size="small"
-													onClick={() =>
-														handleClickOpenDialog({ m: "edit", s: u })
-													}
-													sx={{ color: "primary.main" }}
-												>
-													<EditIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Bloquear">
-												<IconButton
-													size="small"
-													onClick={() => setBlockTarget(u)}
-													sx={{ color: "warning.main" }}
-												>
-													<BlockIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
+											<ButtonActionTable row={u} />
 										</TableCell>
 									</TableRow>
 								))
@@ -270,46 +217,6 @@ export default function UsuariosTable() {
 					</Box>
 				)}
 			</Paper>
-
-			{/* Modal: Bloquear — mantido inline pois "block" não é ModalType do context */}
-			{/* <Dialog
-				open={blockTarget !== null}
-				onClose={() => setBlockTarget(null)}
-				maxWidth="xs"
-				fullWidth
-			>
-				<DialogTitle sx={{ color: "warning.dark" }}>
-					Bloquear Usuário
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Tem certeza que deseja bloquear o usuário{" "}
-						<strong>{blockTarget?.nome}</strong>? O acesso ao sistema será
-						revogado imediatamente.
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2 }}>
-					<Button
-						onClick={() => setBlockTarget(null)}
-						disabled={blockUsuario.isPending}
-					>
-						Cancelar
-					</Button>
-					<Button
-						variant="contained"
-						color="warning"
-						onClick={handleBlock}
-						disabled={blockUsuario.isPending}
-						startIcon={<BlockIcon />}
-					>
-						{blockUsuario.isPending ? (
-							<CircularProgress size={20} />
-						) : (
-							"Bloquear"
-						)}
-					</Button>
-				</DialogActions>
-			</Dialog> */}
 		</Box>
 	);
 }

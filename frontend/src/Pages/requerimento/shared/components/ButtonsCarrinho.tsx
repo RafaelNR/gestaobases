@@ -7,6 +7,7 @@ import SendIcon from "@mui/icons-material/Send";
 
 import {
 	useCreateRequerimento,
+	useEnviarRequerimento,
 	useUpdateRequerimento,
 } from "@/Hooks/useRequerimentos";
 import snackBar from "@/Hooks/useSnackBar";
@@ -20,6 +21,7 @@ import type {
 } from "@/Types/Requerimento";
 import { CartItem } from "../RequerimentoPage";
 import { getSubmitErrorMessage } from "./getSubmitErrorMessage";
+import { useNavigate } from "react-router";
 
 interface ButtonsCarrinhoProps {
 	tipo: TipoRequerimento;
@@ -38,12 +40,14 @@ export default function ButtonsCarrinho({
 	resetForm,
 	requerimento,
 }: ButtonsCarrinhoProps) {
-	const { handleSubmit, watch, setValue } =
+	const { handleSubmit, watch, setValue, reset } =
 		useFormContext<RequerimentoCarrinhoFormValues>();
 	const ambulancia = watch("ambulancia");
+	const navigate = useNavigate();
 
 	const createMutation = useCreateRequerimento(tipo);
 	const updateMutation = useUpdateRequerimento(tipo);
+	const enviarMutation = useEnviarRequerimento(tipo);
 
 	function clearCart() {
 		if (!confirm("Tem certeza que deseja limpar o carrinho?")) return;
@@ -88,11 +92,14 @@ export default function ButtonsCarrinho({
 						...buildPayload({ ...values, status: "Rascunho" }),
 					});
 				} else {
-					await createMutation.mutateAsync(
+					const newRequerimento = await createMutation.mutateAsync(
 						buildPayload({ ...values, status: "Rascunho" }),
 					);
+					navigate(
+						`/requerimentos/${newRequerimento.tipo.toLowerCase()}/edit/${newRequerimento.id}`,
+					);
 				}
-				resetForm?.();
+				return;
 			},
 			[
 				buildPayload,
@@ -107,18 +114,28 @@ export default function ButtonsCarrinho({
 		useCallback(
 			async (values: RequerimentoCarrinhoFormValues) => {
 				const id = requerimento?.id;
+
 				if (id) {
+					if (requerimento.status === "Rascunho") {
+						await enviarMutation.mutateAsync(id);
+						resetForm?.();
+						navigate(
+							`/requerimentos/${requerimento.tipo.toLowerCase()}/view/${requerimento.id}`,
+						);
+						return;
+					}
+
 					await updateMutation.mutateAsync({
 						id,
-						...buildPayload({ ...values, status: "Recebido" }),
+						...buildPayload(values),
 					});
-					resetForm?.();
 					return;
 				}
 
 				const created = await createMutation.mutateAsync(
 					buildPayload({ ...values, status: "Recebido" }),
 				);
+
 				if (created?.id) {
 					resetForm?.();
 				}
@@ -160,27 +177,32 @@ export default function ButtonsCarrinho({
 				flexDirection: "column",
 			}}
 		>
-			<LoadingButton
-				type="submit"
-				variant="outlined"
-				color="error"
-				fullWidth
-				disabled={!isFormValid}
-				loading={createMutation.isPending || updateMutation.isPending}
-				onClick={clearCart}
-			>
-				Limpar Carrinho
-			</LoadingButton>
-			<LoadingButton
-				type="submit"
-				variant="outlined"
-				fullWidth
-				disabled={!isFormValid}
-				loading={createMutation.isPending || updateMutation.isPending}
-				onClick={submitWithCart(handleSalvarRascunho)}
-			>
-				Salvar Rascunho
-			</LoadingButton>
+			{requerimento?.status === "Rascunho" && (
+				<>
+					<LoadingButton
+						type="submit"
+						variant="outlined"
+						color="error"
+						fullWidth
+						disabled={!isFormValid}
+						loading={createMutation.isPending || updateMutation.isPending}
+						onClick={clearCart}
+					>
+						Limpar Carrinho
+					</LoadingButton>
+					<LoadingButton
+						type="submit"
+						variant="outlined"
+						fullWidth
+						disabled={!isFormValid}
+						loading={createMutation.isPending || updateMutation.isPending}
+						onClick={submitWithCart(handleSalvarRascunho)}
+					>
+						Salvar Rascunho
+					</LoadingButton>
+				</>
+			)}
+
 			<LoadingButton
 				type="submit"
 				variant="contained"
@@ -190,7 +212,9 @@ export default function ButtonsCarrinho({
 				startIcon={<SendIcon />}
 				onClick={submitWithCart(handleEnviar)}
 			>
-				Enviar Requerimento
+				{requerimento?.status === "Rascunho" || !requerimento?.status
+					? "Enviar Requerimento"
+					: "Atualizar Requerimento"}
 			</LoadingButton>
 		</Box>
 	);

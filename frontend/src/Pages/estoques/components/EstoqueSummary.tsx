@@ -1,0 +1,4 @@
+import { Grid, Paper, Typography } from "@mui/material";
+import type { EstoqueItem } from "@/Types/Estoque";
+import { resumirValidades } from "../estoque.helpers";
+export default function EstoqueSummary({ items }: { items: EstoqueItem[] }) { const summary = resumirValidades(items); const cards = [{ label: "Vencidos", value: summary.Vencido, color: "#b42318" }, { label: "Alerta · 7 dias", value: summary.Alerta, color: "#d94801" }, { label: "Atenção · 15 dias", value: summary.Atencao, color: "#b7791f" }, { label: "Regulares", value: summary.Regular, color: "#287d3c" }]; return <Grid container spacing={2} mb={3}>{cards.map(card => <Grid key={card.label} size={{ xs: 6, md: 3 }}><Paper variant="outlined" sx={{ p: 2, borderLeft: `5px solid ${card.color}` }}><Typography variant="caption" color="text.secondary">{card.label}</Typography><Typography variant="h4" fontWeight={800}>{card.value}</Typography></Paper></Grid>)}</Grid>; }

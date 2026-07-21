@@ -4,6 +4,7 @@ import { RedisService } from '@src/infra/cache/redis/redis.service';
 import { TipoRequerimento } from '@generated/prisma/enums';
 import { IUser } from '@/src/common/decorator/user.decorator';
 import { TypeSetor } from '@/src/infra/guard/roles.decorator';
+import { classificarValidade } from '../estoque/services/estoque-validade.service';
 
 export interface DashboardStats {
   totalLotesAtivos: number;
@@ -12,6 +13,39 @@ export interface DashboardStats {
   mediaDescontoFipe: number;
   serieUltimos7Dias: number[];
 }
+
+export type ProximaVisitaBase = {
+  id: string;
+  data: Date;
+  base: string;
+  descricao: string | null;
+  requerimentoRecebidoNaSemana: boolean;
+  prioridade: 'vermelho' | 'amarelo' | 'verde';
+};
+
+export type DashboardLoteProximoVencimento = {
+  id: string;
+  lote: string | null;
+  validade: Date;
+  quantidade: number;
+  item: string;
+};
+
+export type DashboardUltimaMovimentacao = {
+  id: string;
+  tipo: string;
+  quantidade: number;
+  saldoAnterior: number;
+  saldoPosterior: number;
+  observacao: string | null;
+  created_at: Date;
+  lote: string | null;
+  item: string;
+  usuario: string;
+};
+
+const PERIODOS_VISITAS = [3, 7, 15, 30] as const;
+type PeriodoVisitas = (typeof PERIODOS_VISITAS)[number];
 
 @Injectable()
 export class DashboardService {
@@ -86,100 +120,223 @@ export class DashboardService {
     });
   }
 
-  // async findStats() {
-  //   const [totalLotesAtivos, lotesHoje, totalLeiloeiros] = await Promise.all([
-  //     this.redisService.get<number>('stats:lotes:total'),
-  //     this.redisService.get<number>('stats:lotes:24h'),
-  //     this.redisService.get<number>('stats:leiloeiros:total'),
-  //   ]);
+  async findProximasVisitas(
+    user: IUser,
+    dias?: number
+  ): Promise<ProximaVisitaBase[]> {
+    const periodoDias: PeriodoVisitas = PERIODOS_VISITAS.includes(
+      dias as PeriodoVisitas
+    )
+      ? (dias as PeriodoVisitas)
+      : 3;
+    const agora = new Date();
+    const inicioHoje = new Date(
+      agora.getFullYear(),
+      agora.getMonth(),
+      agora.getDate()
+    );
+    const fimPeriodo = new Date(inicioHoje);
+    fimPeriodo.setDate(fimPeriodo.getDate() + periodoDias);
 
-  //   return { totalLotesAtivos, lotesHoje, totalLeiloeiros };
-  // }
+    const visitas = await this.prisma.visitasBases.findMany({
+      where: {
+        base: { not: null },
+        data: { gte: inicioHoje, lt: fimPeriodo },
+        ...(user.setor === TypeSetor.Base ? { base: user.base } : {}),
+      },
+      select: { id: true, data: true, base: true, descricao: true },
+      orderBy: [{ data: 'asc' }, { base: 'asc' }],
+    });
 
-  // async getStats(): Promise<DashboardStats> {
-  // const hoje = new Date();
-  // hoje.setHours(0, 0, 0, 0);
+    const bases = [
+      ...new Set(visitas.map((visita) => visita.base).filter(Boolean)),
+    ] as string[];
+    if (bases.length === 0) return [];
 
-  // const sete = new Date(hoje);
-  // sete.setDate(sete.getDate() - 6); // 7 dias incluindo hoje
+    const inicioSemana = new Date(inicioHoje);
+    const diaDaSemana = inicioSemana.getDay();
+    inicioSemana.setDate(
+      inicioSemana.getDate() - (diaDaSemana === 0 ? 6 : diaDaSemana - 1)
+    );
+    const recebidos = await this.prisma.requerimento.findMany({
+      where: {
+        base: { in: bases },
+        created_at: { gte: inicioSemana, lte: agora },
+        status: 'Recebido',
+      },
+      select: { base: true, created_at: true },
+      orderBy: { created_at: 'asc' },
+    });
 
-  // const [
-  //   totalLotesAtivos,
-  //   lotesHoje,
-  //   totalLeiloeiros,
-  //   lotesComFipe,
-  //   serieRaw,
-  // ] = await this.prisma.$transaction([
-  //   // Total de lotes ativos
-  //   this.prisma.lote.count({ where: { ativo: true } }),
-
-  //   // Lotes criados hoje
-  //   this.prisma.lote.count({
-  //     where: { ativo: true, createdAt: { gte: hoje } },
-  //   }),
-
-  //   // Total de leiloeiros ativos
-  //   this.prisma.leiloeiro.count({ where: { ativo: true } }),
-
-  //   // Lotes com valorFipe > 0 para calcular desconto médio
-  //   this.prisma.lote.findMany({
-  //     where: { ativo: true, valorFipe: { gt: 0 } },
-  //     select: { valorFipe: true, valorAtual: true },
-  //     take: 1000, // limita para performance
-  //   }),
-
-  //   // Lotes agrupados por dia nos últimos 7 dias
-  //   this.prisma.lote.groupBy({
-  //     by: ['createdAt'],
-  //     where: { ativo: true, createdAt: { gte: sete } },
-  //     _count: { uuid: true },
-  //   }),
-  // ]);
-
-  // // Média de desconto percentual
-  // const mediaDescontoFipe =
-  //   lotesComFipe.length > 0
-  //     ? lotesComFipe.reduce((acc, l) => {
-  //         const desconto = ((l.valorFipe - l.valorAtual) / l.valorFipe) * 100;
-  //         return acc + desconto;
-  //       }, 0) / lotesComFipe.length
-  //     : 0;
-
-  // // Série temporal: contagem por dia dos últimos 7 dias
-  // const serieUltimos7Dias = this.buildSerie(serieRaw, sete, hoje);
-
-  // return {
-  //   totalLotesAtivos,
-  //   lotesHoje,
-  //   totalLeiloeiros,
-  //   mediaDescontoFipe: Math.round(mediaDescontoFipe * 100) / 100,
-  //   serieUltimos7Dias,
-  // };
-  // }
-
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
-  private buildSerie(
-    raw: { createdAt: Date; _count: { uuid: number } }[],
-    inicio: Date,
-    fim: Date
-  ): number[] {
-    const mapa = new Map<string, number>();
-
-    for (const row of raw) {
-      const dia = row.createdAt.toISOString().slice(0, 10);
-      mapa.set(dia, (mapa.get(dia) ?? 0) + row._count.uuid);
+    const visitasPorBase = new Map<string, typeof visitas>();
+    for (const visita of visitas) {
+      if (!visita.base) continue;
+      const visitasDaBase = visitasPorBase.get(visita.base) ?? [];
+      visitasDaBase.push(visita);
+      visitasPorBase.set(visita.base, visitasDaBase);
     }
 
-    const serie: number[] = [];
-    const cursor = new Date(inicio);
-
-    while (cursor <= fim) {
-      const chave = cursor.toISOString().slice(0, 10);
-      serie.push(mapa.get(chave) ?? 0);
-      cursor.setDate(cursor.getDate() + 1);
+    const visitasComRecebido = new Set<string>();
+    for (const requerimento of recebidos) {
+      if (!requerimento.base) continue;
+      const visita = visitasPorBase
+        .get(requerimento.base)
+        ?.find(
+          (item) =>
+            item.data >= requerimento.created_at &&
+            !visitasComRecebido.has(item.id)
+        );
+      if (visita) visitasComRecebido.add(visita.id);
     }
 
-    return serie;
+    return visitas.map((visita) => {
+      const diasRestantes = Math.round(
+        (visita.data.getTime() - inicioHoje.getTime()) / 86_400_000
+      );
+      const requerimentoRecebidoNaSemana = visitasComRecebido.has(visita.id);
+      return {
+        id: visita.id,
+        data: visita.data,
+        base: visita.base!,
+        descricao: visita.descricao,
+        requerimentoRecebidoNaSemana,
+        prioridade: requerimentoRecebidoNaSemana
+          ? 'verde'
+          : diasRestantes <= 1
+            ? 'vermelho'
+            : 'amarelo',
+      };
+    });
+  }
+
+  async findLotesProximosVencimento(
+    user: IUser,
+    dias = 15
+  ): Promise<DashboardLoteProximoVencimento[]> {
+    const periodoDias = [15, 30, 45, 60].includes(dias) ? dias : 15;
+    const agora = new Date();
+    const inicioHoje = new Date(
+      Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate())
+    );
+    const fimPeriodo = new Date(inicioHoje);
+    fimPeriodo.setUTCDate(fimPeriodo.getUTCDate() + periodoDias);
+
+    if (user.setor === TypeSetor.Base && !user.baseId) {
+      return [];
+    }
+
+    const lotes = await this.prisma.estoqueLote.findMany({
+      where: {
+        active: true,
+        quantidade: { gt: 0 },
+        validade: { gte: inicioHoje, lte: fimPeriodo },
+        ...(user.setor === TypeSetor.Base
+          ? { Estoque: { baseId: user.baseId } }
+          : {}),
+        ...(user.setor === TypeSetor.Almoxarifado
+          ? { Estoque: { produtoId: { not: null } } }
+          : {}),
+        ...(user.setor === TypeSetor.Farmacia
+          ? { Estoque: { medicamentoId: { not: null } } }
+          : {}),
+        ...(user.setor === TypeSetor.CME
+          ? { Estoque: { produtoId: { not: null } } }
+          : {}),
+      },
+      orderBy: [{ validade: 'asc' }, { quantidade: 'desc' }],
+      take: 10,
+      select: {
+        id: true,
+        lote: true,
+        validade: true,
+        quantidade: true,
+        Estoque: {
+          select: {
+            Produto: { select: { nome: true } },
+            Medicamento: { select: { nome: true } },
+            Base: { select: { nome: true } },
+          },
+        },
+      },
+    });
+
+    return lotes.map((lote) => ({
+      id: lote.id,
+      lote: lote.lote,
+      status: classificarValidade(lote.validade).status,
+      validade: lote.validade!,
+      quantidade: lote.quantidade,
+      base: lote.Estoque.Base?.nome ?? 'Base não identificada',
+      item:
+        lote.Estoque.Produto?.nome ??
+        lote.Estoque.Medicamento?.nome ??
+        'Item não identificado',
+    }));
+  }
+
+  async findUltimasMovimentacoes(
+    user: IUser
+  ): Promise<DashboardUltimaMovimentacao[]> {
+    if (user.setor === TypeSetor.Base && !user.baseId) {
+      return [];
+    }
+
+    const movimentacoes = await this.prisma.estoqueMovimentacao.findMany({
+      where: {
+        ...(user.setor === TypeSetor.Base
+          ? { Lote: { Estoque: { baseId: user.baseId } } }
+          : {}),
+        ...(user.setor === TypeSetor.Almoxarifado
+          ? { Lote: { Estoque: { produtoId: { not: null } } } }
+          : {}),
+        ...(user.setor === TypeSetor.Farmacia
+          ? { Lote: { Estoque: { medicamentoId: { not: null } } } }
+          : {}),
+        ...(user.setor === TypeSetor.CME
+          ? { Lote: { Estoque: { produtoId: { not: null } } } }
+          : {}),
+      },
+      orderBy: { created_at: 'desc' },
+      take: 10,
+      select: {
+        id: true,
+        tipo: true,
+        quantidade: true,
+        saldoAnterior: true,
+        saldoPosterior: true,
+        observacao: true,
+        created_at: true,
+        Lote: {
+          select: {
+            lote: true,
+            Estoque: {
+              select: {
+                Produto: { select: { nome: true } },
+                Medicamento: { select: { nome: true } },
+                Base: { select: { nome: true } },
+              },
+            },
+          },
+        },
+        User: { select: { nome: true } },
+      },
+    });
+
+    return movimentacoes.map((movimentacao) => ({
+      id: movimentacao.id,
+      tipo: movimentacao.tipo,
+      quantidade: movimentacao.quantidade,
+      saldoAnterior: movimentacao.saldoAnterior,
+      saldoPosterior: movimentacao.saldoPosterior,
+      observacao: movimentacao.observacao,
+      created_at: movimentacao.created_at,
+      lote: movimentacao.Lote.lote,
+      item:
+        movimentacao.Lote.Estoque.Produto?.nome ??
+        movimentacao.Lote.Estoque.Medicamento?.nome ??
+        'Item não identificado',
+      usuario: movimentacao.User.nome,
+      base: movimentacao.Lote.Estoque.Base?.nome ?? 'Sem base',
+    }));
   }
 }

@@ -1,30 +1,42 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "LogModule", {
+    enumerable: true,
+    get: function() {
+        return LogModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _logrepository = require("./repository/log.repository");
+const _databasemodule = require("../database/database.module");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var LogModule_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogModule = void 0;
-const common_1 = require("@nestjs/common");
-const log_repository_1 = require("./repository/log.repository");
-const database_module_1 = require("../database/database.module");
-let LogModule = LogModule_1 = class LogModule {
+}
+let LogModule = class LogModule {
     static forRoot() {
         return {
-            imports: [database_module_1.DataBaseModule],
-            module: LogModule_1,
-            providers: [log_repository_1.LogService],
-            exports: [log_repository_1.LogService],
-            global: true,
+            imports: [
+                _databasemodule.DataBaseModule
+            ],
+            module: LogModule,
+            providers: [
+                _logrepository.LogService
+            ],
+            exports: [
+                _logrepository.LogService
+            ],
+            global: true
         };
     }
 };
-exports.LogModule = LogModule;
-exports.LogModule = LogModule = LogModule_1 = __decorate([
-    (0, common_1.Global)(),
-    (0, common_1.Module)({})
+LogModule = _ts_decorate([
+    (0, _common.Global)(),
+    (0, _common.Module)({})
 ], LogModule);
+
 //# sourceMappingURL=log.module.js.map

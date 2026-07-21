@@ -11,10 +11,18 @@ import {
 	Almoxarifado,
 	AlmoxarifadoPermissionsByCargo,
 } from "./Almoxarifado.permissions";
-import { Base, BasePermissionsByCargo } from "./Base.permissions";
+import {
+	Facilitador,
+	Colaborador,
+	BasePermissionsByCargo,
+} from "./Base.permissions";
 import { CME, CMEPermissionsByCargo } from "./CME.permissions";
 import { Farmacia, FarmaciaPermissionsByCargo } from "./Farmacia.permissions";
 import { Frota, FrotaPermissionsByCargo } from "./Frota.permissions";
+import {
+	Enfermagem,
+	EnfermagemPermissionsByCargo,
+} from "./Enfermagem.permissions";
 import type { PermissionValue } from "./PermissionGroups";
 import {
 	SetorCargos,
@@ -28,10 +36,12 @@ export const PERMISSIONS = {
 	Administrador,
 	Administrativo,
 	Almoxarifado,
-	Base,
+	Facilitador,
+	Colaborador,
 	CME,
 	Farmacia,
 	Frota,
+	Enfermagem,
 } as const;
 
 export type Permissions = keyof typeof PERMISSIONS;
@@ -50,6 +60,7 @@ export const PERMISSIONS_BY_SETOR_AND_CARGO: Record<
 	[TypeSetor.CME]: CMEPermissionsByCargo,
 	[TypeSetor.Frota]: FrotaPermissionsByCargo,
 	[TypeSetor.Base]: BasePermissionsByCargo,
+	[TypeSetor.Enfermagem]: EnfermagemPermissionsByCargo,
 };
 
 /**
@@ -87,7 +98,9 @@ function getPermissionsBySetorAndCargo(
 	setor: TypeSetorKey,
 	cargo: TypeCargoKey,
 ): PermissionList {
-	return PERMISSIONS_BY_SETOR_AND_CARGO[TypeSetor[setor]][TypeCargo[cargo]] ?? [];
+	return (
+		PERMISSIONS_BY_SETOR_AND_CARGO[TypeSetor[setor]][TypeCargo[cargo]] ?? []
+	);
 }
 
 // Resolve o setor do usuário
@@ -101,7 +114,10 @@ function resolveUserCargo(user: UserMe): TypeCargoKey | null {
 }
 
 // Setor Administrativo ou Cargo Administrador
-function isAdmin(setor: TypeSetorKey | null, cargo: TypeCargoKey | null): boolean {
+function isAdmin(
+	setor: TypeSetorKey | null,
+	cargo: TypeCargoKey | null,
+): boolean {
 	return setor === "Administrador" || cargo === "Administrador";
 }
 

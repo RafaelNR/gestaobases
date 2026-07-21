@@ -19,7 +19,7 @@ export type Usuario = {
 	email?: string;
 	telefone?: string | null | undefined;
 	password: string;
-	active: string;
+	active: boolean;
 	baseId: string;
 	setorId: string;
 	cargoId: string;

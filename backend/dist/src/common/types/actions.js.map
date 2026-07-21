@@ -1,1 +1,1 @@
-{"version":3,"file":"actions.js","sourceRoot":"","sources":["../../../../src/common/types/actions.ts"],"names":[],"mappings":";;;AAAA,IAAY,MAIX;AAJD,WAAY,MAAM;IAChB,2BAAiB,CAAA;IACjB,2BAAiB,CAAA;IACjB,2BAAiB,CAAA;AACnB,CAAC,EAJW,MAAM,sBAAN,MAAM,QAIjB"}
+{"version":3,"sources":["../../../../src/common/types/actions.ts"],"sourcesContent":["export enum Action {\r\n  update = 'update',\r\n  create = 'create',\r\n  delete = 'delete',\r\n}\r\n"],"names":["Action"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,gCAAAA;;;;WAAAA"}

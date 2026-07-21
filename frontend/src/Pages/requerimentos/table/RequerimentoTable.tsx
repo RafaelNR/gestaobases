@@ -14,7 +14,10 @@ import {
 } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
-import { useGetRequerimentosByFiltro } from "@/Hooks/useRequerimentos";
+import {
+	useGetRequerimentosByFiltro,
+	useGetRequerimentos,
+} from "@/Hooks/useRequerimentos";
 import type {
 	FiltroRequerimentos,
 	TipoRequerimento,
@@ -34,10 +37,10 @@ type Props = {
 export default function RequerimentoTable({ tipo }: Props) {
 	/* ── Dados ── */
 	const [filtro, setFiltro] = useState<FiltroRequerimentos>({});
-	const { data: requerimentos = [], isLoading } = useGetRequerimentosByFiltro(
-		tipo,
-		filtro,
-	);
+	const { data: requerimentos = [], isLoading } =
+		Object.keys(filtro).length > 0
+			? useGetRequerimentosByFiltro(tipo, filtro)
+			: useGetRequerimentos(tipo);
 
 	/* ─── Render ─────────────────────────────────────────── */
 	return (

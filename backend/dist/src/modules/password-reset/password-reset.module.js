@@ -1,25 +1,39 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "PasswordResetModule", {
+    enumerable: true,
+    get: function() {
+        return PasswordResetModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _passwordresetcontroller = require("./password-reset.controller");
+const _passwordresetservice = require("./password-reset.service");
+const _passwordresetrepository = require("./repository/password-reset.repository");
+const _mailmodule = require("../../infra/mail/mail.module");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PasswordResetModule = void 0;
-const common_1 = require("@nestjs/common");
-const password_reset_controller_1 = require("./password-reset.controller");
-const password_reset_service_1 = require("./password-reset.service");
-const password_reset_repository_1 = require("./repository/password-reset.repository");
-const mail_module_1 = require("../../infra/mail/mail.module");
+}
 let PasswordResetModule = class PasswordResetModule {
 };
-exports.PasswordResetModule = PasswordResetModule;
-exports.PasswordResetModule = PasswordResetModule = __decorate([
-    (0, common_1.Module)({
-        imports: [mail_module_1.MailModule],
-        controllers: [password_reset_controller_1.PasswordResetController],
-        providers: [password_reset_service_1.PasswordResetService, password_reset_repository_1.PasswordResetRepository],
+PasswordResetModule = _ts_decorate([
+    (0, _common.Module)({
+        imports: [
+            _mailmodule.MailModule
+        ],
+        controllers: [
+            _passwordresetcontroller.PasswordResetController
+        ],
+        providers: [
+            _passwordresetservice.PasswordResetService,
+            _passwordresetrepository.PasswordResetRepository
+        ]
     })
 ], PasswordResetModule);
+
 //# sourceMappingURL=password-reset.module.js.map

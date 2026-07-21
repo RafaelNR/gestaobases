@@ -72,7 +72,10 @@ export const ModelName = {
   Medico: 'Medico',
   Receituario: 'Receituario',
   ReceituarioMedicamentos: 'ReceituarioMedicamentos',
-  Notificacao: 'Notificacao'
+  Notificacao: 'Notificacao',
+  Estoque: 'Estoque',
+  EstoqueLote: 'EstoqueLote',
+  EstoqueMovimentacao: 'EstoqueMovimentacao'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -420,6 +423,52 @@ export const NotificacaoScalarFieldEnum = {
 export type NotificacaoScalarFieldEnum = (typeof NotificacaoScalarFieldEnum)[keyof typeof NotificacaoScalarFieldEnum]
 
 
+export const EstoqueScalarFieldEnum = {
+  id: 'id',
+  baseId: 'baseId',
+  produtoId: 'produtoId',
+  medicamentoId: 'medicamentoId',
+  quantidadeMinima: 'quantidadeMinima',
+  ativo: 'ativo',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type EstoqueScalarFieldEnum = (typeof EstoqueScalarFieldEnum)[keyof typeof EstoqueScalarFieldEnum]
+
+
+export const EstoqueLoteScalarFieldEnum = {
+  id: 'id',
+  estoqueId: 'estoqueId',
+  chaveLote: 'chaveLote',
+  lote: 'lote',
+  validade: 'validade',
+  quantidade: 'quantidade',
+  bloqueado: 'bloqueado',
+  motivoBloqueio: 'motivoBloqueio',
+  active: 'active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type EstoqueLoteScalarFieldEnum = (typeof EstoqueLoteScalarFieldEnum)[keyof typeof EstoqueLoteScalarFieldEnum]
+
+
+export const EstoqueMovimentacaoScalarFieldEnum = {
+  id: 'id',
+  loteId: 'loteId',
+  userId: 'userId',
+  tipo: 'tipo',
+  quantidade: 'quantidade',
+  saldoAnterior: 'saldoAnterior',
+  saldoPosterior: 'saldoPosterior',
+  observacao: 'observacao',
+  created_at: 'created_at'
+} as const
+
+export type EstoqueMovimentacaoScalarFieldEnum = (typeof EstoqueMovimentacaoScalarFieldEnum)[keyof typeof EstoqueMovimentacaoScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -672,4 +721,35 @@ export const NotificacaoOrderByRelevanceFieldEnum = {
 } as const
 
 export type NotificacaoOrderByRelevanceFieldEnum = (typeof NotificacaoOrderByRelevanceFieldEnum)[keyof typeof NotificacaoOrderByRelevanceFieldEnum]
+
+
+export const EstoqueOrderByRelevanceFieldEnum = {
+  id: 'id',
+  baseId: 'baseId',
+  produtoId: 'produtoId',
+  medicamentoId: 'medicamentoId'
+} as const
+
+export type EstoqueOrderByRelevanceFieldEnum = (typeof EstoqueOrderByRelevanceFieldEnum)[keyof typeof EstoqueOrderByRelevanceFieldEnum]
+
+
+export const EstoqueLoteOrderByRelevanceFieldEnum = {
+  id: 'id',
+  estoqueId: 'estoqueId',
+  chaveLote: 'chaveLote',
+  lote: 'lote',
+  motivoBloqueio: 'motivoBloqueio'
+} as const
+
+export type EstoqueLoteOrderByRelevanceFieldEnum = (typeof EstoqueLoteOrderByRelevanceFieldEnum)[keyof typeof EstoqueLoteOrderByRelevanceFieldEnum]
+
+
+export const EstoqueMovimentacaoOrderByRelevanceFieldEnum = {
+  id: 'id',
+  loteId: 'loteId',
+  userId: 'userId',
+  observacao: 'observacao'
+} as const
+
+export type EstoqueMovimentacaoOrderByRelevanceFieldEnum = (typeof EstoqueMovimentacaoOrderByRelevanceFieldEnum)[keyof typeof EstoqueMovimentacaoOrderByRelevanceFieldEnum]
 

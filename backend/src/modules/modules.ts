@@ -16,3 +16,6 @@ export * from './medico/medico.module';
 export * from './requerimento/requerimento.module';
 export * from './visitas-bases/visitas-bases.module';
 export * from './receituarios/receituarios.module';
+export * from './estoque/estoque.module';
+export * from './relatorios/relatorios.module';
+export * from './notificacoes/notificacoes.module';

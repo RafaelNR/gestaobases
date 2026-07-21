@@ -28,8 +28,8 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const COOKIE_OPTS = {
   httpOnly: true,
-  secure: true,
-  sameSite: (isProd ? 'strict' : 'none') as 'strict' | 'none',
+  secure: isProd,
+  sameSite: (isProd ? 'strict' : 'lax') as 'strict' | 'lax',
   path: '/',
 };
 

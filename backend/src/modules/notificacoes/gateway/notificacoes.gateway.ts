@@ -3,27 +3,27 @@ import {
   WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  SubscribeMessage,
+  MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { EnvironmentVariables } from '@src/common/types/env';
+import { allowedOrigins } from '@src/origins';
 
 @WebSocketGateway({
   namespace: '/notificacoes',
   cors: {
-    origin: [
-      'http://localhost:3000',
-      'https://localhost:3000',
-      'http://localhost:3001',
-      'https://localhost:3001',
-    ],
+    origin: allowedOrigins,
     credentials: true,
   },
 })
 export class NotificacoesGateway
-  implements OnGatewayConnection, OnGatewayDisconnect {
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server!: Server;
 
@@ -36,7 +36,7 @@ export class NotificacoesGateway
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService<EnvironmentVariables>
-  ) { }
+  ) {}
 
   async handleConnection(client: Socket) {
     try {
@@ -105,20 +105,17 @@ export class NotificacoesGateway
     return auth || null;
   }
 
-  // // 📩 Evento customizado
-  // @SubscribeMessage('sendMessage')
-  // handleMessage(
-  //   @MessageBody() data: any,
-  //   @ConnectedSocket() client: Socket
-  // ) {
-  //   console.log('Mensagem recebida:', data)
+  // 📩 Evento customizado testar websocket
+  @SubscribeMessage('sendMessage')
+  handleMessage(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
+    console.log('Mensagem recebida:', data);
 
-  //   // responde só para quem enviou
-  //   client.emit('response', {
-  //     msg: 'Recebi sua mensagem!',
-  //   })
+    // responde só para quem enviou
+    client.emit('response', {
+      msg: 'Recebi sua mensagem!',
+    });
 
-  //   // envia para todos
-  //   this.server.emit('broadcast', data)
-  // }
+    // envia para todos
+    this.server.emit('broadcast', data);
+  }
 }

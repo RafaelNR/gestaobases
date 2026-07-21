@@ -16,7 +16,9 @@ import { User, IUser } from '@src/common/decorator/user.decorator';
 import { LogService } from '../../infra/logger/repository/log.repository';
 import {
   Autenticado,
+  Cargo,
   Setor,
+  TypeCargo,
   TypeSetor,
 } from '@src/infra/guard/roles.decorator';
 import { CreateCargoRequestDto, UpdateCargoRequestDto } from './dto/cargo.dto';
@@ -74,6 +76,7 @@ export class CargoController extends BaseController {
 
   @Get(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findOne(@Param('id') id: string): Promise<IResponse<any>> {
     if (!id)
       throw new HttpException('Id não foi enviado.', HttpStatus.FORBIDDEN);
@@ -91,6 +94,7 @@ export class CargoController extends BaseController {
 
   @Post()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async create(
     @User() user: IUser,
     @Body() createCargoRequestDto: CreateCargoRequestDto
@@ -130,6 +134,7 @@ export class CargoController extends BaseController {
 
   @Put(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async update(
     @User() user: IUser,
     @Param('id') id: string,
@@ -179,6 +184,7 @@ export class CargoController extends BaseController {
 
   @Delete(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async remove(
     @User() user: IUser,
     @Param('id') id: string

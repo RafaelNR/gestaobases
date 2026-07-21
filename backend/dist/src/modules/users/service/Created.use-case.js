@@ -1,39 +1,58 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "CreateUsuario", {
+    enumerable: true,
+    get: function() {
+        return CreateUsuario;
+    }
+});
+const _usersrepository = require("../repository/users.repository");
+const _common = require("@nestjs/common");
+const _argon = require("../../../common/helpers/argon");
+const _rolesdecorator = require("../../../infra/guard/roles.decorator");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUsuario = void 0;
-const users_repository_1 = require("../repository/users.repository");
-const common_1 = require("@nestjs/common");
-const argon_1 = require("../../../common/helpers/argon");
+}
 let CreateUsuario = class CreateUsuario {
-    userService;
-    user;
-    constructor(userService) {
+    constructor(userService){
         this.userService = userService;
     }
-    async exec(Dados) {
+    async exec(Dados, user) {
         this.user = Dados;
-        if (await this.userService.countUserIsExiste(Dados)) {
-            throw new common_1.ConflictException('Dados unicos de usuário já existe, email, rg ou cpf');
-        }
-        const user = await this.userService.createUser({
-            ...this.user,
-            password: await (0, argon_1.hashPassword)(this.user.password),
+        const setor = await this.userService.prisma.setor.findUnique({
+            where: {
+                id: Dados.setorId
+            }
         });
-        return user;
+        if (user.setor !== _rolesdecorator.TypeSetor.Administrador && setor?.nome === 'Administrador') {
+            throw new _common.ForbiddenException('Usuário não tem permissão para esse setor.');
+        }
+        if (await this.userService.countUserIsExiste(Dados)) {
+            throw new _common.ConflictException('Dados unicos de usuário já existe, email, rg ou cpf');
+        }
+        const newUser = await this.userService.createUser({
+            ...this.user,
+            password: await (0, _argon.hashPassword)(this.user.password)
+        });
+        return newUser;
     }
 };
-exports.CreateUsuario = CreateUsuario;
-exports.CreateUsuario = CreateUsuario = __decorate([
-    (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
-    __metadata("design:paramtypes", [users_repository_1.UserService])
+CreateUsuario = _ts_decorate([
+    (0, _common.Injectable)({
+        scope: _common.Scope.REQUEST
+    }),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _usersrepository.UserService === "undefined" ? Object : _usersrepository.UserService
+    ])
 ], CreateUsuario);
+
 //# sourceMappingURL=Created.use-case.js.map

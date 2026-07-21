@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 //* COMPONENTS
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Paper } from "@mui/material";
 import Form from "./Form";
 
 //* SCHEMAS
@@ -20,26 +20,29 @@ import {
 } from "react-hook-form";
 
 //* CONTEXT
-import useSnackBar from "@/Contexts/SnackBarContext";
-import usePerfil from "@/Hooks/usePerfil";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import MyFormProvider from "@/Components/Form/FormProvider";
+import { UserMe } from "@/Types/Auth";
+import { useUpdatePerfil } from "@/Hooks/useUsuarios";
+import useSnackBar from "@/Hooks/useSnackBar";
 
-export default function MyForm({ uuid }: { uuid: string }) {
+export default function MyForm({ user }: { user: UserMe }) {
 	const queryClient = useQueryClient();
 	const { handleSnackBar } = useSnackBar();
-	const { getPerfil, updatePerfil } = usePerfil();
+	const { mutateAsync } = useUpdatePerfil();
 
-	const { data: usuario, isLoading } = useQuery({
-		queryKey: ["perfil"],
-		queryFn: () => getPerfil(uuid),
-		enabled: !!uuid,
-	});
+	// const { data: usuario, isLoading } = useQuery({
+	// 	queryKey: ["perfil"],
+	// 	queryFn: () => getPerfil(uuid),
+	// 	enabled: !!id,
+	// });
 
 	const methods = useForm<PerfilSchemaInput>({
 		resolver: zodResolver(perfilSchema as any),
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		values: usuario,
+		values: {
+			...user,
+			password: "********",
+		} as any,
 		resetOptions: {
 			keepDirtyValues: true,
 			keepErrors: true,
@@ -53,10 +56,10 @@ export default function MyForm({ uuid }: { uuid: string }) {
 
 	const onSubmitHandler: SubmitHandler<PerfilSchemaInput> = useCallback(
 		async (values) => {
-			await updatePerfilFn(values);
+			await mutateAsync(values);
 		},
 		//eslint-disable-next-line
-		[]
+		[],
 	);
 
 	const onError: SubmitErrorHandler<PerfilSchemaInput> = useCallback(
@@ -68,26 +71,17 @@ export default function MyForm({ uuid }: { uuid: string }) {
 			});
 		},
 		//eslint-disable-next-line
-		[]
+		[],
 	);
 
-	const { mutateAsync: updatePerfilFn } = useMutation({
-		mutationFn: updatePerfil,
-		onSuccess(data) {
-			if (data) {
-				queryClient.setQueryData([`perfil`], () => {
-					return data;
-				});
-			}
-		},
-	});
-
 	return (
-		<MyFormProvider
-			methods={methods}
-			isSubmitting={isSubmitting}
-			Form={<Form isSubmitting={isSubmitting} />}
-			onSubmit={handleSubmit(onSubmitHandler, onError)}
-		/>
+		<Paper>
+			<MyFormProvider
+				methods={methods}
+				isSubmitting={isSubmitting}
+				Form={<Form isSubmitting={isSubmitting} />}
+				onSubmit={handleSubmit(onSubmitHandler, onError)}
+			/>
+		</Paper>
 	);
 }

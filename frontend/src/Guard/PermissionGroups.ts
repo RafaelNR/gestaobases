@@ -33,6 +33,13 @@ export const DASHBOARD_REQUERIMENTOS_PERMISSIONS = {
 	TABLE_ALMOXARIFADO: "dashboard:requerimentos:table:almoxarifado",
 	TABLE_FARMACIA: "dashboard:requerimentos:table:farmacia",
 	TABLE_CME: "dashboard:requerimentos:table:cme",
+	CARD_VENCIMENTOS: "dashboard:card:vencimentos",
+	CARD_MOVIMENTACOES: "dashboard:card:movimentacoes",
+	CARD_VISITAS: "dashboard:card:visitar",
+} as const;
+
+export const GESTAO_MENU_PERMISSIONS = {
+	MENU: "gestao:menu",
 } as const;
 
 export const USUARIOS_PERMISSIONS = {
@@ -117,6 +124,20 @@ export const MEDICAMENTOS_PERMISSIONS = {
 	TOGGLE_ACTIVE: "medicamentos:toggleActive",
 } as const;
 
+export const ESTOQUES_PERMISSIONS = {
+	MENU: "estoques:menu",
+	TABLE: "estoques:table",
+	NEW: "estoques:new",
+	BLOQUEAR: "estoques:bloquear", //Pode Bloquear um item
+	DESABILITAR: "estoques:desabilitar", //Pode Desabilitar um item
+	HISTORICO: "estoques:historico", //Pode ver historico de movimentacoes
+	ADD_LOTE: "estoques:lote", // Pode criar novo lote
+	ADD_MOVIMENTAR: "estoques:movimentar", // Pode criar movimentacoes
+	BASES: "estoques:select:bases", // No modal de add item, pode selecionar qualquer base.
+	ADD_PRODUTO: "estoques:add:produto", // No modal de add item, pode add do produtos.
+	ADD_MEDICAMENTO: "estoques:add:medicamento", // No modal de add item, pode add so medicamento.
+} as const;
+
 export const MEDICOS_PERMISSIONS = {
 	VIEW: "medicos:view",
 	NEW: "medicos:new",
@@ -144,14 +165,23 @@ export const VISITAS_BASES_PERMISSIONS = {
 	PDF: "visitas-bases:pdf",
 } as const;
 
+export const RELATORIOS_PERMISSIONS = {
+	MENU: "relatorios:menu",
+	REQUERIMENTOS: "relatorios:requerimentos",
+	ESTOQUE: "relatorios:estoque",
+} as const;
+
 export const REQUERIMENTOS_PERMISSIONS = {
 	NEW: "requerimentos:new", // Pode criar um novo requerimento.
-	VIEW: "requerimentos:view", // Pode ver os requerimentos da sua base.
-	EDIT: "requerimentos:edit", // Pode editar os requerimentos da sua base.
-	VIEW_ANY: "requerimentos:viewAny", // Pode ver todos os requerimentos.
-	EDIT_ANY: "requerimentos:editAny", // Pode editar qualquer requerimento.
-	DELETE_ANY: "requerimentos:deleteAny", // Pode apagar qualquer requerimento.
-	DELETE: "requerimentos:delete", // Pode apagar requerimentos da sua base.
+	VIEW_BASE: "requerimentos:view:base", // Pode ver os requerimentos da sua base.
+	VIEW_SETOR: "requerimentos:view:setor", // Pode ver os requerimentos do seu setor.
+	VIEW_ANY: "requerimentos:view:any", // Pode ver todos os requerimentos.
+	EDIT_BASE: "requerimentos:edit:base", // Pode editar os requerimentos da sua base.
+	EDIT_SETOR: "requerimentos:edit:setor", // Pode editar os requerimentos do seu setor.
+	EDIT_ANY: "requerimentos:edit:any", // Pode editar qualquer requerimento.
+	DELETE_ANY: "requerimentos:delete:any", // Pode apagar qualquer requerimento.
+	DELETE_BASE: "requerimentos:delete:base", // Pode apagar requerimentos da sua base.
+	DELETE_SETOR: "requerimentos:delete:setor", // Pode apagar requerimentos do seu setor.
 	SEND_ALMOXARIFADO: "requerimentos:send:almoxarifado", // Envia requerimentos para o almoxarifado.
 	SEND_FARMACIA: "requerimentos:send:farmacia", // Envia requerimentos para a farmácia.
 	SEND_CME: "requerimentos:send:cme", // Envia requerimentos para o CME.
@@ -179,6 +209,7 @@ export const REQUERIMENTOS_OPEN_PERMISSIONS = {
 
 export const PERMISSION_CATALOG = {
 	DEFAULT: DEFAULT_PERMISSIONS_CATALOG,
+	GESTAO: GESTAO_MENU_PERMISSIONS,
 	DASHBOARD: DASHBOARD_REQUERIMENTOS_PERMISSIONS,
 	USUARIOS: USUARIOS_PERMISSIONS,
 	BASES: BASES_PERMISSIONS,
@@ -189,9 +220,11 @@ export const PERMISSION_CATALOG = {
 	PRODUTOS: PRODUTOS_PERMISSIONS,
 	CATEGORIAS_MEDICAMENTO: CATEGORIAS_MEDICAMENTO_PERMISSIONS,
 	MEDICAMENTOS: MEDICAMENTOS_PERMISSIONS,
+	ESTOQUES: ESTOQUES_PERMISSIONS,
 	MEDICOS: MEDICOS_PERMISSIONS,
 	RECEITUARIOS: RECEITUARIOS_PERMISSIONS,
 	VISITAS_BASES: VISITAS_BASES_PERMISSIONS,
+	RELATORIOS: RELATORIOS_PERMISSIONS,
 	REQUERIMENTOS: REQUERIMENTOS_PERMISSIONS,
 	REQUERIMENTOS_OPEN: REQUERIMENTOS_OPEN_PERMISSIONS,
 } as const;
@@ -204,6 +237,12 @@ export function definePermissionGroup<
 	const T extends readonly PermissionValue[],
 >(permissions: T): T {
 	return permissions;
+}
+
+export function AllPermissionGroup(
+	permissions: Record<string, PermissionValue>,
+) {
+	return definePermissionGroup(Object.values(permissions));
 }
 
 // Seleciona permissions por chave preservando autocomplete e tipo literal.
@@ -222,6 +261,7 @@ export function pickPermissions<
 // Usado por perfis que precisam receber todas as permissions cadastradas.
 export const ALL_PERMISSIONS = definePermissionGroup([
 	...Object.values(DEFAULT_PERMISSIONS_CATALOG),
+	...Object.values(GESTAO_MENU_PERMISSIONS),
 	...Object.values(DASHBOARD_REQUERIMENTOS_PERMISSIONS),
 	...Object.values(USUARIOS_PERMISSIONS),
 	...Object.values(BASES_PERMISSIONS),
@@ -232,9 +272,11 @@ export const ALL_PERMISSIONS = definePermissionGroup([
 	...Object.values(PRODUTOS_PERMISSIONS),
 	...Object.values(CATEGORIAS_MEDICAMENTO_PERMISSIONS),
 	...Object.values(MEDICAMENTOS_PERMISSIONS),
+	...Object.values(ESTOQUES_PERMISSIONS),
 	...Object.values(MEDICOS_PERMISSIONS),
 	...Object.values(RECEITUARIOS_PERMISSIONS),
 	...Object.values(VISITAS_BASES_PERMISSIONS),
+	...Object.values(RELATORIOS_PERMISSIONS),
 	...Object.values(REQUERIMENTOS_PERMISSIONS),
 	...Object.values(REQUERIMENTOS_OPEN_PERMISSIONS),
 ] as const);

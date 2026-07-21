@@ -1,31 +1,42 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "NotificacoesGateway", {
+    enumerable: true,
+    get: function() {
+        return NotificacoesGateway;
+    }
+});
+const _websockets = require("@nestjs/websockets");
+const _socketio = require("socket.io");
+const _jwt = require("@nestjs/jwt");
+const _config = require("@nestjs/config");
+const _common = require("@nestjs/common");
+const _origins = require("../../../origins");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var NotificacoesGateway_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificacoesGateway = void 0;
-const websockets_1 = require("@nestjs/websockets");
-const socket_io_1 = require("socket.io");
-const jwt_1 = require("@nestjs/jwt");
-const config_1 = require("@nestjs/config");
-const common_1 = require("@nestjs/common");
-let NotificacoesGateway = NotificacoesGateway_1 = class NotificacoesGateway {
-    jwtService;
-    configService;
-    server;
-    logger = new common_1.Logger(NotificacoesGateway_1.name);
-    userSockets = new Map();
-    socketUser = new Map();
-    constructor(jwtService, configService) {
+}
+function _ts_param(paramIndex, decorator) {
+    return function(target, key) {
+        decorator(target, key, paramIndex);
+    };
+}
+let NotificacoesGateway = class NotificacoesGateway {
+    constructor(jwtService, configService){
         this.jwtService = jwtService;
         this.configService = configService;
+        this.logger = new _common.Logger(NotificacoesGateway.name);
+        // userUUID -> Set de socketIds (mesmo usuário pode ter múltiplas abas)
+        this.userSockets = new Map();
+        // socketId -> userUUID
+        this.socketUser = new Map();
     }
     async handleConnection(client) {
         try {
@@ -35,7 +46,7 @@ let NotificacoesGateway = NotificacoesGateway_1 = class NotificacoesGateway {
                 return;
             }
             const payload = await this.jwtService.verifyAsync(token, {
-                secret: this.configService.get('JWT_ACCESS_SECRET'),
+                secret: this.configService.get('JWT_ACCESS_SECRET')
             });
             const userUUID = payload.uuid;
             client.data.userUUID = userUUID;
@@ -45,8 +56,7 @@ let NotificacoesGateway = NotificacoesGateway_1 = class NotificacoesGateway {
             this.userSockets.get(userUUID).add(client.id);
             this.socketUser.set(client.id, userUUID);
             this.logger.verbose(`WS conectado: ${userUUID} (${client.id})`);
-        }
-        catch {
+        } catch  {
             client.disconnect();
         }
     }
@@ -63,49 +73,66 @@ let NotificacoesGateway = NotificacoesGateway_1 = class NotificacoesGateway {
     }
     emitToUser(userUUID, notificacao) {
         const socketIds = this.userSockets.get(userUUID);
-        if (!socketIds)
-            return;
-        for (const socketId of socketIds) {
+        if (!socketIds) return;
+        for (const socketId of socketIds){
             this.server.to(socketId).emit('notificacao.nova', notificacao);
         }
     }
     emitToUsers(userUUIDs, notificacao) {
-        for (const uuid of userUUIDs) {
+        for (const uuid of userUUIDs){
             this.emitToUser(uuid, notificacao);
         }
     }
     extractToken(client) {
         const cookieHeader = client.handshake.headers.cookie || '';
         const pairs = cookieHeader.split(';');
-        for (const pair of pairs) {
+        for (const pair of pairs){
             const [key, val] = pair.trim().split('=');
-            if (key === 'jwt_token' && val)
-                return val.trim();
+            if (key === 'jwt_token' && val) return val.trim();
         }
-        const auth = client.handshake.auth?.token ||
-            client.handshake.query?.token;
+        // fallback: auth header ou query
+        const auth = client.handshake.auth?.token || client.handshake.query?.token;
         return auth || null;
     }
+    // 📩 Evento customizado testar websocket
+    handleMessage(data, client) {
+        console.log('Mensagem recebida:', data);
+        // responde só para quem enviou
+        client.emit('response', {
+            msg: 'Recebi sua mensagem!'
+        });
+        // envia para todos
+        this.server.emit('broadcast', data);
+    }
 };
-exports.NotificacoesGateway = NotificacoesGateway;
-__decorate([
-    (0, websockets_1.WebSocketServer)(),
-    __metadata("design:type", socket_io_1.Server)
+_ts_decorate([
+    (0, _websockets.WebSocketServer)(),
+    _ts_metadata("design:type", typeof _socketio.Server === "undefined" ? Object : _socketio.Server)
 ], NotificacoesGateway.prototype, "server", void 0);
-exports.NotificacoesGateway = NotificacoesGateway = NotificacoesGateway_1 = __decorate([
-    (0, websockets_1.WebSocketGateway)({
+_ts_decorate([
+    (0, _websockets.SubscribeMessage)('sendMessage'),
+    _ts_param(0, (0, _websockets.MessageBody)()),
+    _ts_param(1, (0, _websockets.ConnectedSocket)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        Object,
+        typeof _socketio.Socket === "undefined" ? Object : _socketio.Socket
+    ]),
+    _ts_metadata("design:returntype", void 0)
+], NotificacoesGateway.prototype, "handleMessage", null);
+NotificacoesGateway = _ts_decorate([
+    (0, _websockets.WebSocketGateway)({
         namespace: '/notificacoes',
         cors: {
-            origin: [
-                'http://localhost:3000',
-                'https://localhost:3000',
-                'http://localhost:3001',
-                'https://localhost:3001',
-            ],
-            credentials: true,
-        },
+            origin: _origins.allowedOrigins,
+            credentials: true
+        }
     }),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        config_1.ConfigService])
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _jwt.JwtService === "undefined" ? Object : _jwt.JwtService,
+        typeof _config.ConfigService === "undefined" ? Object : _config.ConfigService
+    ])
 ], NotificacoesGateway);
+
 //# sourceMappingURL=notificacoes.gateway.js.map

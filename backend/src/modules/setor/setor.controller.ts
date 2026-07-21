@@ -13,7 +13,12 @@ import {
 import { CreateSetorRequestDto, UpdateSetorRequestDto } from './dto/setor.dto';
 import { SetorService } from './repository/setor.repository';
 import { BaseController, IResponse } from '@src/common/bases/BaseController';
-import { Setor, TypeSetor } from '@src/infra/guard/roles.decorator';
+import {
+  Cargo,
+  Setor,
+  TypeCargo,
+  TypeSetor,
+} from '@src/infra/guard/roles.decorator';
 import { User, IUser } from '@src/common/decorator/user.decorator';
 import { LogService } from '../../infra/logger/repository/log.repository';
 import { Prisma } from '@generated/prisma/client';
@@ -31,6 +36,7 @@ export class SetorController extends BaseController {
 
   @Get()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findAll(): Promise<IResponse<any>> {
     const setores = await this.setorService.findAll();
 
@@ -44,6 +50,7 @@ export class SetorController extends BaseController {
 
   @Get(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findOne(@Param('id') id: string): Promise<IResponse<any>> {
     if (!id)
       throw new HttpException('Id não foi enviado.', HttpStatus.FORBIDDEN);
@@ -63,6 +70,7 @@ export class SetorController extends BaseController {
 
   @Post()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async create(
     @User() user: IUser,
     @Body() createSetorRequestDto: CreateSetorRequestDto
@@ -100,6 +108,7 @@ export class SetorController extends BaseController {
 
   @Put(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async update(
     @User() user: IUser,
     @Param('id') id: string,

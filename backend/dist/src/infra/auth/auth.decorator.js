@@ -1,9 +1,23 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AllowRolesAuth = exports.Public = void 0;
-const common_1 = require("@nestjs/common");
-const Public = () => (0, common_1.SetMetadata)('isPublic', true);
-exports.Public = Public;
-const AllowRolesAuth = () => (0, common_1.SetMetadata)('AllowRolesAuth', true);
-exports.AllowRolesAuth = AllowRolesAuth;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get AllowRolesAuth () {
+        return AllowRolesAuth;
+    },
+    get Public () {
+        return Public;
+    }
+});
+const _common = require("@nestjs/common");
+const Public = ()=>(0, _common.SetMetadata)('isPublic', true);
+const AllowRolesAuth = ()=>(0, _common.SetMetadata)('AllowRolesAuth', true);
+
 //# sourceMappingURL=auth.decorator.js.map

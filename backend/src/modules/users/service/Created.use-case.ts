@@ -1,8 +1,14 @@
 import { CreateUserRequestDto } from '../dto/users.dto';
 import { UserService } from '../repository/users.repository';
-import { ConflictException, Injectable, Scope } from '@nestjs/common';
-import { randomUUID } from 'crypto';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  Scope,
+} from '@nestjs/common';
 import { hashPassword } from '@src/common/helpers/argon';
+import { IUser } from '@/src/common/decorator/user.decorator';
+import { TypeSetor } from '@/src/infra/guard/roles.decorator';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CreateUsuario {
@@ -10,8 +16,23 @@ export class CreateUsuario {
 
   constructor(private readonly userService: UserService) {}
 
-  public async exec(Dados: CreateUserRequestDto) {
+  public async exec(Dados: CreateUserRequestDto, user: IUser) {
     this.user = Dados;
+
+    const setor = await this.userService.prisma.setor.findUnique({
+      where: {
+        id: Dados.setorId,
+      },
+    });
+
+    if (
+      user.setor !== TypeSetor.Administrador &&
+      setor?.nome === 'Administrador'
+    ) {
+      throw new ForbiddenException(
+        'Usuário não tem permissão para esse setor.'
+      );
+    }
 
     if (await this.userService.countUserIsExiste(Dados)) {
       throw new ConflictException(
@@ -19,11 +40,11 @@ export class CreateUsuario {
       );
     }
 
-    const user = await this.userService.createUser({
+    const newUser = await this.userService.createUser({
       ...this.user,
       password: await hashPassword(this.user.password),
     } as any);
 
-    return user;
+    return newUser;
   }
 }

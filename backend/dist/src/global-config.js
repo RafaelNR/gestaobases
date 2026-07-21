@@ -1,47 +1,70 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyGlobalConfig = applyGlobalConfig;
-const express_1 = require("express");
-const http_exception_1 = require("./common/exceptions-filter/http-exception/http-exception");
-const autorization_error_1 = require("./common/exceptions-filter/autorization-error/autorization-error");
-const route_not_found_1 = require("./common/exceptions-filter/route-not-found/route-not-found");
-const prisma_client_exception_filter_1 = require("./common/exceptions-filter/prisma-error/prisma-client-exception.filter");
-const prisma_client_validation_filter_1 = require("./common/exceptions-filter/prisma-error/prisma-client-validation.filter");
-const validate_exception_1 = require("./common/exceptions-filter/validation-error/validate-exception");
-const zod_exception_1 = require("./common/exceptions-filter/validation-error/zod-exception");
-const File_error_filter_1 = require("./common/exceptions-filter/file-error/File-error.filter");
-const NotFound_1 = require("./common/errors/NotFound");
-const helmet_1 = require("./common/middleware/helmet");
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const multer_error_1 = require("./common/exceptions-filter/multer-error/multer-error");
-const origins_1 = require("./origins");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "applyGlobalConfig", {
+    enumerable: true,
+    get: function() {
+        return applyGlobalConfig;
+    }
+});
+const _express = require("express");
+const _httpexception = require("./common/exceptions-filter/http-exception/http-exception");
+const _autorizationerror = require("./common/exceptions-filter/autorization-error/autorization-error");
+const _routenotfound = require("./common/exceptions-filter/route-not-found/route-not-found");
+const _prismaclientexceptionfilter = require("./common/exceptions-filter/prisma-error/prisma-client-exception.filter");
+const _prismaclientvalidationfilter = require("./common/exceptions-filter/prisma-error/prisma-client-validation.filter");
+const _validateexception = require("./common/exceptions-filter/validation-error/validate-exception");
+const _zodexception = require("./common/exceptions-filter/validation-error/zod-exception");
+const _Fileerrorfilter = require("./common/exceptions-filter/file-error/File-error.filter");
+const _NotFound = require("./common/errors/NotFound");
+const _helmet = require("./common/middleware/helmet");
+const _cookieparser = /*#__PURE__*/ _interop_require_default(require("cookie-parser"));
+const _multererror = require("./common/exceptions-filter/multer-error/multer-error");
+const _origins = require("./origins");
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 function applyGlobalConfig(app) {
-    app.useGlobalFilters(new http_exception_1.HttpExceptionFilter(), new prisma_client_exception_filter_1.PrismaClientExceptionFilter(), new prisma_client_exception_filter_1.PrismaClientInitializationExceptionFilter(), new prisma_client_validation_filter_1.PrismaClientValidationFilter(), new prisma_client_exception_filter_1.PrismaClientUnknownRequestErrorExceptionFilter(), new autorization_error_1.ForbiddenExceptionFilter(), new route_not_found_1.NotFoundErrorFilter(), new zod_exception_1.ZodFilter(), new validate_exception_1.ValidateFilter(), new NotFound_1.NotFoundExceptionFilter(), new File_error_filter_1.DeleteFileOnErrorFilter(), new multer_error_1.MulterExceptionFilter());
-    app.use(helmet_1.HelmetMiddleware);
-    app.use((0, cookie_parser_1.default)());
+    app.useGlobalFilters(new _httpexception.HttpExceptionFilter(), new _prismaclientexceptionfilter.PrismaClientExceptionFilter(), new _prismaclientexceptionfilter.PrismaClientInitializationExceptionFilter(), new _prismaclientvalidationfilter.PrismaClientValidationFilter(), new _prismaclientexceptionfilter.PrismaClientUnknownRequestErrorExceptionFilter(), new _autorizationerror.ForbiddenExceptionFilter(), new _routenotfound.NotFoundErrorFilter(), new _zodexception.ZodFilter(), new _validateexception.ValidateFilter(), new _NotFound.NotFoundExceptionFilter(), new _Fileerrorfilter.DeleteFileOnErrorFilter(), new _multererror.MulterExceptionFilter());
+    app.use(_helmet.HelmetMiddleware);
+    app.use((0, _cookieparser.default)());
     app.enableCors({
-        origin: (origin, callback) => {
-            if (!origin && process.env.NODE_ENV === 'DEV')
-                return callback(null, true);
-            if (origins_1.allowedOrigins.includes(origin)) {
+        origin: (origin, callback)=>{
+            // Permite chamadas sem Origin (ambiente dev)
+            if (!origin && process.env.NODE_ENV === 'DEV') return callback(null, true);
+            if (_origins.allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
             return callback(new Error('Not allowed by CORS, origin: ' + origin), false);
         },
         credentials: true,
-        methods: ['GET', 'HEAD', 'OPTIONS', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        methods: [
+            'GET',
+            'HEAD',
+            'OPTIONS',
+            'PUT',
+            'PATCH',
+            'POST',
+            'DELETE'
+        ],
         allowedHeaders: [
             'Origin',
             'X-Requested-With',
             'Content-Type',
             'Accept',
-            'Authorization',
-        ],
+            'Authorization'
+        ]
     });
-    app.use((0, express_1.json)({ limit: '1mb' }));
-    app.use((0, express_1.urlencoded)({ extended: true, limit: '1mb' }));
+    app.use((0, _express.json)({
+        limit: '1mb'
+    }));
+    app.use((0, _express.urlencoded)({
+        extended: true,
+        limit: '1mb'
+    }));
 }
+
 //# sourceMappingURL=global-config.js.map

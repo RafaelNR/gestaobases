@@ -3,7 +3,7 @@ require('dotenv').config({ path: '.env.production' });
 module.exports = {
   apps: [
     {
-      name: 'pedidos-api',
+      name: 'gestao-bases-api',
       script: './dist/main.js',
       autorestart: true,
       watch: false,
@@ -14,7 +14,7 @@ module.exports = {
       kill_timeout: 5000,
       env_production: {
         NODE_ENV: 'production',
-        APP_NAME: 'pedidos-api',
+        APP_NAME: 'gestao-bases-api',
         // Database
         MYSQL_USER: process.env.MYSQL_USER,
         MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,

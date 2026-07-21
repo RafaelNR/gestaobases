@@ -6,6 +6,7 @@ import { NotificacoesGateway } from './gateway/notificacoes.gateway';
 import { NotificacoesController } from './notification.controller';
 import { UserService } from '@src/modules/users/repository/users.repository';
 import { EnvironmentVariables } from '@src/common/types/env';
+import { NotificacaoRequerimentoUseCase } from './use-case/notificacao-requerimento.use-case';
 
 @Global()
 @Module({
@@ -19,7 +20,16 @@ import { EnvironmentVariables } from '@src/common/types/env';
     }),
   ],
   controllers: [NotificacoesController],
-  providers: [NotificacoesRepository, NotificacoesGateway, UserService],
-  exports: [NotificacoesRepository, NotificacoesGateway],
+  providers: [
+    NotificacoesRepository,
+    NotificacoesGateway,
+    NotificacaoRequerimentoUseCase,
+    UserService,
+  ],
+  exports: [
+    NotificacoesRepository,
+    NotificacoesGateway,
+    NotificacaoRequerimentoUseCase,
+  ],
 })
 export class NotificacaoModule {}

@@ -1,21 +1,30 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "RecaptchaModule", {
+    enumerable: true,
+    get: function() {
+        return RecaptchaModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _recaptcha = require("./recaptcha");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RecaptchaModule = void 0;
-const common_1 = require("@nestjs/common");
-const recaptcha_1 = require("./recaptcha");
+}
 let RecaptchaModule = class RecaptchaModule {
 };
-exports.RecaptchaModule = RecaptchaModule;
-exports.RecaptchaModule = RecaptchaModule = __decorate([
-    (0, common_1.Global)(),
-    (0, common_1.Module)({
-        providers: [recaptcha_1.RecaptchaService],
+RecaptchaModule = _ts_decorate([
+    (0, _common.Global)(),
+    (0, _common.Module)({
+        providers: [
+            _recaptcha.RecaptchaService
+        ]
     })
 ], RecaptchaModule);
+
 //# sourceMappingURL=recaptcha.module.js.map

@@ -1,12 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateCargoRequestDto = exports.CreateCargoRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const cargo_schema_1 = require("../validation/cargo.schema");
-class CreateCargoRequestDto extends (0, zod_nestjs_1.createZodDto)(cargo_schema_1.CreateCargoSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateCargoRequestDto = CreateCargoRequestDto;
-class UpdateCargoRequestDto extends (0, zod_nestjs_1.createZodDto)(cargo_schema_1.UpdateCargoSchema) {
-}
-exports.UpdateCargoRequestDto = UpdateCargoRequestDto;
+_export(exports, {
+    get CreateCargoRequestDto () {
+        return CreateCargoRequestDto;
+    },
+    get UpdateCargoRequestDto () {
+        return UpdateCargoRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _cargoschema = require("../validation/cargo.schema");
+let CreateCargoRequestDto = class CreateCargoRequestDto extends (0, _zodnestjs.createZodDto)(_cargoschema.CreateCargoSchema) {
+};
+let UpdateCargoRequestDto = class UpdateCargoRequestDto extends (0, _zodnestjs.createZodDto)(_cargoschema.UpdateCargoSchema) {
+};
+
 //# sourceMappingURL=cargo.dto.js.map

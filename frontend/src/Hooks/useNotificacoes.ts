@@ -73,10 +73,10 @@ export default function useNotificacoes() {
 	// ─── Mutations com optimistic update ──────────────────────────────────────
 
 	const { mutateAsync: marcarComoLida } = useMutation({
-		mutationFn: (uuid: string) => notificacoesService.marcarComoLida(uuid),
-		onMutate: (uuid) => {
+		mutationFn: (id: string) => notificacoesService.marcarComoLida(id),
+		onMutate: (id) => {
 			queryClient.setQueryData<Notificacao[]>(notificacoesKeys.all, (prev) =>
-				prev?.map((n) => (n.uuid === uuid ? { ...n, lida: true } : n)),
+				prev?.map((n) => (n.id === id ? { ...n, lida: true } : n)),
 			);
 		},
 		onError: () => snackBar.error("Erro ao marcar notificação"),
@@ -93,10 +93,10 @@ export default function useNotificacoes() {
 	});
 
 	const { mutateAsync: remover } = useMutation({
-		mutationFn: (uuid: string) => notificacoesService.remover(uuid),
-		onMutate: (uuid) => {
+		mutationFn: (id: string) => notificacoesService.remover(id),
+		onMutate: (id) => {
 			queryClient.setQueryData<Notificacao[]>(notificacoesKeys.all, (prev) =>
-				prev?.filter((n) => n.uuid !== uuid),
+				prev?.filter((n) => n.id !== id),
 			);
 		},
 		onError: () => snackBar.error("Erro ao remover notificação"),

@@ -71,8 +71,7 @@ export default function useAuth() {
 
 export function useLogin() {
 	const queryClient = useQueryClient();
-	const navigate = useNavigate();
-	const redirectUrl = useRedirectUrl("/");
+	const redirectUrl = useRedirectUrl("/dashboard");
 
 	return useMutation({
 		mutationFn: (payload: LoginPayload) => authService.login(payload),
@@ -91,8 +90,10 @@ export function useLogin() {
 					saveUser(user);
 				}
 
-				navigate(redirectUrl, { replace: true });
-				// window.location.href = redirectUrl;
+				// O login ainda está dentro do router de não autenticado. O reload
+				// inicia a aplicação já em /dashboard, permitindo selecionar o
+				// router autenticado sem o catch-all de /login interceptar a rota.
+				window.location.replace(redirectUrl);
 			} catch {
 				clearUser();
 				queryClient.removeQueries({ queryKey: authKeys.me });

@@ -1,33 +1,40 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "StatsCacheTask", {
+    enumerable: true,
+    get: function() {
+        return StatsCacheTask;
+    }
+});
+const _common = require("@nestjs/common");
+const _prismaservice = require("../../database/prisma/prisma.service");
+const _redisservice = require("../../cache/redis/redis.service");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var StatsCacheTask_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StatsCacheTask = void 0;
-const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../../database/prisma/prisma.service");
-const redis_service_1 = require("../../cache/redis/redis.service");
-const STATS_TTL = 65 * 60;
-let StatsCacheTask = StatsCacheTask_1 = class StatsCacheTask {
-    prisma;
-    redis;
-    logger = new common_1.Logger(StatsCacheTask_1.name);
-    constructor(prisma, redis) {
+}
+const STATS_TTL = 65 * 60; // 65 min — garante sobreposição com o próximo ciclo horário
+let StatsCacheTask = class StatsCacheTask {
+    constructor(prisma, redis){
         this.prisma = prisma;
         this.redis = redis;
+        this.logger = new _common.Logger(StatsCacheTask.name);
     }
 };
-exports.StatsCacheTask = StatsCacheTask;
-exports.StatsCacheTask = StatsCacheTask = StatsCacheTask_1 = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        redis_service_1.RedisService])
+StatsCacheTask = _ts_decorate([
+    (0, _common.Injectable)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _prismaservice.PrismaService === "undefined" ? Object : _prismaservice.PrismaService,
+        typeof _redisservice.RedisService === "undefined" ? Object : _redisservice.RedisService
+    ])
 ], StatsCacheTask);
+
 //# sourceMappingURL=stats-cache.task.js.map

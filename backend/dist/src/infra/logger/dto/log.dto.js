@@ -1,9 +1,16 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.logCreateSchemaDto = void 0;
-const log_schema_1 = require("../validation/log.schema");
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-class logCreateSchemaDto extends (0, zod_nestjs_1.createZodDto)(log_schema_1.logCreateSchema) {
-}
-exports.logCreateSchemaDto = logCreateSchemaDto;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "logCreateSchemaDto", {
+    enumerable: true,
+    get: function() {
+        return logCreateSchemaDto;
+    }
+});
+const _logschema = require("../validation/log.schema");
+const _zodnestjs = require("@anatine/zod-nestjs");
+let logCreateSchemaDto = class logCreateSchemaDto extends (0, _zodnestjs.createZodDto)(_logschema.logCreateSchema) {
+};
+
 //# sourceMappingURL=log.dto.js.map

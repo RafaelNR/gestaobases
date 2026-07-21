@@ -1,16 +1,25 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RedisProvider = void 0;
-const common_1 = require("@nestjs/common");
-const ioredis_1 = __importDefault(require("ioredis"));
-const logger = new common_1.Logger('RedisProvider');
-exports.RedisProvider = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "RedisProvider", {
+    enumerable: true,
+    get: function() {
+        return RedisProvider;
+    }
+});
+const _common = require("@nestjs/common");
+const _ioredis = /*#__PURE__*/ _interop_require_default(require("ioredis"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+const logger = new _common.Logger('RedisProvider');
+const RedisProvider = {
     provide: 'REDIS',
-    useFactory: () => {
-        const client = new ioredis_1.default({
+    useFactory: ()=>{
+        const client = new _ioredis.default({
             host: process.env.REDIS_HOST || 'localhost',
             port: Number(process.env.REDIS_PORT) || 6379,
             password: process.env.REDIS_PASSWORD || undefined,
@@ -18,7 +27,7 @@ exports.RedisProvider = {
             maxRetriesPerRequest: 3,
             enableReadyCheck: true,
             lazyConnect: false,
-            retryStrategy: (times) => {
+            retryStrategy: (times)=>{
                 const delay = Math.min(times * 500, 5000);
                 if (times > 10) {
                     logger.error(`Redis: ${times} tentativas sem sucesso — desistindo ❌`);
@@ -27,17 +36,19 @@ exports.RedisProvider = {
                 logger.warn(`Redis: reconectando em ${delay}ms (tentativa ${times}) ⚠️`);
                 return delay;
             },
-            reconnectOnError: (err) => {
+            reconnectOnError: (err)=>{
+                // Reconecta automaticamente em erros de READONLY (failover Redis Sentinel/Cluster)
                 return err.message.includes('READONLY');
-            },
+            }
         });
-        client.on('connect', () => logger.log('Redis: conectando...'));
-        client.on('ready', () => logger.log('Redis: pronto ✅'));
-        client.on('error', (err) => logger.error(`Redis: erro — ${err.message}`));
-        client.on('close', () => logger.warn('Redis: conexão fechada ⚠️'));
-        client.on('reconnecting', () => logger.warn('Redis: reconectando...'));
-        client.on('end', () => logger.warn('Redis: conexão encerrada definitivamente'));
+        client.on('connect', ()=>logger.log('Redis: conectando...'));
+        client.on('ready', ()=>logger.log('Redis: pronto ✅'));
+        client.on('error', (err)=>logger.error(`Redis: erro — ${err.message}`));
+        client.on('close', ()=>logger.warn('Redis: conexão fechada ⚠️'));
+        client.on('reconnecting', ()=>logger.warn('Redis: reconectando...'));
+        client.on('end', ()=>logger.warn('Redis: conexão encerrada definitivamente'));
         return client;
-    },
+    }
 };
+
 //# sourceMappingURL=redis.provider.js.map

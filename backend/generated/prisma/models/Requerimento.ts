@@ -396,7 +396,7 @@ export type RequerimentoScalarWhereWithAggregatesInput = {
 
 export type RequerimentoCreateInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -416,7 +416,7 @@ export type RequerimentoCreateInput = {
 
 export type RequerimentoUncheckedCreateInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -436,7 +436,6 @@ export type RequerimentoUncheckedCreateInput = {
 
 export type RequerimentoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -476,7 +475,7 @@ export type RequerimentoUncheckedUpdateInput = {
 
 export type RequerimentoCreateManyInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -493,7 +492,6 @@ export type RequerimentoCreateManyInput = {
 
 export type RequerimentoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -869,7 +867,7 @@ export type RequerimentoUpdateOneWithoutReceituariosNestedInput = {
 
 export type RequerimentoCreateWithoutSetorInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -888,7 +886,7 @@ export type RequerimentoCreateWithoutSetorInput = {
 
 export type RequerimentoUncheckedCreateWithoutSetorInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -953,7 +951,7 @@ export type RequerimentoScalarWhereInput = {
 
 export type RequerimentoCreateWithoutCargoInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -972,7 +970,7 @@ export type RequerimentoCreateWithoutCargoInput = {
 
 export type RequerimentoUncheckedCreateWithoutCargoInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1017,7 +1015,7 @@ export type RequerimentoUpdateManyWithWhereWithoutCargoInput = {
 
 export type RequerimentoCreateWithoutBaseInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1036,7 +1034,7 @@ export type RequerimentoCreateWithoutBaseInput = {
 
 export type RequerimentoUncheckedCreateWithoutBaseInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1081,7 +1079,7 @@ export type RequerimentoUpdateManyWithWhereWithoutBaseInput = {
 
 export type RequerimentoCreateWithoutUserInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1100,7 +1098,7 @@ export type RequerimentoCreateWithoutUserInput = {
 
 export type RequerimentoUncheckedCreateWithoutUserInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1145,7 +1143,7 @@ export type RequerimentoUpdateManyWithWhereWithoutUserInput = {
 
 export type RequerimentoCreateWithoutAmbulanciaInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1164,7 +1162,7 @@ export type RequerimentoCreateWithoutAmbulanciaInput = {
 
 export type RequerimentoUncheckedCreateWithoutAmbulanciaInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1209,7 +1207,7 @@ export type RequerimentoUpdateManyWithWhereWithoutAmbulanciaInput = {
 
 export type RequerimentoCreateWithoutRequerimentoStatusInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1228,7 +1226,7 @@ export type RequerimentoCreateWithoutRequerimentoStatusInput = {
 
 export type RequerimentoUncheckedCreateWithoutRequerimentoStatusInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1263,7 +1261,6 @@ export type RequerimentoUpdateToOneWithWhereWithoutRequerimentoStatusInput = {
 
 export type RequerimentoUpdateWithoutRequerimentoStatusInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1301,7 +1298,7 @@ export type RequerimentoUncheckedUpdateWithoutRequerimentoStatusInput = {
 
 export type RequerimentoCreateWithoutRequerimentoItemsInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1320,7 +1317,7 @@ export type RequerimentoCreateWithoutRequerimentoItemsInput = {
 
 export type RequerimentoUncheckedCreateWithoutRequerimentoItemsInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1355,7 +1352,6 @@ export type RequerimentoUpdateToOneWithWhereWithoutRequerimentoItemsInput = {
 
 export type RequerimentoUpdateWithoutRequerimentoItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1393,7 +1389,7 @@ export type RequerimentoUncheckedUpdateWithoutRequerimentoItemsInput = {
 
 export type RequerimentoCreateWithoutReceituariosInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1412,7 +1408,7 @@ export type RequerimentoCreateWithoutReceituariosInput = {
 
 export type RequerimentoUncheckedCreateWithoutReceituariosInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1447,7 +1443,6 @@ export type RequerimentoUpdateToOneWithWhereWithoutReceituariosInput = {
 
 export type RequerimentoUpdateWithoutReceituariosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1485,7 +1480,7 @@ export type RequerimentoUncheckedUpdateWithoutReceituariosInput = {
 
 export type RequerimentoCreateManySetorInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1501,7 +1496,6 @@ export type RequerimentoCreateManySetorInput = {
 
 export type RequerimentoUpdateWithoutSetorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1555,7 +1549,7 @@ export type RequerimentoUncheckedUpdateManyWithoutSetorInput = {
 
 export type RequerimentoCreateManyCargoInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1571,7 +1565,6 @@ export type RequerimentoCreateManyCargoInput = {
 
 export type RequerimentoUpdateWithoutCargoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1625,7 +1618,7 @@ export type RequerimentoUncheckedUpdateManyWithoutCargoInput = {
 
 export type RequerimentoCreateManyBaseInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1641,7 +1634,6 @@ export type RequerimentoCreateManyBaseInput = {
 
 export type RequerimentoUpdateWithoutBaseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1695,7 +1687,7 @@ export type RequerimentoUncheckedUpdateManyWithoutBaseInput = {
 
 export type RequerimentoCreateManyUserInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1711,7 +1703,6 @@ export type RequerimentoCreateManyUserInput = {
 
 export type RequerimentoUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1765,7 +1756,7 @@ export type RequerimentoUncheckedUpdateManyWithoutUserInput = {
 
 export type RequerimentoCreateManyAmbulanciaInput = {
   id?: string
-  numero: number
+  numero?: number
   tipo: $Enums.TipoRequerimento
   status?: $Enums.Status
   data_inicio: Date | string
@@ -1781,7 +1772,6 @@ export type RequerimentoCreateManyAmbulanciaInput = {
 
 export type RequerimentoUpdateWithoutAmbulanciaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.IntFieldUpdateOperationsInput | number
   tipo?: Prisma.EnumTipoRequerimentoFieldUpdateOperationsInput | $Enums.TipoRequerimento
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

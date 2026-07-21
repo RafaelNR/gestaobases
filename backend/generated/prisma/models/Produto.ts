@@ -295,6 +295,7 @@ export type ProdutoWhereInput = {
   CategoriaProduto?: Prisma.XOR<Prisma.CategoriaProdutoScalarRelationFilter, Prisma.CategoriaProdutoWhereInput>
   User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   RequerimentoItem?: Prisma.RequerimentoItemListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }
 
 export type ProdutoOrderByWithRelationInput = {
@@ -315,6 +316,7 @@ export type ProdutoOrderByWithRelationInput = {
   CategoriaProduto?: Prisma.CategoriaProdutoOrderByWithRelationInput
   User?: Prisma.UserOrderByWithRelationInput
   RequerimentoItem?: Prisma.RequerimentoItemOrderByRelationAggregateInput
+  estoques?: Prisma.EstoqueOrderByRelationAggregateInput
   _relevance?: Prisma.ProdutoOrderByRelevanceInput
 }
 
@@ -340,6 +342,7 @@ export type ProdutoWhereUniqueInput = Prisma.AtLeast<{
   CategoriaProduto?: Prisma.XOR<Prisma.CategoriaProdutoScalarRelationFilter, Prisma.CategoriaProdutoWhereInput>
   User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   RequerimentoItem?: Prisma.RequerimentoItemListRelationFilter
+  estoques?: Prisma.EstoqueListRelationFilter
 }, "id" | "nome_codigo">
 
 export type ProdutoOrderByWithAggregationInput = {
@@ -400,6 +403,7 @@ export type ProdutoCreateInput = {
   CategoriaProduto: Prisma.CategoriaProdutoCreateNestedOneWithoutProdutosInput
   User: Prisma.UserCreateNestedOneWithoutProdutosInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoUncheckedCreateInput = {
@@ -418,6 +422,7 @@ export type ProdutoUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoUpdateInput = {
@@ -436,6 +441,7 @@ export type ProdutoUpdateInput = {
   CategoriaProduto?: Prisma.CategoriaProdutoUpdateOneRequiredWithoutProdutosNestedInput
   User?: Prisma.UserUpdateOneRequiredWithoutProdutosNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateInput = {
@@ -454,6 +460,7 @@ export type ProdutoUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoCreateManyInput = {
@@ -704,6 +711,22 @@ export type ProdutoUpdateOneWithoutRequerimentoItemNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProdutoUpdateToOneWithWhereWithoutRequerimentoItemInput, Prisma.ProdutoUpdateWithoutRequerimentoItemInput>, Prisma.ProdutoUncheckedUpdateWithoutRequerimentoItemInput>
 }
 
+export type ProdutoCreateNestedOneWithoutEstoquesInput = {
+  create?: Prisma.XOR<Prisma.ProdutoCreateWithoutEstoquesInput, Prisma.ProdutoUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.ProdutoCreateOrConnectWithoutEstoquesInput
+  connect?: Prisma.ProdutoWhereUniqueInput
+}
+
+export type ProdutoUpdateOneWithoutEstoquesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProdutoCreateWithoutEstoquesInput, Prisma.ProdutoUncheckedCreateWithoutEstoquesInput>
+  connectOrCreate?: Prisma.ProdutoCreateOrConnectWithoutEstoquesInput
+  upsert?: Prisma.ProdutoUpsertWithoutEstoquesInput
+  disconnect?: Prisma.ProdutoWhereInput | boolean
+  delete?: Prisma.ProdutoWhereInput | boolean
+  connect?: Prisma.ProdutoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProdutoUpdateToOneWithWhereWithoutEstoquesInput, Prisma.ProdutoUpdateWithoutEstoquesInput>, Prisma.ProdutoUncheckedUpdateWithoutEstoquesInput>
+}
+
 export type ProdutoCreateWithoutUserInput = {
   id?: string
   nome: string
@@ -719,6 +742,7 @@ export type ProdutoCreateWithoutUserInput = {
   updated_at?: Date | string
   CategoriaProduto: Prisma.CategoriaProdutoCreateNestedOneWithoutProdutosInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoUncheckedCreateWithoutUserInput = {
@@ -736,6 +760,7 @@ export type ProdutoUncheckedCreateWithoutUserInput = {
   created_at?: Date | string
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoCreateOrConnectWithoutUserInput = {
@@ -799,6 +824,7 @@ export type ProdutoCreateWithoutCategoriaProdutoInput = {
   updated_at?: Date | string
   User: Prisma.UserCreateNestedOneWithoutProdutosInput
   RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoUncheckedCreateWithoutCategoriaProdutoInput = {
@@ -816,6 +842,7 @@ export type ProdutoUncheckedCreateWithoutCategoriaProdutoInput = {
   created_at?: Date | string
   updated_at?: Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutProdutoInput
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoCreateOrConnectWithoutCategoriaProdutoInput = {
@@ -859,6 +886,7 @@ export type ProdutoCreateWithoutRequerimentoItemInput = {
   updated_at?: Date | string
   CategoriaProduto: Prisma.CategoriaProdutoCreateNestedOneWithoutProdutosInput
   User: Prisma.UserCreateNestedOneWithoutProdutosInput
+  estoques?: Prisma.EstoqueCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoUncheckedCreateWithoutRequerimentoItemInput = {
@@ -876,6 +904,7 @@ export type ProdutoUncheckedCreateWithoutRequerimentoItemInput = {
   active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
+  estoques?: Prisma.EstoqueUncheckedCreateNestedManyWithoutProdutoInput
 }
 
 export type ProdutoCreateOrConnectWithoutRequerimentoItemInput = {
@@ -909,6 +938,7 @@ export type ProdutoUpdateWithoutRequerimentoItemInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CategoriaProduto?: Prisma.CategoriaProdutoUpdateOneRequiredWithoutProdutosNestedInput
   User?: Prisma.UserUpdateOneRequiredWithoutProdutosNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateWithoutRequerimentoItemInput = {
@@ -926,6 +956,95 @@ export type ProdutoUncheckedUpdateWithoutRequerimentoItemInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutProdutoNestedInput
+}
+
+export type ProdutoCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  codigo: number
+  unidade: $Enums.Unidade
+  usa?: boolean
+  cme?: boolean
+  fora_alx?: boolean
+  ordem?: number | null
+  descricao?: string | null
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  CategoriaProduto: Prisma.CategoriaProdutoCreateNestedOneWithoutProdutosInput
+  User: Prisma.UserCreateNestedOneWithoutProdutosInput
+  RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutProdutoInput
+}
+
+export type ProdutoUncheckedCreateWithoutEstoquesInput = {
+  id?: string
+  nome: string
+  codigo: number
+  unidade: $Enums.Unidade
+  categoria: string
+  usa?: boolean
+  cme?: boolean
+  fora_alx?: boolean
+  ordem?: number | null
+  userId: string
+  descricao?: string | null
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutProdutoInput
+}
+
+export type ProdutoCreateOrConnectWithoutEstoquesInput = {
+  where: Prisma.ProdutoWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProdutoCreateWithoutEstoquesInput, Prisma.ProdutoUncheckedCreateWithoutEstoquesInput>
+}
+
+export type ProdutoUpsertWithoutEstoquesInput = {
+  update: Prisma.XOR<Prisma.ProdutoUpdateWithoutEstoquesInput, Prisma.ProdutoUncheckedUpdateWithoutEstoquesInput>
+  create: Prisma.XOR<Prisma.ProdutoCreateWithoutEstoquesInput, Prisma.ProdutoUncheckedCreateWithoutEstoquesInput>
+  where?: Prisma.ProdutoWhereInput
+}
+
+export type ProdutoUpdateToOneWithWhereWithoutEstoquesInput = {
+  where?: Prisma.ProdutoWhereInput
+  data: Prisma.XOR<Prisma.ProdutoUpdateWithoutEstoquesInput, Prisma.ProdutoUncheckedUpdateWithoutEstoquesInput>
+}
+
+export type ProdutoUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.IntFieldUpdateOperationsInput | number
+  unidade?: Prisma.EnumUnidadeFieldUpdateOperationsInput | $Enums.Unidade
+  usa?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cme?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fora_alx?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ordem?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CategoriaProduto?: Prisma.CategoriaProdutoUpdateOneRequiredWithoutProdutosNestedInput
+  User?: Prisma.UserUpdateOneRequiredWithoutProdutosNestedInput
+  RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutProdutoNestedInput
+}
+
+export type ProdutoUncheckedUpdateWithoutEstoquesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.IntFieldUpdateOperationsInput | number
+  unidade?: Prisma.EnumUnidadeFieldUpdateOperationsInput | $Enums.Unidade
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  usa?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cme?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fora_alx?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ordem?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoCreateManyUserInput = {
@@ -959,6 +1078,7 @@ export type ProdutoUpdateWithoutUserInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CategoriaProduto?: Prisma.CategoriaProdutoUpdateOneRequiredWithoutProdutosNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateWithoutUserInput = {
@@ -976,6 +1096,7 @@ export type ProdutoUncheckedUpdateWithoutUserInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateManyWithoutUserInput = {
@@ -1025,6 +1146,7 @@ export type ProdutoUpdateWithoutCategoriaProdutoInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   User?: Prisma.UserUpdateOneRequiredWithoutProdutosNestedInput
   RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateWithoutCategoriaProdutoInput = {
@@ -1042,6 +1164,7 @@ export type ProdutoUncheckedUpdateWithoutCategoriaProdutoInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutProdutoNestedInput
+  estoques?: Prisma.EstoqueUncheckedUpdateManyWithoutProdutoNestedInput
 }
 
 export type ProdutoUncheckedUpdateManyWithoutCategoriaProdutoInput = {
@@ -1067,10 +1190,12 @@ export type ProdutoUncheckedUpdateManyWithoutCategoriaProdutoInput = {
 
 export type ProdutoCountOutputType = {
   RequerimentoItem: number
+  estoques: number
 }
 
 export type ProdutoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   RequerimentoItem?: boolean | ProdutoCountOutputTypeCountRequerimentoItemArgs
+  estoques?: boolean | ProdutoCountOutputTypeCountEstoquesArgs
 }
 
 /**
@@ -1088,6 +1213,13 @@ export type ProdutoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
  */
 export type ProdutoCountOutputTypeCountRequerimentoItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RequerimentoItemWhereInput
+}
+
+/**
+ * ProdutoCountOutputType without action
+ */
+export type ProdutoCountOutputTypeCountEstoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EstoqueWhereInput
 }
 
 
@@ -1109,6 +1241,7 @@ export type ProdutoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   CategoriaProduto?: boolean | Prisma.CategoriaProdutoDefaultArgs<ExtArgs>
   User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   RequerimentoItem?: boolean | Prisma.Produto$RequerimentoItemArgs<ExtArgs>
+  estoques?: boolean | Prisma.Produto$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.ProdutoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["produto"]>
 
@@ -1136,6 +1269,7 @@ export type ProdutoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   CategoriaProduto?: boolean | Prisma.CategoriaProdutoDefaultArgs<ExtArgs>
   User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   RequerimentoItem?: boolean | Prisma.Produto$RequerimentoItemArgs<ExtArgs>
+  estoques?: boolean | Prisma.Produto$estoquesArgs<ExtArgs>
   _count?: boolean | Prisma.ProdutoCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1145,6 +1279,7 @@ export type $ProdutoPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     CategoriaProduto: Prisma.$CategoriaProdutoPayload<ExtArgs>
     User: Prisma.$UserPayload<ExtArgs>
     RequerimentoItem: Prisma.$RequerimentoItemPayload<ExtArgs>[]
+    estoques: Prisma.$EstoquePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1504,6 +1639,7 @@ export interface Prisma__ProdutoClient<T, Null = never, ExtArgs extends runtime.
   CategoriaProduto<T extends Prisma.CategoriaProdutoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoriaProdutoDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoriaProdutoClient<runtime.Types.Result.GetResult<Prisma.$CategoriaProdutoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   User<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   RequerimentoItem<T extends Prisma.Produto$RequerimentoItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produto$RequerimentoItemArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequerimentoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  estoques<T extends Prisma.Produto$estoquesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Produto$estoquesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstoquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1925,6 +2061,30 @@ export type Produto$RequerimentoItemArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.RequerimentoItemScalarFieldEnum | Prisma.RequerimentoItemScalarFieldEnum[]
+}
+
+/**
+ * Produto.estoques
+ */
+export type Produto$estoquesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Estoque
+   */
+  select?: Prisma.EstoqueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Estoque
+   */
+  omit?: Prisma.EstoqueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EstoqueInclude<ExtArgs> | null
+  where?: Prisma.EstoqueWhereInput
+  orderBy?: Prisma.EstoqueOrderByWithRelationInput | Prisma.EstoqueOrderByWithRelationInput[]
+  cursor?: Prisma.EstoqueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EstoqueScalarFieldEnum | Prisma.EstoqueScalarFieldEnum[]
 }
 
 /**

@@ -8,7 +8,7 @@ type Props = {
 export default function ChipAtivoInativo({ active }: Props) {
 	return (
 		<Chip
-			label={active ? "Ativa" : "Inativa"}
+			label={active ? "Ativo" : "Inativo"}
 			color={active ? "success" : "error"}
 			size="small"
 		/>

@@ -10,9 +10,12 @@ const getIcon = (icon: string) => {
 			Usuarios: "mdi:users-group",
 			Relatórios: "carbon:report-data",
 			Relatorios: "carbon:report-data",
+			RelatorioRequerimentos: "iconoir:stats-report",
+			RelatorioEstoque: "mdi:warehouse",
 			Manifestacoes: "fluent:mail-list-16-filled",
 			Assuntos: "material-symbols:mail",
 			Acoes: "icon-park-solid:transaction",
+			Gestão: "icon-park-outline:config",
 			Setores: "mingcute:department-fill",
 			Disparos: "hugeicons:chat-bot",
 			Tags: "bi:tags-fill",
@@ -31,6 +34,7 @@ const getIcon = (icon: string) => {
 			Medicamentos: "mdi:pill",
 			Bases: "mdi:map-marker-multiple",
 			Receituarios: "mdi:prescription",
+			Estoques: "mdi:warehouse",
 			"": "",
 		}[icon] || "iconoir:file-not-found"
 	);

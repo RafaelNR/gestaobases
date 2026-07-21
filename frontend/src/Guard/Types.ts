@@ -5,6 +5,7 @@ export enum TypeSetor {
 	Farmacia = "Farmacia",
 	CME = "CME",
 	Frota = "Frota",
+	Enfermagem = "Enfermagem",
 	Base = "Base",
 }
 
@@ -19,6 +20,8 @@ export enum TypeCargo {
 	Frota = "Coordenação Frota",
 	ApoioBases = "Apoio Bases",
 	Facilitador = "Facilitador",
+	Colaborador = "Colaborador",
+	Enfermagem = "Coordenação de Enfermagem",
 	RH = "RH",
 }
 
@@ -31,6 +34,7 @@ export const SetorCargos: Record<TypeSetorKey, readonly TypeCargoKey[]> = {
 	Farmacia: ["Farmaceutica", "TecFarmacia"],
 	CME: ["CME"],
 	Frota: ["Frota", "ApoioBases"],
-	Base: ["Facilitador"],
+	Enfermagem: ["Enfermagem"],
+	Base: ["Facilitador", "Colaborador"],
 	Administrativo: ["RH"],
 };

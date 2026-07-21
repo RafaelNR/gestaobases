@@ -93,12 +93,31 @@ export class UserService {
         email: true,
       },
       where: {
+        active: true,
         Setor: {
           nome: setor,
         },
       },
     });
   }
+  async usersNotificationBySetorAndBase(setor: string, base: string) {
+    return await this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+      },
+      where: {
+        active: true,
+        Setor: {
+          nome: setor,
+        },
+        Base: {
+          nome: base,
+        },
+      },
+    });
+  }
+
   async usersNotificationByIds(ids: string[]) {
     return await this.prisma.user.findMany({
       select: {

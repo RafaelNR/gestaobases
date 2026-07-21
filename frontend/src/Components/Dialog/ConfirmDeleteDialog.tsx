@@ -9,6 +9,7 @@ interface ConfirmDeleteDialogProps {
 	title?: string;
 	entityName?: string;
 	message?: React.ReactNode;
+	confirmLabel?: string;
 	isPending?: boolean;
 }
 
@@ -19,6 +20,7 @@ export default function ConfirmDeleteDialog({
 	title = "Excluir registro",
 	entityName,
 	message,
+	confirmLabel = "Excluir",
 	isPending = false,
 }: ConfirmDeleteDialogProps) {
 	return (
@@ -44,7 +46,7 @@ export default function ConfirmDeleteDialog({
 							) : undefined
 						}
 					>
-						Excluir
+						{confirmLabel}
 					</Button>
 				</>
 			}

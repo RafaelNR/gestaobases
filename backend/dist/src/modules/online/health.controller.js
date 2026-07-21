@@ -1,30 +1,29 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "HealthController", {
+    enumerable: true,
+    get: function() {
+        return HealthController;
+    }
+});
+const _common = require("@nestjs/common");
+const _terminus = require("@nestjs/terminus");
+const _prismaservice = require("../../infra/database/prisma/prisma.service");
+const _authdecorator = require("../../infra/auth/auth.decorator");
+const _config = require("@nestjs/config");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HealthController = void 0;
-const common_1 = require("@nestjs/common");
-const terminus_1 = require("@nestjs/terminus");
-const prisma_service_1 = require("../../infra/database/prisma/prisma.service");
-const auth_decorator_1 = require("../../infra/auth/auth.decorator");
-const config_1 = require("@nestjs/config");
+}
 let HealthController = class HealthController {
-    health;
-    prismaHealth;
-    memory;
-    disk;
-    http;
-    prisma;
-    configService;
-    frontendUrl;
-    constructor(health, prismaHealth, memory, disk, http, prisma, configService) {
+    constructor(health, prismaHealth, memory, disk, http, prisma, configService){
         this.health = health;
         this.prismaHealth = prismaHealth;
         this.memory = memory;
@@ -36,34 +35,44 @@ let HealthController = class HealthController {
     }
     check() {
         return this.health.check([
-            () => this.prismaHealth.pingCheck('database', this.prisma),
-            () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
-            () => this.memory.checkRSS('memory_rss', 300 * 1024 * 1024),
-            () => this.disk.checkStorage('storage', {
-                path: process.cwd(),
-                thresholdPercent: 0.9,
-            }),
-            () => this.http.pingCheck('api-externa', this.frontendUrl),
+            // 1. Verifica se o banco de dados está respondendo
+            ()=>this.prismaHealth.pingCheck('database', this.prisma),
+            // 2. Verifica se o processo Node.js não está consumindo mais de 150MB de memória Heap
+            // (ajuste os valores conforme o consumo normal da sua aplicação)
+            ()=>this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
+            // 3. Verifica se o total de memória RAM alocada pelo processo não ultrapassa 300MB
+            ()=>this.memory.checkRSS('memory_rss', 300 * 1024 * 1024),
+            // 4. Verifica se o disco não está com mais de 90% (0.9) de espaço de armazenamento cheio
+            ()=>this.disk.checkStorage('storage', {
+                    path: process.cwd(),
+                    thresholdPercent: 0.9
+                }),
+            // 5. Verifica se uma API externa está respondendo (exemplo com o Google)
+            // Substitua a URL pela API de pagamentos ou serviço real que você utiliza
+            ()=>this.http.pingCheck('api-externa', this.frontendUrl)
         ]);
     }
 };
-exports.HealthController = HealthController;
-__decorate([
-    (0, common_1.Get)(),
-    (0, auth_decorator_1.Public)(),
-    (0, terminus_1.HealthCheck)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+_ts_decorate([
+    (0, _common.Get)(),
+    (0, _authdecorator.Public)(),
+    (0, _terminus.HealthCheck)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", void 0)
 ], HealthController.prototype, "check", null);
-exports.HealthController = HealthController = __decorate([
-    (0, common_1.Controller)('online'),
-    __metadata("design:paramtypes", [terminus_1.HealthCheckService,
-        terminus_1.PrismaHealthIndicator,
-        terminus_1.MemoryHealthIndicator,
-        terminus_1.DiskHealthIndicator,
-        terminus_1.HttpHealthIndicator,
-        prisma_service_1.PrismaService,
-        config_1.ConfigService])
+HealthController = _ts_decorate([
+    (0, _common.Controller)('online'),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _terminus.HealthCheckService === "undefined" ? Object : _terminus.HealthCheckService,
+        typeof _terminus.PrismaHealthIndicator === "undefined" ? Object : _terminus.PrismaHealthIndicator,
+        typeof _terminus.MemoryHealthIndicator === "undefined" ? Object : _terminus.MemoryHealthIndicator,
+        typeof _terminus.DiskHealthIndicator === "undefined" ? Object : _terminus.DiskHealthIndicator,
+        typeof _terminus.HttpHealthIndicator === "undefined" ? Object : _terminus.HttpHealthIndicator,
+        typeof _prismaservice.PrismaService === "undefined" ? Object : _prismaservice.PrismaService,
+        typeof _config.ConfigService === "undefined" ? Object : _config.ConfigService
+    ])
 ], HealthController);
+
 //# sourceMappingURL=health.controller.js.map

@@ -109,7 +109,15 @@ export class RequerimentoRepository {
 
   async updateStatus(id: string, status: Status, userId: string) {
     const [updated] = await this.prisma.$transaction([
-      this.prisma.requerimento.update({ where: { id }, data: { status } }),
+      this.prisma.requerimento.update({
+        where: { id },
+        data: {
+          status,
+          data_fim: ['Finalizado', 'Cancelado'].includes(status)
+            ? new Date()
+            : null,
+        },
+      }),
       this.prisma.requerimentoStatus.create({
         data: { requerimentoId: id, status, userId },
       }),

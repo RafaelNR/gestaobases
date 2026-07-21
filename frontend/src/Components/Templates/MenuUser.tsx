@@ -16,7 +16,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
 import { useLogout, useMe } from "@/Hooks/useAuth";
-import { Base } from "../../../../backend/dist/generated/prisma/client";
 
 export default function MenuUser() {
 	const navigate = useNavigate();
@@ -108,22 +107,28 @@ export default function MenuUser() {
 			>
 				<Box sx={{ px: 2, py: 1.5 }}>
 					<Typography
-						variant="body2"
+						variant="body1"
 						sx={{ fontWeight: 700, color: "text.primary", lineHeight: 1.3 }}
 					>
 						{user?.nome}
 					</Typography>
 					<Typography
-						variant="body2"
-						sx={{ fontWeight: 700, color: "text.primary", lineHeight: 1.3 }}
+						variant="subtitle1"
+						sx={{ color: "text.primary", lineHeight: 1.3 }}
 					>
 						{user?.Base.nome}
 					</Typography>
 					<Typography
-						variant="body2"
-						sx={{ fontWeight: 700, color: "text.primary", lineHeight: 1.3 }}
+						variant="subtitle2"
+						sx={{ color: "text.primary", lineHeight: 1.3 }}
 					>
-						{user?.Setor?.nome}
+						{user?.Setor?.nomeVisivel}
+					</Typography>
+					<Typography
+						variant="subtitle2"
+						sx={{ color: "text.primary", lineHeight: 1.3 }}
+					>
+						{user?.Cargo.nomeVisivel}
 					</Typography>
 				</Box>
 				<Divider />

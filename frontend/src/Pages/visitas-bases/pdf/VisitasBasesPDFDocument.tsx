@@ -7,6 +7,28 @@ import type { VisitasBasesCalendarFilters } from "../types";
 
 const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const MAX_VISITAS_PER_DAY = 5;
+const BASE_COLORS_OBJ: Record<string, string> = {
+	Barbacena: "#1976d2",
+	Congonhas: "#7b1fa2",
+	"São João Del Rei": "#f57c00",
+	"Alto Rio Doce": "#1976d2",
+	Piranga: "#388e3c",
+	Tiradentes: "#7b1fa2",
+	"Resende Costa": "#f57c00",
+	"Entre Rios de Minas": "#7b1fa2",
+	"Conselheiro Lafaiete": "#388e3c",
+	"Lagoa Dourada": "#f57c00",
+	Nazareno: "#f57c00",
+	Barroso: "#1976d2",
+	"Madre de Deus de Minas": "#f57c00",
+	"Bom Sucesso": "#f57c00",
+	Carandaí: "#1976d2",
+	"São Tiago": "#f57c00",
+	"Rio Espera": "#388e3c",
+	"Ouro Branco": "#7b1fa2",
+	Ibertioga: "#1976d2",
+};
+const DEFAULT_BASE_COLOR = "#d32f2f";
 
 const styles = StyleSheet.create({
 	page: {
@@ -156,13 +178,9 @@ const styles = StyleSheet.create({
 		marginTop: 2,
 	},
 	footer: {
-		position: "absolute",
-		left: 24,
-		right: 24,
-		bottom: 16,
 		borderTopWidth: 1,
 		borderTopColor: "#cfd8dc",
-		paddingTop: 5,
+		paddingTop: 1,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		color: "#78909c",
@@ -187,6 +205,10 @@ function getVisitaNome(visita: VisitaBase) {
 	return visita.base ?? visita.outro_motivo ?? "Visita";
 }
 
+function getVisitaColor(visita: VisitaBase) {
+	return BASE_COLORS_OBJ[visita.base ?? ""] ?? DEFAULT_BASE_COLOR;
+}
+
 function getDateKey(visita: VisitaBase) {
 	return visita.data.slice(0, 10);
 }
@@ -207,6 +229,8 @@ function buildCalendarMonth(
 ): CalendarMonth {
 	const monthStart = dayjs(`${monthKey}-01`);
 	const gridStart = monthStart.startOf("week");
+	const gridEnd = monthStart.endOf("month").endOf("week");
+	const gridDays = gridEnd.diff(gridStart, "day") + 1;
 	const visitasByDay = sortVisitasByDate(visitas).reduce<
 		Record<string, VisitaBase[]>
 	>((acc, visita) => {
@@ -215,7 +239,7 @@ function buildCalendarMonth(
 		return acc;
 	}, {});
 
-	const days = Array.from({ length: 42 }, (_, index) => {
+	const days = Array.from({ length: gridDays }, (_, index) => {
 		const date = gridStart.add(index, "day");
 		const dateKey = date.format("YYYY-MM-DD");
 
@@ -250,7 +274,10 @@ function renderEvent(visita: VisitaBase) {
 	const hasDescricao = Boolean(visita.descricao?.trim());
 
 	return (
-		<View key={visita.id} style={styles.eventPill}>
+		<View
+			key={visita.id}
+			style={[styles.eventPill, { backgroundColor: getVisitaColor(visita) }]}
+		>
 			<Text style={styles.eventText}>{getVisitaNome(visita)}</Text>
 			{hasDescricao && <Text style={styles.eventObs}>{visita.descricao}</Text>}
 		</View>
@@ -282,16 +309,9 @@ export function VisitasBasesPDFDocument({
 				<View style={styles.header}>
 					<View style={styles.headerLeft}>
 						<Text style={styles.title}>Calendário de visitas às bases</Text>
-						<Text style={styles.subtitle}>
-							Emitido em {DateFormat(new Date())} por {printedBy}
-						</Text>
 					</View>
 					<View style={styles.monthBadge}>
 						<Text style={styles.monthTitle}>{month.label}</Text>
-						<Text style={styles.monthCount}>
-							{month.visitas.filter((e) => e.base).length} Visitas a bases no
-							mês
-						</Text>
 					</View>
 				</View>
 
@@ -314,12 +334,14 @@ export function VisitasBasesPDFDocument({
 					{chunkWeeks(month.days).map((week, weekIndex) => (
 						<View key={`${month.key}-${weekIndex}`} style={styles.weekRow}>
 							{week.map((day, dayIndex) => {
-								const visibleVisitas = day.visitas.slice(
-									0,
-									MAX_VISITAS_PER_DAY,
-								);
-								const hiddenVisits = day.visitas.length - visibleVisitas.length;
-								const isToday = day.date.isSame(dayjs(), "day");
+								const visibleVisitas = day.inCurrentMonth
+									? day.visitas.slice(0, MAX_VISITAS_PER_DAY)
+									: [];
+								const hiddenVisits = day.inCurrentMonth
+									? day.visitas.length - visibleVisitas.length
+									: 0;
+								const isToday =
+									day.inCurrentMonth && day.date.isSame(dayjs(), "day");
 
 								return (
 									<View
@@ -333,24 +355,35 @@ export function VisitasBasesPDFDocument({
 											] as any
 										}
 									>
-										<Text style={styles.dayNumber}>{day.date.format("D")}</Text>
+										{day.inCurrentMonth && (
+											<>
+												<Text style={styles.dayNumber}>
+													{day.date.format("D")}
+												</Text>
 
-										{visibleVisitas.length > 0 ? (
-											visibleVisitas.map(renderEvent)
-										) : (
-											<Text style={styles.emptyText}> </Text>
-										)}
+												{visibleVisitas.length > 0 ? (
+													visibleVisitas.map(renderEvent)
+												) : (
+													<Text style={styles.emptyText}> </Text>
+												)}
 
-										{hiddenVisits > 0 && (
-											<Text style={styles.moreText}>
-												+{hiddenVisits} visitas
-											</Text>
+												{hiddenVisits > 0 && (
+													<Text style={styles.moreText}>
+														+{hiddenVisits} visitas
+													</Text>
+												)}
+											</>
 										)}
 									</View>
 								);
 							})}
 						</View>
 					))}
+				</View>
+				<View style={styles.footer}>
+					<Text style={styles.subtitle}>
+						Emitido em {DateFormat(new Date())} por {printedBy}
+					</Text>
 				</View>
 			</Page>
 		</Document>

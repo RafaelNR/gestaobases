@@ -1,12 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateAmbulanciaRequestDto = exports.CreateAmbulanciaRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const ambulancia_schema_1 = require("../validation/ambulancia.schema");
-class CreateAmbulanciaRequestDto extends (0, zod_nestjs_1.createZodDto)(ambulancia_schema_1.CreateAmbulanciaSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateAmbulanciaRequestDto = CreateAmbulanciaRequestDto;
-class UpdateAmbulanciaRequestDto extends (0, zod_nestjs_1.createZodDto)(ambulancia_schema_1.UpdateAmbulanciaSchema) {
-}
-exports.UpdateAmbulanciaRequestDto = UpdateAmbulanciaRequestDto;
+_export(exports, {
+    get CreateAmbulanciaRequestDto () {
+        return CreateAmbulanciaRequestDto;
+    },
+    get UpdateAmbulanciaRequestDto () {
+        return UpdateAmbulanciaRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _ambulanciaschema = require("../validation/ambulancia.schema");
+let CreateAmbulanciaRequestDto = class CreateAmbulanciaRequestDto extends (0, _zodnestjs.createZodDto)(_ambulanciaschema.CreateAmbulanciaSchema) {
+};
+let UpdateAmbulanciaRequestDto = class UpdateAmbulanciaRequestDto extends (0, _zodnestjs.createZodDto)(_ambulanciaschema.UpdateAmbulanciaSchema) {
+};
+
 //# sourceMappingURL=ambulancia.dto.js.map

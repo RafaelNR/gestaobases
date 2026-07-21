@@ -82,6 +82,21 @@ export function useUpdateUsuario() {
 	});
 }
 
+export function useUpdatePerfil() {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (dto: { id: string; [key: string]: any }) =>
+			usersService.updatePerfil(dto.id, dto),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["auth", "me"] as const });
+			snackBar.success("Perfil atualizado com sucesso.");
+		},
+		onError: (err: any) => {
+			snackBar.error(err?.message ?? "Erro ao atualizar perfil.");
+		},
+	});
+}
+
 export function useBlockUsuario() {
 	const queryClient = useQueryClient();
 	return useMutation({

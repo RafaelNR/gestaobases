@@ -29,6 +29,7 @@ import { useGetCategoriasProduto } from "@/Hooks/useCategoriasProduto";
 import useDialog from "@/Hooks/useDialog";
 import { DateFormat } from "@/Utils/dates";
 import ChipAtivoInativo from "@/Components/Chip/ChipAtivoInativo";
+import ButtonActionTable from "./components/ButtonsActionTable";
 
 export default function CategoriasProdutoTable() {
 	const { data: categorias, isLoading } = useGetCategoriasProduto();
@@ -145,28 +146,7 @@ export default function CategoriasProdutoTable() {
 											</Typography>
 										</TableCell>
 										<TableCell align="center">
-											<Tooltip title="Editar">
-												<IconButton
-													size="small"
-													onClick={() =>
-														handleClickOpenDialog({ m: "edit", s: cat })
-													}
-													sx={{ color: "primary.main" }}
-												>
-													<EditIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Excluir">
-												<IconButton
-													size="small"
-													onClick={() =>
-														handleClickOpenDialog({ m: "delete", s: cat })
-													}
-													sx={{ color: "error.main" }}
-												>
-													<DeleteIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
+											<ButtonActionTable row={cat} />
 										</TableCell>
 									</TableRow>
 								))

@@ -21,16 +21,28 @@ import { usePermissions } from "@/Hooks/usePermissions";
 import PopperEvent from "./PopperEvent";
 import type { VisitasBasesCalendarFilters } from "./types";
 
-const BASE_COLORS = [
-	"#1976d2",
-	"#388e3c",
-	"#f57c00",
-	"#7b1fa2",
-	"#00838f",
-	"#558b2f",
-	"#4527a0",
-	"#2e7d32",
-];
+const BASE_COLORS_OBJ: Record<string, string> = {
+	Barbacena: "#1976d2",
+	Congonhas: "#7b1fa2",
+	"São João Del Rei": "#f57c00",
+	"Alto Rio Doce": "#1976d2",
+	Piranga: "#388e3c",
+	Tiradentes: "#7b1fa2",
+	"Resende Costa": "#f57c00",
+	"Entre Rios de Minas": "#7b1fa2",
+	"Conselheiro Lafaiete": "#388e3c",
+	"Lagoa Dourada": "#f57c00",
+	Nazareno: "#f57c00",
+	Barroso: "#1976d2",
+	"Madre de Deus de Minas": "#f57c00",
+	"Bom Sucesso": "#f57c00",
+	Carandaí: "#1976d2",
+	"São Tiago": "#f57c00",
+	"Rio Espera": "#388e3c",
+	"Ouro Branco": "#7b1fa2",
+	Ibertioga: "#1976d2",
+};
+
 const FALLBACK_EVENT_COLOR = "#d32f2f";
 
 type HoveredVisita = {
@@ -40,10 +52,9 @@ type HoveredVisita = {
 };
 
 function getBaseColor(base: string): string {
-	let hash = 0;
-	for (let i = 0; i < base.length; i++)
-		hash = base.charCodeAt(i) + ((hash << 5) - hash);
-	return BASE_COLORS[Math.abs(hash) % BASE_COLORS.length];
+	if (!base) return FALLBACK_EVENT_COLOR;
+
+	return BASE_COLORS_OBJ[base] ?? FALLBACK_EVENT_COLOR;
 }
 
 function toEvents(visitas: VisitaBase[]): EventInput[] {
@@ -220,7 +231,7 @@ export default function MyFullCalendar({
 				flexDirection: "column",
 				height: {
 					xs: "auto",
-					md: "calc(100dvh - 250px)",
+					md: "calc(100dvh)",
 				},
 				minHeight: {
 					xs: "calc(100dvh - 280px)",
@@ -446,7 +457,7 @@ export default function MyFullCalendar({
 				eventTimeFormat={{ hour: undefined }}
 				displayEventTime={false}
 				expandRows
-				height="90%"
+				height="100%"
 				dayMaxEvents={5}
 				dayCellClassNames={(arg) => {
 					const hoje = dayjs().startOf("day");

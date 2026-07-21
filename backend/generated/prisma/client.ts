@@ -149,3 +149,18 @@ export type ReceituarioMedicamentos = Prisma.ReceituarioMedicamentosModel
  * 
  */
 export type Notificacao = Prisma.NotificacaoModel
+/**
+ * Model Estoque
+ * 
+ */
+export type Estoque = Prisma.EstoqueModel
+/**
+ * Model EstoqueLote
+ * 
+ */
+export type EstoqueLote = Prisma.EstoqueLoteModel
+/**
+ * Model EstoqueMovimentacao
+ * 
+ */
+export type EstoqueMovimentacao = Prisma.EstoqueMovimentacaoModel

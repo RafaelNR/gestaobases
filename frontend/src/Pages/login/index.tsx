@@ -53,7 +53,7 @@ export default function Login() {
 						color: "secondary.main",
 					}}
 				>
-					SISTEMA DE
+					GESTÃO DE
 				</Typography>
 				<Typography
 					fontWeight="bold"
@@ -64,7 +64,7 @@ export default function Login() {
 						color: "primary.main",
 					}}
 				>
-					PEDIDOS
+					BASES
 				</Typography>
 
 				<Typography
@@ -76,9 +76,9 @@ export default function Login() {
 						color: "secondary.main",
 					}}
 				>
-					Gerencie requerimentos de forma ágil,
+					Gerencie sua base e requerimentos de forma
 					<br />
-					segura e eficiente
+					ágil, segura e eficiente.
 				</Typography>
 
 				<LoginBox />

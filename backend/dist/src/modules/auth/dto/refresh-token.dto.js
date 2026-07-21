@@ -1,11 +1,28 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RefreshTokenDto = exports.RefreshTokenSchema = void 0;
-const zod_1 = require("zod");
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const zod_openapi_1 = require("@anatine/zod-openapi");
-exports.RefreshTokenSchema = (0, zod_openapi_1.extendApi)(zod_1.z.preprocess((value) => (value === undefined ? {} : value), zod_1.z.strictObject({})), { title: 'RefreshTokenDto' });
-class RefreshTokenDto extends (0, zod_nestjs_1.createZodDto)(exports.RefreshTokenSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.RefreshTokenDto = RefreshTokenDto;
+_export(exports, {
+    get RefreshTokenDto () {
+        return RefreshTokenDto;
+    },
+    get RefreshTokenSchema () {
+        return RefreshTokenSchema;
+    }
+});
+const _zod = require("zod");
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _zodopenapi = require("@anatine/zod-openapi");
+const RefreshTokenSchema = (0, _zodopenapi.extendApi)(_zod.z.preprocess((value)=>value === undefined ? {} : value, _zod.z.strictObject({})), {
+    title: 'RefreshTokenDto'
+});
+let RefreshTokenDto = class RefreshTokenDto extends (0, _zodnestjs.createZodDto)(RefreshTokenSchema) {
+};
+
 //# sourceMappingURL=refresh-token.dto.js.map

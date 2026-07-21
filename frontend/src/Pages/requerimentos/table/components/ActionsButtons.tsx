@@ -69,12 +69,12 @@ export default function ActionsButtons({
 	const enviarMut = useEnviarRequerimento(tipo as TipoRequerimento);
 
 	const canEdit = useMemo(() => {
-		if (can("requerimentos:editAny")) {
+		if (can("requerimentos:edit:any")) {
 			return true;
 		}
 
 		if (
-			can("requerimentos:edit") &&
+			can("requerimentos:edit:base") &&
 			req.status === "Rascunho" &&
 			user?.id === req.userId
 		) {
@@ -85,14 +85,13 @@ export default function ActionsButtons({
 	}, [can, req, user]);
 
 	const canView = useMemo(() => {
-		if (can("requerimentos:viewAny")) {
+		if (can("requerimentos:view:any")) {
 			return true;
 		}
 
 		if (
-			can("requerimentos:view") &&
-			user?.Base.nome === req.base &&
-			user.Setor.nome === req.setor
+			(can("requerimentos:view:base") && user?.Base.nome === req.base) ||
+			(can("requerimentos:view:setor") && user?.Setor.nome === req.setor)
 		) {
 			return true;
 		}
@@ -105,11 +104,15 @@ export default function ActionsButtons({
 			return false;
 		}
 
-		if (can("requerimentos:deleteAny")) {
+		if (can("requerimentos:delete:any")) {
 			return true;
 		}
 
-		if (can("requerimentos:delete") && user?.id === req.userId) {
+		if (can("requerimentos:delete:base") && user?.id === req.userId) {
+			return true;
+		}
+
+		if (can("requerimentos:delete:setor") && user?.id === req.userId) {
 			return true;
 		}
 

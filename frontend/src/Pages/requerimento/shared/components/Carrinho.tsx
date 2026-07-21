@@ -13,22 +13,9 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { useFormContext } from "react-hook-form";
-import type {
-	FieldErrors,
-	SubmitErrorHandler,
-	SubmitHandler,
-} from "react-hook-form";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SendIcon from "@mui/icons-material/Send";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import {
-	useCreateRequerimento,
-	useUpdateRequerimento,
-} from "@/Hooks/useRequerimentos";
-import snackBar from "@/Hooks/useSnackBar";
 import type {
 	RequerimentoCreatePayload,
 	RequerimentoFormValues,
@@ -38,19 +25,7 @@ import type {
 import { CartItem } from "../RequerimentoPage";
 import ChipItensCarrinho from "@/Components/Chip/ChipItensCarrinho";
 import ButtonsCarrinho from "./ButtonsCarrinho";
-import ButtonsEdit from "./ButtonsEdit";
-
-type RequerimentoCartFormItem = {
-	id?: string;
-	produtoId?: string;
-	medicamentoId?: string;
-	quantidade: number;
-	ocorrencia?: string;
-};
-
-type RequerimentoCarrinhoFormValues = RequerimentoFormValues & {
-	itens: RequerimentoCartFormItem[];
-};
+import ButtonsStatus from "./ButtonsStatus";
 
 interface RequerimentoPageProps {
 	tipo: TipoRequerimento;
@@ -236,8 +211,7 @@ export default function Carrinho({
 				</TableContainer>
 			)}
 
-			{requerimento?.status &&
-			!["Finalizado", "Cancelado"].includes(requerimento?.status) ? (
+			{(!requerimento?.status || requerimento.status === "Rascunho") && (
 				<Box
 					sx={{
 						display: "flex",
@@ -246,54 +220,38 @@ export default function Carrinho({
 						flexDirection: "column",
 					}}
 				>
-					{requerimento?.id ? (
-						<ButtonsEdit
-							cart={cart}
-							buildPayload={buildPayload}
-							resetForm={resetForm}
-							tipo={tipo}
-							requerimento={requerimento}
-						/>
-					) : (
-						<ButtonsCarrinho
-							cart={cart}
-							buildPayload={buildPayload}
-							resetForm={resetForm}
-							tipo={tipo}
-							requerimento={requerimento}
-							setCart={setCart}
-						/>
-					)}
-				</Box>
-			) : (
-				<Box
-					sx={{
-						display: "flex",
-						gap: 1,
-						mt: 2,
-						flexDirection: "column",
-					}}
-				>
-					{requerimento?.id ? (
-						<ButtonsEdit
-							cart={cart}
-							buildPayload={buildPayload}
-							resetForm={resetForm}
-							tipo={tipo}
-							requerimento={requerimento}
-						/>
-					) : (
-						<ButtonsCarrinho
-							cart={cart}
-							buildPayload={buildPayload}
-							resetForm={resetForm}
-							tipo={tipo}
-							requerimento={requerimento}
-							setCart={setCart}
-						/>
-					)}
+					<ButtonsCarrinho
+						cart={cart}
+						buildPayload={buildPayload}
+						resetForm={resetForm}
+						tipo={tipo}
+						requerimento={requerimento}
+						setCart={setCart}
+					/>
 				</Box>
 			)}
+
+			{requerimento?.status &&
+				!["Finalizado", "Cancelado"].includes(requerimento?.status) && (
+					<Box
+						sx={{
+							display: "flex",
+							gap: 1,
+							mt: 2,
+							flexDirection: "column",
+						}}
+					>
+						<ButtonsStatus requerimento={requerimento} tipo={tipo} />
+						<ButtonsCarrinho
+							cart={cart}
+							buildPayload={buildPayload}
+							resetForm={resetForm}
+							tipo={tipo}
+							requerimento={requerimento}
+							setCart={setCart}
+						/>
+					</Box>
+				)}
 		</Paper>
 	);
 }

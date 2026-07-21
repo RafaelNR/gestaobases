@@ -1,12 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateBaseRequestDto = exports.CreateBaseRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const base_schema_1 = require("../validation/base.schema");
-class CreateBaseRequestDto extends (0, zod_nestjs_1.createZodDto)(base_schema_1.CreateBaseSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateBaseRequestDto = CreateBaseRequestDto;
-class UpdateBaseRequestDto extends (0, zod_nestjs_1.createZodDto)(base_schema_1.UpdateBaseSchema) {
-}
-exports.UpdateBaseRequestDto = UpdateBaseRequestDto;
+_export(exports, {
+    get CreateBaseRequestDto () {
+        return CreateBaseRequestDto;
+    },
+    get UpdateBaseRequestDto () {
+        return UpdateBaseRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _baseschema = require("../validation/base.schema");
+let CreateBaseRequestDto = class CreateBaseRequestDto extends (0, _zodnestjs.createZodDto)(_baseschema.CreateBaseSchema) {
+};
+let UpdateBaseRequestDto = class UpdateBaseRequestDto extends (0, _zodnestjs.createZodDto)(_baseschema.UpdateBaseSchema) {
+};
+
 //# sourceMappingURL=base.dto.js.map

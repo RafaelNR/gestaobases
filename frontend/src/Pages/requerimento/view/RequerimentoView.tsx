@@ -93,8 +93,8 @@ export default function RequerimentoViewPage({
 						<InfoItem icon={Business} label="Base" value={requerimento.base} />
 						<InfoItem
 							icon={Workspaces}
-							label="Setor"
-							value={`${requerimento.User.Setor.nomeVisivel} - ${requerimento.User.Cargo.nomeVisivel}`}
+							label="Setor / Cargo"
+							value={`${requerimento.User.Setor.nomeVisivel} / ${requerimento.User.Cargo.nomeVisivel}`}
 						/>
 						{requerimento.tipo === "Farmacia" && (
 							<InfoItem

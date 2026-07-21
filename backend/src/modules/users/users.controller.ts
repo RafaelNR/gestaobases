@@ -23,7 +23,9 @@ import { CreateUsuario } from './service/Created.use-case';
 import { BaseController, IResponse } from '@src/common/bases/BaseController';
 import {
   Autenticado,
+  Cargo,
   Setor,
+  TypeCargo,
   TypeSetor,
 } from '@src/infra/guard/roles.decorator';
 import { exclude } from '@src/common/helpers/functions';
@@ -49,6 +51,7 @@ export class UserController extends BaseController {
 
   @Get()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findAll(): Promise<IResponse<any>> {
     const users = await this.userService.users({
       take: 200,
@@ -209,6 +212,7 @@ export class UserController extends BaseController {
 
   @Get(':uuid')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findOne(@Param() { uuid }: { uuid: string }): Promise<IResponse<any>> {
     if (!uuid)
       throw new HttpException('Id não foi enviado.', HttpStatus.FORBIDDEN);
@@ -228,11 +232,12 @@ export class UserController extends BaseController {
 
   @Post()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async create(
     @User() user: IUser,
     @Body() createUserRequestDto: CreateUserRequestDto
   ): Promise<IResponse<any>> {
-    const newUser = await this.createUseBase.exec(createUserRequestDto);
+    const newUser = await this.createUseBase.exec(createUserRequestDto, user);
 
     this.logService.created({
       mensagem: `Usuário criado pelo usuario ${user.nome}`,
@@ -252,6 +257,7 @@ export class UserController extends BaseController {
 
   @Put(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async update(
     @User() user: IUser,
     @Param('id') id: string,
@@ -261,7 +267,7 @@ export class UserController extends BaseController {
       throw new HttpException('Dados não são validos.', HttpStatus.FORBIDDEN);
 
     // TODO update use case
-    const newUser = await this.updateUseCase.exec(updateUserRequestDto);
+    const newUser = await this.updateUseCase.exec(updateUserRequestDto, user);
 
     this.logService.updated({
       mensagem: `Usuário atualizado pelo usuario ${user.nome}`,
@@ -321,6 +327,7 @@ export class UserController extends BaseController {
 
   @Delete(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async remove(
     @User() user: IUser,
     @Param('id') id: string
@@ -354,6 +361,7 @@ export class UserController extends BaseController {
   // ----- PUT (/usuarios/bloquear/:id) - Administrador ----
 
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   @Put('bloquear/:id')
   async bloquearUsuario(
     @User() user: IUser,

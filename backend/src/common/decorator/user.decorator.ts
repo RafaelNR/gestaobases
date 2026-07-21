@@ -6,6 +6,7 @@ export type IUser = {
   nome: string;
   baseId: string;
   setorId: string;
+  cargoId: string;
   setor: TypeSetor;
   cargo: TypeCargo;
   base: string;

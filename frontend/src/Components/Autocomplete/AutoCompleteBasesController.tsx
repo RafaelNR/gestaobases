@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, TextFieldProps } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 
 //* SERVICE
@@ -9,6 +9,12 @@ import { useGetBases } from "@/Hooks/useBases";
 import { Base } from "@/Types/Base";
 
 type BaseOption = Base | string | null | undefined;
+
+type Props = {
+	keyName?: "base" | "baseId";
+	allBases?: boolean;
+	disablePortal?: boolean;
+} & TextFieldProps;
 
 function findBaseById(
 	bases: Base[] | undefined,
@@ -25,18 +31,23 @@ function getBaseOptionLabel(option: BaseOption): string {
 	return typeof option === "object" ? `${option.nome}` : option;
 }
 
-export default function AutocompleteBaseController() {
+export default function AutocompleteBaseController({
+	keyName = "base",
+	allBases = true,
+	disablePortal = true,
+	...rest
+}: Props) {
 	const { control, setValue } = useFormContext();
 
 	const value: string = useWatch({
 		control,
-		name: "base",
+		name: keyName,
 	});
 
 	const [open, setOpen] = useState(false);
 
 	const { data: bases = [], isLoading } = useGetBases({
-		enabled: open,
+		enabled: open && allBases,
 	});
 
 	const selectedBase = findBaseById(bases, value);
@@ -45,7 +56,7 @@ export default function AutocompleteBaseController() {
 		<Autocomplete<Base, false, false, false>
 			autoFocus={false}
 			fullWidth
-			disablePortal
+			disablePortal={disablePortal}
 			size="small"
 			open={open}
 			onOpen={() => setOpen(true)}
@@ -53,7 +64,7 @@ export default function AutocompleteBaseController() {
 			value={selectedBase}
 			noOptionsText="Sem Base"
 			onChange={(_event, newValue) => {
-				setValue("base", newValue?.id ?? "", {
+				setValue(keyName, newValue?.id ?? "", {
 					shouldValidate: true,
 					shouldDirty: true,
 				});
@@ -71,7 +82,7 @@ export default function AutocompleteBaseController() {
 			renderInput={(params) => (
 				<TextField
 					{...params}
-					name="base"
+					name={keyName}
 					label="Bases"
 					size="small"
 					inputProps={{
@@ -79,6 +90,7 @@ export default function AutocompleteBaseController() {
 						autoFocus: false,
 						size: "small",
 					}}
+					{...rest}
 				/>
 			)}
 		/>

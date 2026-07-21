@@ -1,1 +1,1 @@
-{"version":3,"file":"helmet.js","sourceRoot":"","sources":["../../../../src/common/middleware/helmet.ts"],"names":[],"mappings":";;;;;;AAAA,oDAA4B;AAEf,QAAA,gBAAgB,GAAG,IAAA,gBAAM,GAAE,CAAC"}
+{"version":3,"sources":["../../../../src/common/middleware/helmet.ts"],"sourcesContent":["import helmet from 'helmet';\r\n\r\nexport const HelmetMiddleware = helmet();\r\n"],"names":["HelmetMiddleware","helmet"],"mappings":";;;;+BAEaA;;;eAAAA;;;+DAFM;;;;;;AAEZ,MAAMA,mBAAmBC,IAAAA,eAAM"}

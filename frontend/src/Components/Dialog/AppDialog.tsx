@@ -24,7 +24,7 @@ const Transition = React.forwardRef(function Transition(
 interface AppDialogProps {
 	open: boolean;
 	onClose: () => void;
-	title: string;
+	title: React.ReactNode;
 	icon?: React.ReactNode;
 	children: React.ReactNode;
 	actions?: React.ReactNode;

@@ -19,3 +19,12 @@ export type VisitaBase = {
 	created_at: string;
 	updated_at: string;
 };
+
+export type ProximaVisitaBase = {
+	id: string;
+	data: string;
+	base: string;
+	descricao: string | null;
+	requerimentoRecebidoNaSemana: boolean;
+	prioridade: "vermelho" | "amarelo" | "verde";
+};

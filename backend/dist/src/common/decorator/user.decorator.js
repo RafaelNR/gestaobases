@@ -1,8 +1,15 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-const common_1 = require("@nestjs/common");
-exports.User = (0, common_1.createParamDecorator)((data, ctx) => {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "User", {
+    enumerable: true,
+    get: function() {
+        return User;
+    }
+});
+const _common = require("@nestjs/common");
+const User = (0, _common.createParamDecorator)((data, ctx)=>{
     const request = ctx.switchToHttp().getRequest();
     if (request.user) {
         request.user.ip = request.ip || request.headers['x-forwarded-for'];
@@ -10,4 +17,5 @@ exports.User = (0, common_1.createParamDecorator)((data, ctx) => {
     }
     return undefined;
 });
+
 //# sourceMappingURL=user.decorator.js.map

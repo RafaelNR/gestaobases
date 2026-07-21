@@ -77,15 +77,26 @@ http.interceptors.response.use(
 		};
 
 		// Rotas de autenticação nunca devem disparar refresh — retorna o erro real do backend
-		const isAuthRoute = /\/auth\/(login|register|refresh)/.test(
+		const isAuthRoute = /\/auth\/(login|register|refresh|logout)/.test(
 			originalRequest.url ?? "",
 		);
+		const isLoginPage =
+			typeof window !== "undefined" &&
+			(window.location.pathname === "/login" ||
+				window.location.pathname === "/logout");
+		const isLoginBootstrapRequest =
+			isLoginPage && /\/auth\/me(?:\?|$)/.test(originalRequest.url ?? "");
 
 		// Apenas 401 indica token ausente, expirado ou inválido.
 		// 403 é autorização/permissão e não deve disparar refresh + retry.
 		const isAuthError = error.response?.status === 401;
 
-		if (!isAuthError || originalRequest._retry || isAuthRoute) {
+		if (
+			!isAuthError ||
+			originalRequest._retry ||
+			isAuthRoute ||
+			isLoginBootstrapRequest
+		) {
 			return Promise.reject(normalizeError(error));
 		}
 

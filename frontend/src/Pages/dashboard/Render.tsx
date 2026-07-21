@@ -16,9 +16,13 @@ import { useMe } from "@/Hooks/useAuth";
 import MetricsRequerimentos from "./components/requerimentos/MetricsRequerimentos";
 import TabelaRequerimentosTipo from "./components/requerimentos/TabelaRequerimentosTipo";
 import { usePermissions } from "@/Hooks/usePermissions";
+import useLocalStore from "@/Hooks/useLocalStore";
 import { DASHBOARD_REQUERIMENTOS_PERMISSIONS } from "@/Guard/PermissionGroups";
 import type { Permission } from "@/Guard";
 import type { TipoRequerimento } from "@/Types/Requerimento";
+import ProximasVisitasBases from "./components/ProximasVisitasBases";
+import ProximosVencimentosCard from "./components/estoque/ProximosVencimentosCard";
+import UltimasMovimentacoesCard from "./components/estoque/UltimasMovimentacoesCard";
 
 type DashboardRequerimentosFilter = "todos" | TipoRequerimento;
 
@@ -70,15 +74,28 @@ const TABLE_OPTIONS = DASHBOARD_OPTIONS.filter(
 		Boolean(option.tipo),
 );
 
+const STORAGE_KEY = "dashboard.requerimentos.selectedOption";
+
 export default function Render() {
 	const { data: user } = useMe();
 	const { can } = usePermissions();
+	const { getData, setData } = useLocalStore();
 	const [selectedFilter, setSelectedFilter] =
-		useState<DashboardRequerimentosFilter>("todos");
+		useState<DashboardRequerimentosFilter>(() => {
+			const valorSalvo = getData(STORAGE_KEY);
+
+			return DASHBOARD_OPTIONS.some((option) => option.value === valorSalvo)
+				? (valorSalvo as DashboardRequerimentosFilter)
+				: "todos";
+		});
 	const [filterAnchorEl, setFilterAnchorEl] = useState<null | HTMLElement>(
 		null,
 	);
 	const filterMenuOpen = Boolean(filterAnchorEl);
+
+	useEffect(() => {
+		setData(STORAGE_KEY, selectedFilter);
+	}, [selectedFilter, setData]);
 
 	const allowedOptions = useMemo(
 		() =>
@@ -260,6 +277,33 @@ export default function Render() {
 					<TabelaRequerimentosTipo tipo={option.tipo} titulo={option.label} />
 				</Grid>
 			))}
+
+			<Grid size={{ xs: 12 }}>
+				<Divider />
+			</Grid>
+
+			{can(DASHBOARD_REQUERIMENTOS_PERMISSIONS.CARD_VISITAS) && (
+				<>
+					<Grid size={{ xs: 12 }}>
+						<ProximasVisitasBases />
+					</Grid>
+
+					<Grid size={{ xs: 12 }}>
+						<Divider />
+					</Grid>
+				</>
+			)}
+
+			{can(DASHBOARD_REQUERIMENTOS_PERMISSIONS.CARD_VENCIMENTOS) && (
+				<Grid size={{ xs: 12, md: 6 }}>
+					<ProximosVencimentosCard />
+				</Grid>
+			)}
+			{can(DASHBOARD_REQUERIMENTOS_PERMISSIONS.CARD_MOVIMENTACOES) && (
+				<Grid size={{ xs: 12, md: 6 }}>
+					<UltimasMovimentacoesCard />
+				</Grid>
+			)}
 		</Grid>
 	);
 }

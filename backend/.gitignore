@@ -12,6 +12,7 @@ yarn-error.log*
 lerna-debug.log*
 
 prisma/seeds/*
+.codex-tmp
 
 
 generared

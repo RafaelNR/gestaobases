@@ -1,7 +1,14 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.REQUERIMENTO_ITEM_INCLUDE = void 0;
-exports.REQUERIMENTO_ITEM_INCLUDE = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "REQUERIMENTO_ITEM_INCLUDE", {
+    enumerable: true,
+    get: function() {
+        return REQUERIMENTO_ITEM_INCLUDE;
+    }
+});
+const REQUERIMENTO_ITEM_INCLUDE = {
     Produto: {
         select: {
             id: true,
@@ -10,8 +17,8 @@ exports.REQUERIMENTO_ITEM_INCLUDE = {
             unidade: true,
             categoria: true,
             ordem: true,
-            fora_alx: true,
-        },
+            fora_alx: true
+        }
     },
     Medicamento: {
         select: {
@@ -19,9 +26,15 @@ exports.REQUERIMENTO_ITEM_INCLUDE = {
             nome: true,
             codigo: true,
             categoria: true,
-            especificacao: true,
-        },
+            especificacao: true
+        }
     },
-    DeletedBy: { select: { nome: true, username: true } },
+    DeletedBy: {
+        select: {
+            nome: true,
+            username: true
+        }
+    }
 };
+
 //# sourceMappingURL=requerimento.types.js.map

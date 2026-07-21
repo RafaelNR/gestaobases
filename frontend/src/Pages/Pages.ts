@@ -19,9 +19,14 @@ const CategoriasMedicamento = React.lazy(
 );
 const Medicamentos = React.lazy(() => import("./medicamentos"));
 const Medicos = React.lazy(() => import("./medicos"));
+const Estoques = React.lazy(() => import("./estoques"));
 
 const VisitasBases = React.lazy(() => import("./visitas-bases"));
 const Receituarios = React.lazy(() => import("./receituarios"));
+const RelatorioGeralRequerimentos = React.lazy(
+	() => import("./relatorios/requerimentos"),
+);
+const RelatorioEstoque = React.lazy(() => import("./relatorios/estoque"));
 
 // Requerimento
 const RequerimentoAlmoxarifado = React.lazy(
@@ -58,6 +63,13 @@ export const Pages: IPages[] = [
 	{
 		index: true,
 		path: "/",
+		Element: Home,
+		title: "Dashboard",
+		subTitle: "Resumo operacional e indicadores principais do sistema.",
+		permission: "dashboard:view",
+	},
+	{
+		path: "/dashboard",
 		Element: Home,
 		title: "Dashboard",
 		subTitle: "Resumo operacional e indicadores principais do sistema.",
@@ -148,6 +160,13 @@ export const Pages: IPages[] = [
 		permission: "medicamentos:table",
 	},
 	{
+		path: "/estoques",
+		Element: Estoques,
+		title: "Controle de Estoque",
+		subTitle: "Acompanhe saldos, lotes e riscos de vencimento.",
+		permission: "estoques:table",
+	},
+	{
 		path: "/medicos",
 		Element: Medicos,
 		title: "Médicos",
@@ -167,6 +186,20 @@ export const Pages: IPages[] = [
 		title: "Calendário de Visitas",
 		subTitle: "Planeje e acompanhe visitas às bases.",
 		permission: "visitas-bases:view",
+	},
+	{
+		path: "/relatorios/requerimentos",
+		Element: RelatorioGeralRequerimentos,
+		title: "Relatório geral de requerimentos",
+		subTitle: "Consulte requerimentos e quantidades por base e ambulância.",
+		permission: "relatorios:requerimentos",
+	},
+	{
+		path: "/relatorios/estoque",
+		Element: RelatorioEstoque,
+		title: "Controle de movimentações de estoque",
+		subTitle: "Consulte movimentações e validade por base.",
+		permission: "relatorios:estoque",
 	},
 	{
 		path: "/requerimentos/almoxarifado",

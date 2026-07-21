@@ -258,6 +258,7 @@ export type UserWhereInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   RequerimentoItemDeleted?: Prisma.RequerimentoItemListRelationFilter
   Ambulancias?: Prisma.AmbulanciaListRelationFilter
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -293,6 +294,7 @@ export type UserOrderByWithRelationInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemOrderByRelationAggregateInput
   Ambulancias?: Prisma.AmbulanciaOrderByRelationAggregateInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -332,6 +334,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   RequerimentoItemDeleted?: Prisma.RequerimentoItemListRelationFilter
   Ambulancias?: Prisma.AmbulanciaListRelationFilter
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -400,6 +403,7 @@ export type UserCreateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -432,6 +436,7 @@ export type UserUncheckedCreateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -464,6 +469,7 @@ export type UserUpdateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -496,6 +502,7 @@ export type UserUncheckedUpdateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -987,6 +994,20 @@ export type UserUpdateOneRequiredWithoutNotificacaosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificacaosInput, Prisma.UserUpdateWithoutNotificacaosInput>, Prisma.UserUncheckedUpdateWithoutNotificacaosInput>
 }
 
+export type UserCreateNestedOneWithoutEstoqueMovimentacaosInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedCreateWithoutEstoqueMovimentacaosInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEstoqueMovimentacaosInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEstoqueMovimentacaosNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedCreateWithoutEstoqueMovimentacaosInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEstoqueMovimentacaosInput
+  upsert?: Prisma.UserUpsertWithoutEstoqueMovimentacaosInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEstoqueMovimentacaosInput, Prisma.UserUpdateWithoutEstoqueMovimentacaosInput>, Prisma.UserUncheckedUpdateWithoutEstoqueMovimentacaosInput>
+}
+
 export type UserCreateWithoutSetorInput = {
   id?: string
   username: string
@@ -1016,6 +1037,7 @@ export type UserCreateWithoutSetorInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSetorInput = {
@@ -1047,6 +1069,7 @@ export type UserUncheckedCreateWithoutSetorInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSetorInput = {
@@ -1122,6 +1145,7 @@ export type UserCreateWithoutCargoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCargoInput = {
@@ -1153,6 +1177,7 @@ export type UserUncheckedCreateWithoutCargoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCargoInput = {
@@ -1210,6 +1235,7 @@ export type UserCreateWithoutBaseInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBaseInput = {
@@ -1241,6 +1267,7 @@ export type UserUncheckedCreateWithoutBaseInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBaseInput = {
@@ -1298,6 +1325,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   notificacaos?: Prisma.NotificacaoCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1329,6 +1357,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   notificacaos?: Prisma.NotificacaoUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1376,6 +1405,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   notificacaos?: Prisma.NotificacaoUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -1407,6 +1437,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   notificacaos?: Prisma.NotificacaoUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1438,6 +1469,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1469,6 +1501,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1516,6 +1549,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1547,6 +1581,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAmbulanciasInput = {
@@ -1578,6 +1613,7 @@ export type UserCreateWithoutAmbulanciasInput = {
   notificacaos?: Prisma.NotificacaoCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAmbulanciasInput = {
@@ -1609,6 +1645,7 @@ export type UserUncheckedCreateWithoutAmbulanciasInput = {
   notificacaos?: Prisma.NotificacaoUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAmbulanciasInput = {
@@ -1656,6 +1693,7 @@ export type UserUpdateWithoutAmbulanciasInput = {
   notificacaos?: Prisma.NotificacaoUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAmbulanciasInput = {
@@ -1687,6 +1725,7 @@ export type UserUncheckedUpdateWithoutAmbulanciasInput = {
   notificacaos?: Prisma.NotificacaoUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCategoriaProdutosInput = {
@@ -1718,6 +1757,7 @@ export type UserCreateWithoutCategoriaProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCategoriaProdutosInput = {
@@ -1749,6 +1789,7 @@ export type UserUncheckedCreateWithoutCategoriaProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCategoriaProdutosInput = {
@@ -1796,6 +1837,7 @@ export type UserUpdateWithoutCategoriaProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCategoriaProdutosInput = {
@@ -1827,6 +1869,7 @@ export type UserUncheckedUpdateWithoutCategoriaProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProdutosInput = {
@@ -1858,6 +1901,7 @@ export type UserCreateWithoutProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProdutosInput = {
@@ -1889,6 +1933,7 @@ export type UserUncheckedCreateWithoutProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProdutosInput = {
@@ -1936,6 +1981,7 @@ export type UserUpdateWithoutProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProdutosInput = {
@@ -1967,6 +2013,7 @@ export type UserUncheckedUpdateWithoutProdutosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCategoriasMedicamentoInput = {
@@ -1998,6 +2045,7 @@ export type UserCreateWithoutCategoriasMedicamentoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCategoriasMedicamentoInput = {
@@ -2029,6 +2077,7 @@ export type UserUncheckedCreateWithoutCategoriasMedicamentoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCategoriasMedicamentoInput = {
@@ -2076,6 +2125,7 @@ export type UserUpdateWithoutCategoriasMedicamentoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCategoriasMedicamentoInput = {
@@ -2107,6 +2157,7 @@ export type UserUncheckedUpdateWithoutCategoriasMedicamentoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicamentosInput = {
@@ -2138,6 +2189,7 @@ export type UserCreateWithoutMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicamentosInput = {
@@ -2169,6 +2221,7 @@ export type UserUncheckedCreateWithoutMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicamentosInput = {
@@ -2216,6 +2269,7 @@ export type UserUpdateWithoutMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicamentosInput = {
@@ -2247,6 +2301,7 @@ export type UserUncheckedUpdateWithoutMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRequerimentosInput = {
@@ -2278,6 +2333,7 @@ export type UserCreateWithoutRequerimentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRequerimentosInput = {
@@ -2309,6 +2365,7 @@ export type UserUncheckedCreateWithoutRequerimentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRequerimentosInput = {
@@ -2356,6 +2413,7 @@ export type UserUpdateWithoutRequerimentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRequerimentosInput = {
@@ -2387,6 +2445,7 @@ export type UserUncheckedUpdateWithoutRequerimentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRequerimentoStatusInput = {
@@ -2418,6 +2477,7 @@ export type UserCreateWithoutRequerimentoStatusInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRequerimentoStatusInput = {
@@ -2449,6 +2509,7 @@ export type UserUncheckedCreateWithoutRequerimentoStatusInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRequerimentoStatusInput = {
@@ -2496,6 +2557,7 @@ export type UserUpdateWithoutRequerimentoStatusInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRequerimentoStatusInput = {
@@ -2527,6 +2589,7 @@ export type UserUncheckedUpdateWithoutRequerimentoStatusInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRequerimentoItemInput = {
@@ -2558,6 +2621,7 @@ export type UserCreateWithoutRequerimentoItemInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRequerimentoItemInput = {
@@ -2589,6 +2653,7 @@ export type UserUncheckedCreateWithoutRequerimentoItemInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRequerimentoItemInput = {
@@ -2625,6 +2690,7 @@ export type UserCreateWithoutRequerimentoItemDeletedInput = {
   notificacaos?: Prisma.NotificacaoCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRequerimentoItemDeletedInput = {
@@ -2656,6 +2722,7 @@ export type UserUncheckedCreateWithoutRequerimentoItemDeletedInput = {
   notificacaos?: Prisma.NotificacaoUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRequerimentoItemDeletedInput = {
@@ -2703,6 +2770,7 @@ export type UserUpdateWithoutRequerimentoItemInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRequerimentoItemInput = {
@@ -2734,6 +2802,7 @@ export type UserUncheckedUpdateWithoutRequerimentoItemInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutRequerimentoItemDeletedInput = {
@@ -2776,6 +2845,7 @@ export type UserUpdateWithoutRequerimentoItemDeletedInput = {
   notificacaos?: Prisma.NotificacaoUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRequerimentoItemDeletedInput = {
@@ -2807,6 +2877,7 @@ export type UserUncheckedUpdateWithoutRequerimentoItemDeletedInput = {
   notificacaos?: Prisma.NotificacaoUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVisitasBasesInput = {
@@ -2838,6 +2909,7 @@ export type UserCreateWithoutVisitasBasesInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVisitasBasesInput = {
@@ -2869,6 +2941,7 @@ export type UserUncheckedCreateWithoutVisitasBasesInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVisitasBasesInput = {
@@ -2916,6 +2989,7 @@ export type UserUpdateWithoutVisitasBasesInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVisitasBasesInput = {
@@ -2947,6 +3021,7 @@ export type UserUncheckedUpdateWithoutVisitasBasesInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLogsInput = {
@@ -2978,6 +3053,7 @@ export type UserCreateWithoutLogsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLogsInput = {
@@ -3009,6 +3085,7 @@ export type UserUncheckedCreateWithoutLogsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLogsInput = {
@@ -3056,6 +3133,7 @@ export type UserUpdateWithoutLogsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLogsInput = {
@@ -3087,6 +3165,7 @@ export type UserUncheckedUpdateWithoutLogsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicosInput = {
@@ -3118,6 +3197,7 @@ export type UserCreateWithoutMedicosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicosInput = {
@@ -3149,6 +3229,7 @@ export type UserUncheckedCreateWithoutMedicosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicosInput = {
@@ -3196,6 +3277,7 @@ export type UserUpdateWithoutMedicosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicosInput = {
@@ -3227,6 +3309,7 @@ export type UserUncheckedUpdateWithoutMedicosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReceituariosInput = {
@@ -3258,6 +3341,7 @@ export type UserCreateWithoutReceituariosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceituariosInput = {
@@ -3289,6 +3373,7 @@ export type UserUncheckedCreateWithoutReceituariosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceituariosInput = {
@@ -3336,6 +3421,7 @@ export type UserUpdateWithoutReceituariosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceituariosInput = {
@@ -3367,6 +3453,7 @@ export type UserUncheckedUpdateWithoutReceituariosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReceituarioMedicamentosInput = {
@@ -3398,6 +3485,7 @@ export type UserCreateWithoutReceituarioMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceituarioMedicamentosInput = {
@@ -3429,6 +3517,7 @@ export type UserUncheckedCreateWithoutReceituarioMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceituarioMedicamentosInput = {
@@ -3476,6 +3565,7 @@ export type UserUpdateWithoutReceituarioMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceituarioMedicamentosInput = {
@@ -3507,6 +3597,7 @@ export type UserUncheckedUpdateWithoutReceituarioMedicamentosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificacaosInput = {
@@ -3538,6 +3629,7 @@ export type UserCreateWithoutNotificacaosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificacaosInput = {
@@ -3569,6 +3661,7 @@ export type UserUncheckedCreateWithoutNotificacaosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
   Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificacaosInput = {
@@ -3616,6 +3709,7 @@ export type UserUpdateWithoutNotificacaosInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificacaosInput = {
@@ -3644,6 +3738,151 @@ export type UserUncheckedUpdateWithoutNotificacaosInput = {
   Medicos?: Prisma.MedicoUncheckedUpdateManyWithoutUserNestedInput
   Receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutUserNestedInput
   ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
+  Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEstoqueMovimentacaosInput = {
+  id?: string
+  username: string
+  nome: string
+  email?: string | null
+  telefone?: string | null
+  password: string
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  Base: Prisma.BaseCreateNestedOneWithoutUsersInput
+  Setor: Prisma.SetorCreateNestedOneWithoutUsersInput
+  Cargo: Prisma.CargoCreateNestedOneWithoutUsersInput
+  RefreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  Produtos?: Prisma.ProdutoCreateNestedManyWithoutUserInput
+  Medicamentos?: Prisma.MedicamentoCreateNestedManyWithoutUserInput
+  Requerimentos?: Prisma.RequerimentoCreateNestedManyWithoutUserInput
+  CategoriaProdutos?: Prisma.CategoriaProdutoCreateNestedManyWithoutUserInput
+  CategoriasMedicamento?: Prisma.CategoriasMedicamentoCreateNestedManyWithoutUserInput
+  RequerimentoStatus?: Prisma.RequerimentoStatusCreateNestedManyWithoutUserInput
+  RequerimentoItem?: Prisma.RequerimentoItemCreateNestedManyWithoutUserInput
+  VisitasBases?: Prisma.VisitasBasesCreateNestedManyWithoutUserInput
+  Logs?: Prisma.LogCreateNestedManyWithoutUserInput
+  Medicos?: Prisma.MedicoCreateNestedManyWithoutUserInput
+  Receituarios?: Prisma.ReceituarioCreateNestedManyWithoutUserInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosCreateNestedManyWithoutUserInput
+  notificacaos?: Prisma.NotificacaoCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  RequerimentoItemDeleted?: Prisma.RequerimentoItemCreateNestedManyWithoutDeletedByInput
+  Ambulancias?: Prisma.AmbulanciaCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEstoqueMovimentacaosInput = {
+  id?: string
+  username: string
+  nome: string
+  email?: string | null
+  telefone?: string | null
+  password: string
+  baseId: string
+  setorId: string
+  cargoId: string
+  active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  RefreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  Produtos?: Prisma.ProdutoUncheckedCreateNestedManyWithoutUserInput
+  Medicamentos?: Prisma.MedicamentoUncheckedCreateNestedManyWithoutUserInput
+  Requerimentos?: Prisma.RequerimentoUncheckedCreateNestedManyWithoutUserInput
+  CategoriaProdutos?: Prisma.CategoriaProdutoUncheckedCreateNestedManyWithoutUserInput
+  CategoriasMedicamento?: Prisma.CategoriasMedicamentoUncheckedCreateNestedManyWithoutUserInput
+  RequerimentoStatus?: Prisma.RequerimentoStatusUncheckedCreateNestedManyWithoutUserInput
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutUserInput
+  VisitasBases?: Prisma.VisitasBasesUncheckedCreateNestedManyWithoutUserInput
+  Logs?: Prisma.LogUncheckedCreateNestedManyWithoutUserInput
+  Medicos?: Prisma.MedicoUncheckedCreateNestedManyWithoutUserInput
+  Receituarios?: Prisma.ReceituarioUncheckedCreateNestedManyWithoutUserInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedCreateNestedManyWithoutUserInput
+  notificacaos?: Prisma.NotificacaoUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedCreateNestedManyWithoutDeletedByInput
+  Ambulancias?: Prisma.AmbulanciaUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEstoqueMovimentacaosInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedCreateWithoutEstoqueMovimentacaosInput>
+}
+
+export type UserUpsertWithoutEstoqueMovimentacaosInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedUpdateWithoutEstoqueMovimentacaosInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedCreateWithoutEstoqueMovimentacaosInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEstoqueMovimentacaosInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEstoqueMovimentacaosInput, Prisma.UserUncheckedUpdateWithoutEstoqueMovimentacaosInput>
+}
+
+export type UserUpdateWithoutEstoqueMovimentacaosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  Base?: Prisma.BaseUpdateOneRequiredWithoutUsersNestedInput
+  Setor?: Prisma.SetorUpdateOneRequiredWithoutUsersNestedInput
+  Cargo?: Prisma.CargoUpdateOneRequiredWithoutUsersNestedInput
+  RefreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  Produtos?: Prisma.ProdutoUpdateManyWithoutUserNestedInput
+  Medicamentos?: Prisma.MedicamentoUpdateManyWithoutUserNestedInput
+  Requerimentos?: Prisma.RequerimentoUpdateManyWithoutUserNestedInput
+  CategoriaProdutos?: Prisma.CategoriaProdutoUpdateManyWithoutUserNestedInput
+  CategoriasMedicamento?: Prisma.CategoriasMedicamentoUpdateManyWithoutUserNestedInput
+  RequerimentoStatus?: Prisma.RequerimentoStatusUpdateManyWithoutUserNestedInput
+  RequerimentoItem?: Prisma.RequerimentoItemUpdateManyWithoutUserNestedInput
+  VisitasBases?: Prisma.VisitasBasesUpdateManyWithoutUserNestedInput
+  Logs?: Prisma.LogUpdateManyWithoutUserNestedInput
+  Medicos?: Prisma.MedicoUpdateManyWithoutUserNestedInput
+  Receituarios?: Prisma.ReceituarioUpdateManyWithoutUserNestedInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUpdateManyWithoutUserNestedInput
+  notificacaos?: Prisma.NotificacaoUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
+  Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEstoqueMovimentacaosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  baseId?: Prisma.StringFieldUpdateOperationsInput | string
+  setorId?: Prisma.StringFieldUpdateOperationsInput | string
+  cargoId?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  RefreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  Produtos?: Prisma.ProdutoUncheckedUpdateManyWithoutUserNestedInput
+  Medicamentos?: Prisma.MedicamentoUncheckedUpdateManyWithoutUserNestedInput
+  Requerimentos?: Prisma.RequerimentoUncheckedUpdateManyWithoutUserNestedInput
+  CategoriaProdutos?: Prisma.CategoriaProdutoUncheckedUpdateManyWithoutUserNestedInput
+  CategoriasMedicamento?: Prisma.CategoriasMedicamentoUncheckedUpdateManyWithoutUserNestedInput
+  RequerimentoStatus?: Prisma.RequerimentoStatusUncheckedUpdateManyWithoutUserNestedInput
+  RequerimentoItem?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutUserNestedInput
+  VisitasBases?: Prisma.VisitasBasesUncheckedUpdateManyWithoutUserNestedInput
+  Logs?: Prisma.LogUncheckedUpdateManyWithoutUserNestedInput
+  Medicos?: Prisma.MedicoUncheckedUpdateManyWithoutUserNestedInput
+  Receituarios?: Prisma.ReceituarioUncheckedUpdateManyWithoutUserNestedInput
+  ReceituarioMedicamentos?: Prisma.ReceituarioMedicamentosUncheckedUpdateManyWithoutUserNestedInput
+  notificacaos?: Prisma.NotificacaoUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
@@ -3692,6 +3931,7 @@ export type UserUpdateWithoutSetorInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSetorInput = {
@@ -3723,6 +3963,7 @@ export type UserUncheckedUpdateWithoutSetorInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutSetorInput = {
@@ -3782,6 +4023,7 @@ export type UserUpdateWithoutCargoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCargoInput = {
@@ -3813,6 +4055,7 @@ export type UserUncheckedUpdateWithoutCargoInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCargoInput = {
@@ -3872,6 +4115,7 @@ export type UserUpdateWithoutBaseInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBaseInput = {
@@ -3903,6 +4147,7 @@ export type UserUncheckedUpdateWithoutBaseInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   RequerimentoItemDeleted?: Prisma.RequerimentoItemUncheckedUpdateManyWithoutDeletedByNestedInput
   Ambulancias?: Prisma.AmbulanciaUncheckedUpdateManyWithoutUserNestedInput
+  estoqueMovimentacaos?: Prisma.EstoqueMovimentacaoUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutBaseInput = {
@@ -3942,6 +4187,7 @@ export type UserCountOutputType = {
   passwordResetTokens: number
   RequerimentoItemDeleted: number
   Ambulancias: number
+  estoqueMovimentacaos: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3962,6 +4208,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
   RequerimentoItemDeleted?: boolean | UserCountOutputTypeCountRequerimentoItemDeletedArgs
   Ambulancias?: boolean | UserCountOutputTypeCountAmbulanciasArgs
+  estoqueMovimentacaos?: boolean | UserCountOutputTypeCountEstoqueMovimentacaosArgs
 }
 
 /**
@@ -4093,6 +4340,13 @@ export type UserCountOutputTypeCountAmbulanciasArgs<ExtArgs extends runtime.Type
   where?: Prisma.AmbulanciaWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEstoqueMovimentacaosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EstoqueMovimentacaoWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4127,6 +4381,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   RequerimentoItemDeleted?: boolean | Prisma.User$RequerimentoItemDeletedArgs<ExtArgs>
   Ambulancias?: boolean | Prisma.User$AmbulanciasArgs<ExtArgs>
+  estoqueMovimentacaos?: boolean | Prisma.User$estoqueMovimentacaosArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4169,6 +4424,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   RequerimentoItemDeleted?: boolean | Prisma.User$RequerimentoItemDeletedArgs<ExtArgs>
   Ambulancias?: boolean | Prisma.User$AmbulanciasArgs<ExtArgs>
+  estoqueMovimentacaos?: boolean | Prisma.User$estoqueMovimentacaosArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -4195,6 +4451,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     RequerimentoItemDeleted: Prisma.$RequerimentoItemPayload<ExtArgs>[]
     Ambulancias: Prisma.$AmbulanciaPayload<ExtArgs>[]
+    estoqueMovimentacaos: Prisma.$EstoqueMovimentacaoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4569,6 +4826,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   RequerimentoItemDeleted<T extends Prisma.User$RequerimentoItemDeletedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$RequerimentoItemDeletedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequerimentoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Ambulancias<T extends Prisma.User$AmbulanciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$AmbulanciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AmbulanciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  estoqueMovimentacaos<T extends Prisma.User$estoqueMovimentacaosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$estoqueMovimentacaosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstoqueMovimentacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5372,6 +5630,30 @@ export type User$AmbulanciasArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AmbulanciaScalarFieldEnum | Prisma.AmbulanciaScalarFieldEnum[]
+}
+
+/**
+ * User.estoqueMovimentacaos
+ */
+export type User$estoqueMovimentacaosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EstoqueMovimentacao
+   */
+  select?: Prisma.EstoqueMovimentacaoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EstoqueMovimentacao
+   */
+  omit?: Prisma.EstoqueMovimentacaoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EstoqueMovimentacaoInclude<ExtArgs> | null
+  where?: Prisma.EstoqueMovimentacaoWhereInput
+  orderBy?: Prisma.EstoqueMovimentacaoOrderByWithRelationInput | Prisma.EstoqueMovimentacaoOrderByWithRelationInput[]
+  cursor?: Prisma.EstoqueMovimentacaoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EstoqueMovimentacaoScalarFieldEnum | Prisma.EstoqueMovimentacaoScalarFieldEnum[]
 }
 
 /**

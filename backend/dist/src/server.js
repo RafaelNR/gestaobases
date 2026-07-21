@@ -1,39 +1,47 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ServerSetup = void 0;
-const core_1 = require("@nestjs/core");
-const app_module_1 = require("./app.module");
-const common_1 = require("@nestjs/common");
-const global_config_1 = require("./global-config");
-const fs_1 = __importDefault(require("fs"));
-class ServerSetup {
-    app;
-    logger = new common_1.Logger('ServerSetup');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "ServerSetup", {
+    enumerable: true,
+    get: function() {
+        return ServerSetup;
+    }
+});
+const _core = require("@nestjs/core");
+const _appmodule = require("./app.module");
+const _common = require("@nestjs/common");
+const _globalconfig = require("./global-config");
+const _fs = /*#__PURE__*/ _interop_require_default(require("fs"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+let ServerSetup = class ServerSetup {
     async init() {
-        const sslAvailable = process.env.SSL_KEY &&
-            process.env.SSL_CERT &&
-            fs_1.default.existsSync(process.env.SSL_KEY) &&
-            fs_1.default.existsSync(process.env.SSL_CERT);
+        const sslAvailable = process.env.SSL_KEY && process.env.SSL_CERT && _fs.default.existsSync(process.env.SSL_KEY) && _fs.default.existsSync(process.env.SSL_CERT);
         if (sslAvailable) {
             const httpsOptions = {
-                key: fs_1.default.readFileSync(process.env.SSL_KEY),
-                cert: fs_1.default.readFileSync(process.env.SSL_CERT),
+                key: _fs.default.readFileSync(process.env.SSL_KEY),
+                cert: _fs.default.readFileSync(process.env.SSL_CERT)
             };
-            this.app = await core_1.NestFactory.create(app_module_1.AppModule, {
-                logger: ['error', 'warn', 'verbose', 'log'],
+            this.app = await _core.NestFactory.create(_appmodule.AppModule, {
+                logger: [
+                    'error',
+                    'warn',
+                    'verbose',
+                    'log'
+                ],
                 httpsOptions,
-                rawBody: true,
+                rawBody: true
             });
             this.logger.log('HTTPS mode: Certificados SSL carregados ✅');
-        }
-        else {
+        } else {
             this.logger.warn('Certificados SSL não encontrados. Servidor não iniciado.');
             return;
         }
-        (0, global_config_1.applyGlobalConfig)(this.app);
+        (0, _globalconfig.applyGlobalConfig)(this.app);
     }
     async close() {
         if (this.app) {
@@ -44,8 +52,12 @@ class ServerSetup {
         try {
             await this.app.listen(process.env.PORT_HTTPS || 5000);
             this.logger.verbose('HTTPS SERVER RODANDO...');
-        }
-        catch (error) {
+        // this.logger.verbose('Test verbose message');
+        // this.logger.debug('Test debug message');
+        // this.logger.log('Test log message');
+        // this.logger.warn('Test warn message');
+        // this.logger.error('Test error message');
+        } catch (error) {
             this.logger.error('ERROR INICIAR BACKEND.');
             console.error(error);
         }
@@ -53,6 +65,9 @@ class ServerSetup {
     getApp() {
         return this.app;
     }
-}
-exports.ServerSetup = ServerSetup;
+    constructor(){
+        this.logger = new _common.Logger('ServerSetup');
+    }
+};
+
 //# sourceMappingURL=server.js.map

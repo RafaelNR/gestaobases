@@ -1,26 +1,46 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "RequerimentoModule", {
+    enumerable: true,
+    get: function() {
+        return RequerimentoModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _almoxarifadocontroller = require("./controllers/almoxarifado.controller");
+const _cmecontroller = require("./controllers/cme.controller");
+const _farmaciacontroller = require("./controllers/farmacia.controller");
+const _requerimentorepository = require("./repository/requerimento.repository");
+const _requerimentoservice = require("./services/requerimento.service");
+const _notificacoesmodule = require("../notificacoes/notificacoes.module");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RequerimentoModule = void 0;
-const common_1 = require("@nestjs/common");
-const almoxarifado_controller_1 = require("./controllers/almoxarifado.controller");
-const cme_controller_1 = require("./controllers/cme.controller");
-const farmacia_controller_1 = require("./controllers/farmacia.controller");
-const requerimento_repository_1 = require("./repository/requerimento.repository");
-const requerimento_service_1 = require("./services/requerimento.service");
+}
 let RequerimentoModule = class RequerimentoModule {
 };
-exports.RequerimentoModule = RequerimentoModule;
-exports.RequerimentoModule = RequerimentoModule = __decorate([
-    (0, common_1.Module)({
-        controllers: [almoxarifado_controller_1.AlmoxarifadoController, farmacia_controller_1.FarmaciaController, cme_controller_1.CmeController],
-        providers: [requerimento_repository_1.RequerimentoRepository, requerimento_service_1.RequerimentoService],
-        exports: [requerimento_service_1.RequerimentoService],
+RequerimentoModule = _ts_decorate([
+    (0, _common.Module)({
+        imports: [
+            _notificacoesmodule.NotificacaoModule
+        ],
+        controllers: [
+            _almoxarifadocontroller.AlmoxarifadoController,
+            _farmaciacontroller.FarmaciaController,
+            _cmecontroller.CmeController
+        ],
+        providers: [
+            _requerimentorepository.RequerimentoRepository,
+            _requerimentoservice.RequerimentoService
+        ],
+        exports: [
+            _requerimentoservice.RequerimentoService
+        ]
     })
 ], RequerimentoModule);
+
 //# sourceMappingURL=requerimento.module.js.map

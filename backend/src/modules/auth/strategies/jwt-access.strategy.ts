@@ -10,8 +10,10 @@ export interface JwtPayload {
   nome: string;
   setor: string;
   cargo: string;
+  base: string;
   baseId: string;
   setorId: string;
+  cargoId: string;
   iat?: number;
   exp?: number;
 }
@@ -40,8 +42,10 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt') {
       nome: payload.nome,
       setor: payload.setor,
       cargo: payload.cargo,
+      base: payload.base,
       baseId: payload.baseId,
       setorId: payload.setorId,
+      cargoId: payload.cargoId,
     };
   }
 }

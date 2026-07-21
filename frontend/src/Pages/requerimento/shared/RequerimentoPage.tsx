@@ -23,6 +23,7 @@ import { useGetRequerimento } from "@/Hooks/useRequerimentos";
 import useLayout from "@/Hooks/useLayout";
 import RequerimentoViewPage from "../view/RequerimentoView";
 import { useNavigate } from "react-router";
+import { TypeSetor } from "@/Guard/Types";
 
 export type CartItem = {
 	requerimentoItemId?: string;
@@ -134,6 +135,16 @@ export default function RequerimentoPage({ requerimentoId }: Props) {
 
 		// Redireciona para a página de visualização se o requerimento já estiver finalizado
 		if (["Finalizado", "Cancelado"].includes(requerimento.status)) {
+			navigate(
+				`/requerimentos/${requerimento.tipo.toLowerCase()}/view/${requerimento.id}`,
+			);
+		}
+
+		// Redireciona para a página de visualização se for da base e não for o autor do requerimento
+		if (
+			user?.Setor.nome === TypeSetor.Base &&
+			requerimento.status !== "Rascunho"
+		) {
 			navigate(
 				`/requerimentos/${requerimento.tipo.toLowerCase()}/view/${requerimento.id}`,
 			);
@@ -278,7 +289,7 @@ export default function RequerimentoPage({ requerimentoId }: Props) {
 					<Fab
 						color="primary"
 						aria-label="Abrir carrinho"
-						onClick={() => setMobileCartOpen(true)}
+						onClick={() => setMobileCartOpen((prev) => !prev)}
 						sx={{
 							position: "fixed",
 							right: 16,

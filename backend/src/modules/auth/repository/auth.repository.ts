@@ -33,12 +33,9 @@ export class AuthRepository {
       select: {
         id: true,
         nome: true,
-        email: true,
-        telefone: true,
         baseId: true,
         setorId: true,
         cargoId: true,
-        username: true,
         Base: { select: { nome: true, tipo_ambulancias: true } },
         Setor: { select: { nome: true, nomeVisivel: true } },
         Cargo: { select: { nome: true, nomeVisivel: true } },

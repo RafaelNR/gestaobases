@@ -99,6 +99,34 @@ describe('AuthController refresh', () => {
     expect(result.response).toEqual({ authenticated: true });
   });
 
+  it('usa cookies compatíveis com desenvolvimento local', async () => {
+    const authService = {
+      loginCredentials: jest.fn().mockResolvedValue({
+        accessToken: 'access-token',
+        refreshToken: 'refresh-token',
+      } as never),
+    };
+    const controller = makeController(authService);
+    const res = makeResponse();
+
+    await controller.login(
+      { username: 'operador', password: 'senha' } as any,
+      {} as any,
+      res as any
+    );
+
+    expect(res.cookie).toHaveBeenCalledWith(
+      'jwt_token',
+      'access-token',
+      expect.objectContaining({ secure: false, sameSite: 'lax' })
+    );
+    expect(res.cookie).toHaveBeenCalledWith(
+      'jwt_refresh',
+      'refresh-token',
+      expect.objectContaining({ secure: false, sameSite: 'lax' })
+    );
+  });
+
   it('limpa cookies quando a rotina de refresh rejeita o token', async () => {
     const error = new UnauthorizedException('Refresh token inválido.');
     const authService = {

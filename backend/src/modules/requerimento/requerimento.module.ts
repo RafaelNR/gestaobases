@@ -4,8 +4,10 @@ import { CmeController } from './controllers/cme.controller';
 import { FarmaciaController } from './controllers/farmacia.controller';
 import { RequerimentoRepository } from './repository/requerimento.repository';
 import { RequerimentoService } from './services/requerimento.service';
+import { NotificacaoModule } from '../notificacoes/notificacoes.module';
 
 @Module({
+  imports: [NotificacaoModule],
   controllers: [AlmoxarifadoController, FarmaciaController, CmeController],
   providers: [RequerimentoRepository, RequerimentoService],
   exports: [RequerimentoService],

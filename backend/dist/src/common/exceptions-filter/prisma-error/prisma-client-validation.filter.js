@@ -1,31 +1,38 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "PrismaClientValidationFilter", {
+    enumerable: true,
+    get: function() {
+        return PrismaClientValidationFilter;
+    }
+});
+const _common = require("@nestjs/common");
+const _core = require("@nestjs/core");
+const _client = require("../../../../generated/prisma/client");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrismaClientValidationFilter = void 0;
-const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
-const client_1 = require("../../../../generated/prisma/client");
-let PrismaClientValidationFilter = class PrismaClientValidationFilter extends core_1.BaseExceptionFilter {
+}
+let PrismaClientValidationFilter = class PrismaClientValidationFilter extends _core.BaseExceptionFilter {
     catch(exception, host) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const message = exception.message.replace(/\n/g, '');
         console.log(exception.message);
-        const status = common_1.HttpStatus.BAD_GATEWAY;
+        const status = _common.HttpStatus.BAD_GATEWAY;
         response.status(status).json({
             statusCode: status,
             message: 'Erro em validar dados no banco de dados.',
-            success: false,
+            success: false
         });
     }
 };
-exports.PrismaClientValidationFilter = PrismaClientValidationFilter;
-exports.PrismaClientValidationFilter = PrismaClientValidationFilter = __decorate([
-    (0, common_1.Catch)(client_1.Prisma.PrismaClientValidationError)
+PrismaClientValidationFilter = _ts_decorate([
+    (0, _common.Catch)(_client.Prisma.PrismaClientValidationError)
 ], PrismaClientValidationFilter);
+
 //# sourceMappingURL=prisma-client-validation.filter.js.map

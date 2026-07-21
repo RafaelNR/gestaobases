@@ -1,35 +1,40 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./users/users.module"), exports);
-__exportStar(require("./upload/upload.module"), exports);
-__exportStar(require("./dashboard/dashboard.module"), exports);
-__exportStar(require("./auth/auth.module"), exports);
-__exportStar(require("./password-reset/password-reset.module"), exports);
-__exportStar(require("./log/log.module"), exports);
-__exportStar(require("./base/base.module"), exports);
-__exportStar(require("./setor/setor.module"), exports);
-__exportStar(require("./cargo/cargo.module"), exports);
-__exportStar(require("./ambulancia/ambulancia.module"), exports);
-__exportStar(require("./categoria-produto/categoria-produto.module"), exports);
-__exportStar(require("./produto/produto.module"), exports);
-__exportStar(require("./categorias-medicamento/categorias-medicamento.module"), exports);
-__exportStar(require("./medicamento/medicamento.module"), exports);
-__exportStar(require("./medico/medico.module"), exports);
-__exportStar(require("./requerimento/requerimento.module"), exports);
-__exportStar(require("./visitas-bases/visitas-bases.module"), exports);
-__exportStar(require("./receituarios/receituarios.module"), exports);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+_export_star(require("./users/users.module"), exports);
+_export_star(require("./upload/upload.module"), exports);
+_export_star(require("./dashboard/dashboard.module"), exports);
+_export_star(require("./auth/auth.module"), exports);
+_export_star(require("./password-reset/password-reset.module"), exports);
+_export_star(require("./log/log.module"), exports);
+_export_star(require("./base/base.module"), exports);
+_export_star(require("./setor/setor.module"), exports);
+_export_star(require("./cargo/cargo.module"), exports);
+_export_star(require("./ambulancia/ambulancia.module"), exports);
+_export_star(require("./categoria-produto/categoria-produto.module"), exports);
+_export_star(require("./produto/produto.module"), exports);
+_export_star(require("./categorias-medicamento/categorias-medicamento.module"), exports);
+_export_star(require("./medicamento/medicamento.module"), exports);
+_export_star(require("./medico/medico.module"), exports);
+_export_star(require("./requerimento/requerimento.module"), exports);
+_export_star(require("./visitas-bases/visitas-bases.module"), exports);
+_export_star(require("./receituarios/receituarios.module"), exports);
+_export_star(require("./estoque/estoque.module"), exports);
+_export_star(require("./relatorios/relatorios.module"), exports);
+_export_star(require("./notificacoes/notificacoes.module"), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
+        }
+    });
+    return from;
+}
+
 //# sourceMappingURL=modules.js.map

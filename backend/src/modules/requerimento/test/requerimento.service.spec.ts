@@ -8,10 +8,14 @@ describe('RequerimentoService filtro', () => {
     const repo = {
       findAll: jest.fn(),
     };
+    const notificacaoUseCase = {
+      notifyCreated: jest.fn(),
+      notifyStatusChanged: jest.fn(),
+    };
 
     return {
       repo,
-      service: new RequerimentoService(repo as any),
+      service: new RequerimentoService(repo as any, notificacaoUseCase as any),
     };
   }
 

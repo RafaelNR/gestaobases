@@ -6,6 +6,7 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuUser from "./MenuUser";
 import SwitchDarkMode from "./SwitchDarkMode";
 import useMenu from "@/Hooks/useMenu";
+import NotificacoesBell from "@/Components/Notificacoes/NotificacoesBell";
 
 export const DRAWER_OPEN_WIDTH = 260;
 export const DRAWER_CLOSED_WIDTH = 68;
@@ -69,6 +70,8 @@ export default function MenuAppBar() {
 				)}
 
 				<Box sx={{ flex: 1 }} />
+
+				<NotificacoesBell />
 
 				<Box
 					sx={{

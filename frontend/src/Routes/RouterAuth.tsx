@@ -1,8 +1,4 @@
-import {
-	createBrowserRouter,
-	Navigate,
-	Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { Suspense, useEffect } from "react";
 import { Box } from "@mui/material";
 import type { ReactNode } from "react";
@@ -26,7 +22,7 @@ import { hasPermission, type Permission } from "@/Guard";
 import { clearUser } from "@/Lib/UserCache";
 import { getQueryClient } from "@/Providers/QueryProvider";
 
-document.title = "CISRU PEDIDOS - Sistema de Pedidos Bases Descentralizadas";
+document.title = "Gestão de Bases - CISRU Centro Sul";
 
 // ─── Router (criado uma única vez fora do ciclo React) ────────────────────────
 

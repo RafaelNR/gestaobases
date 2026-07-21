@@ -1,9 +1,19 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HelmetMiddleware = void 0;
-const helmet_1 = __importDefault(require("helmet"));
-exports.HelmetMiddleware = (0, helmet_1.default)();
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "HelmetMiddleware", {
+    enumerable: true,
+    get: function() {
+        return HelmetMiddleware;
+    }
+});
+const _helmet = /*#__PURE__*/ _interop_require_default(require("helmet"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+const HelmetMiddleware = (0, _helmet.default)();
+
 //# sourceMappingURL=helmet.js.map

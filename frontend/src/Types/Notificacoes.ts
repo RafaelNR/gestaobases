@@ -1,7 +1,7 @@
 export type TipoNotificacao = 'Manifestacao' | 'Requerimento';
 
 export interface Notificacao {
-  uuid: string;
+  id: string;
   mensagem: string;
   artefatoUUID: string;
   tipo: TipoNotificacao;

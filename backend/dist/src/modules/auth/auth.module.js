@@ -1,39 +1,53 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "AuthModule", {
+    enumerable: true,
+    get: function() {
+        return AuthModule;
+    }
+});
+const _common = require("@nestjs/common");
+const _jwt = require("@nestjs/jwt");
+const _passport = require("@nestjs/passport");
+const _authcontroller = require("./auth.controller");
+const _authservice = require("./use-cases/auth.service");
+const _authrepository = require("./repository/auth.repository");
+const _jwtaccessstrategy = require("./strategies/jwt-access.strategy");
+const _jwtrefreshstrategy = require("./strategies/jwt-refresh.strategy");
+const _refreshservice = require("./repository/refresh.service");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
-const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
-const passport_1 = require("@nestjs/passport");
-const auth_controller_1 = require("./auth.controller");
-const auth_service_1 = require("./use-cases/auth.service");
-const auth_repository_1 = require("./repository/auth.repository");
-const jwt_access_strategy_1 = require("./strategies/jwt-access.strategy");
-const jwt_refresh_strategy_1 = require("./strategies/jwt-refresh.strategy");
-const refresh_service_1 = require("./repository/refresh.service");
+}
 let AuthModule = class AuthModule {
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
-    (0, common_1.Module)({
+AuthModule = _ts_decorate([
+    (0, _common.Module)({
         imports: [
-            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
-            jwt_1.JwtModule.register({}),
+            _passport.PassportModule.register({
+                defaultStrategy: 'jwt'
+            }),
+            _jwt.JwtModule.register({})
         ],
-        controllers: [auth_controller_1.AuthController],
+        controllers: [
+            _authcontroller.AuthController
+        ],
         providers: [
-            auth_service_1.AuthService,
-            auth_repository_1.AuthRepository,
-            refresh_service_1.RefreshTokenService,
-            jwt_access_strategy_1.JwtAccessStrategy,
-            jwt_refresh_strategy_1.JwtRefreshStrategy,
+            _authservice.AuthService,
+            _authrepository.AuthRepository,
+            _refreshservice.RefreshTokenService,
+            _jwtaccessstrategy.JwtAccessStrategy,
+            _jwtrefreshstrategy.JwtRefreshStrategy
         ],
-        exports: [auth_service_1.AuthService, auth_repository_1.AuthRepository],
+        exports: [
+            _authservice.AuthService,
+            _authrepository.AuthRepository
+        ]
     })
 ], AuthModule);
+
 //# sourceMappingURL=auth.module.js.map

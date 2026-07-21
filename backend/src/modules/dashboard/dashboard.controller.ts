@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Query } from '@nestjs/common';
 
 import { DashboardService } from './dashboard.service';
 import { BaseController } from '@src/common/bases/BaseController';
@@ -38,5 +38,40 @@ export class DashboardController extends BaseController {
       code: HttpStatus.OK,
       response: data,
     });
+  }
+
+  @Get('proximas-visitas')
+  @Autenticado()
+  async findProximasVisitas(
+    @User() user: IUser,
+    @Query('dias') dias?: string,
+  ) {
+    const periodoDias = Number(dias);
+    const data = await this.service.findProximasVisitas(
+      user,
+      Number.isInteger(periodoDias) ? periodoDias : undefined,
+    );
+    return this.handleSuccessResponse({ code: HttpStatus.OK, response: data });
+  }
+
+  @Get('estoque/lotes-proximos-vencimento')
+  @Autenticado()
+  async findLotesProximosVencimento(
+    @User() user: IUser,
+    @Query('dias') dias?: string,
+  ) {
+    const periodoDias = Number(dias);
+    const data = await this.service.findLotesProximosVencimento(
+      user,
+      Number.isInteger(periodoDias) ? periodoDias : undefined,
+    );
+    return this.handleSuccessResponse({ code: HttpStatus.OK, response: data });
+  }
+
+  @Get('estoque/ultimas-movimentacoes')
+  @Autenticado()
+  async findUltimasMovimentacoes(@User() user: IUser) {
+    const data = await this.service.findUltimasMovimentacoes(user);
+    return this.handleSuccessResponse({ code: HttpStatus.OK, response: data });
   }
 }

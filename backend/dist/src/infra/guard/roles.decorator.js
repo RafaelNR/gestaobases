@@ -1,55 +1,100 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Setor = exports.Cargo = exports.Autenticado = exports.SetorCargos = exports.TypeCargo = exports.TypeSetor = void 0;
-const core_1 = require("@nestjs/core");
-var TypeSetor;
-(function (TypeSetor) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get Autenticado () {
+        return Autenticado;
+    },
+    get Cargo () {
+        return Cargo;
+    },
+    get Setor () {
+        return Setor;
+    },
+    get SetorCargos () {
+        return SetorCargos;
+    },
+    get TypeCargo () {
+        return TypeCargo;
+    },
+    get TypeSetor () {
+        return TypeSetor;
+    }
+});
+const _core = require("@nestjs/core");
+var TypeSetor = /*#__PURE__*/ function(TypeSetor) {
     TypeSetor["Administrador"] = "Administrador";
     TypeSetor["Administrativo"] = "Administrativo";
     TypeSetor["Almoxarifado"] = "Almoxarifado";
     TypeSetor["Farmacia"] = "Farmacia";
     TypeSetor["CME"] = "CME";
     TypeSetor["Frota"] = "Frota";
+    TypeSetor["Enfermagem"] = "Enfermagem";
     TypeSetor["Base"] = "Base";
-})(TypeSetor || (exports.TypeSetor = TypeSetor = {}));
-var TypeCargo;
-(function (TypeCargo) {
+    return TypeSetor;
+}({});
+var TypeCargo = /*#__PURE__*/ function(TypeCargo) {
     TypeCargo["Administrador"] = "Administrador";
-    TypeCargo["Almoxarifado"] = "Coordena\u00E7\u00E3o de Almoxarifado";
+    TypeCargo["Almoxarifado"] = "Coordenação de Almoxarifado";
     TypeCargo["AuxAlmoxarifado"] = "Auxiliar de Almoxarifado";
     TypeCargo["Separador"] = "Separador";
-    TypeCargo["Farmaceutica"] = "Farmac\u00EAutica";
-    TypeCargo["TecFarmacia"] = "T\u00E9cnico de Farm\u00E1cia";
+    TypeCargo["Farmaceutica"] = "Farmacêutica";
+    TypeCargo["TecFarmacia"] = "Técnico de Farmácia";
     TypeCargo["CME"] = "CME";
-    TypeCargo["Frota"] = "Coordena\u00E7\u00E3o Frota";
+    TypeCargo["Frota"] = "Coordenação Frota";
     TypeCargo["ApoioBases"] = "Apoio Bases";
     TypeCargo["Facilitador"] = "Facilitador";
+    TypeCargo["Colaborador"] = "Colaborador";
+    TypeCargo["Enfermagem"] = "Coordenação de Enfermagem";
     TypeCargo["RH"] = "RH";
-})(TypeCargo || (exports.TypeCargo = TypeCargo = {}));
-exports.SetorCargos = {
-    [TypeSetor.Administrador]: [TypeCargo.Administrador],
-    [TypeSetor.Almoxarifado]: [
-        TypeCargo.Almoxarifado,
-        TypeCargo.AuxAlmoxarifado,
-        TypeCargo.Separador,
+    return TypeCargo;
+}({});
+const SetorCargos = {
+    ["Administrador"]: [
+        "Administrador"
     ],
-    [TypeSetor.Farmacia]: [
-        TypeCargo.Farmaceutica,
-        TypeCargo.TecFarmacia,
-        TypeCargo.ApoioBases,
+    ["Almoxarifado"]: [
+        "Coordenação de Almoxarifado",
+        "Auxiliar de Almoxarifado",
+        "Separador"
     ],
-    [TypeSetor.CME]: [TypeCargo.CME, TypeCargo.ApoioBases],
-    [TypeSetor.Frota]: [TypeCargo.Frota, TypeCargo.Facilitador],
-    [TypeSetor.Base]: [TypeCargo.ApoioBases, TypeCargo.Facilitador],
-    [TypeSetor.Administrativo]: [TypeCargo.RH],
+    ["Farmacia"]: [
+        "Farmacêutica",
+        "Técnico de Farmácia"
+    ],
+    ["CME"]: [
+        "CME"
+    ],
+    ["Frota"]: [
+        "Coordenação Frota",
+        "Apoio Bases"
+    ],
+    ["Enfermagem"]: [
+        "Coordenação de Enfermagem"
+    ],
+    ["Base"]: [
+        "Facilitador",
+        "Colaborador"
+    ],
+    ["Administrativo"]: [
+        "RH"
+    ]
 };
-exports.Autenticado = core_1.Reflector.createDecorator({
-    key: 'autenticado_key',
+const Autenticado = _core.Reflector.createDecorator({
+    key: 'autenticado_key'
 });
-exports.Cargo = core_1.Reflector.createDecorator({
-    key: 'cargo_key',
+const Cargo = _core.Reflector.createDecorator({
+    key: 'cargo_key'
 });
-exports.Setor = core_1.Reflector.createDecorator({
-    key: 'setor_key',
+const Setor = _core.Reflector.createDecorator({
+    key: 'setor_key'
 });
+
 //# sourceMappingURL=roles.decorator.js.map

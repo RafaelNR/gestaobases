@@ -19,7 +19,7 @@ model Config {
 }
 
 model Setor {
-  id            String         @id @default(uuid())
+  id            String         @id @default(uuid(7)) @db.Char(36)
   nome          String         @unique(map: "setores_nome_key")
   nomeVisivel   String         @unique(map: "setores_visivel_key")
   created_at    DateTime       @default(now())
@@ -32,7 +32,7 @@ model Setor {
 }
 
 model Cargo {
-  id            String         @id @default(uuid())
+  id            String         @id @default(uuid(7)) @db.Char(36)
   nome          String         @unique(map: "cargos_nome_key")
   nomeVisivel   String         @unique(map: "cargos_visivel_key")
   setor         String
@@ -42,6 +42,7 @@ model Cargo {
   Setor         Setor          @relation(fields: [setor], references: [nome], onDelete: Cascade, map: "cargos_setor_fkey")
   requerimentos Requerimento[] @relation("requerimentos_cargo")
 
+  @@index([setor, nomeVisivel], map: "cargos_setor_nome_visivel_index")
   @@map("cargos")
 }
 
@@ -56,12 +57,13 @@ model Base {
   Ambulancias      Ambulancia[]
   VisitasBases     VisitasBases[]
   receituarios     Receituario[]
+  estoques         Estoque[]
 
   @@map("bases")
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String   @id @default(uuid(7)) @db.Char(36)
   username   String   @unique(map: "username")
   nome       String
   email      String?
@@ -94,13 +96,16 @@ model User {
   passwordResetTokens     PasswordResetToken[]
   RequerimentoItemDeleted RequerimentoItem[]        @relation("carrinho_deleted_by")
   Ambulancias             Ambulancia[]
+  estoqueMovimentacaos    EstoqueMovimentacao[]
 
   @@index([username, password], map: "username_password_index")
+  @@index([baseId, active, nome], map: "usuarios_base_active_nome_index")
+  @@index([setorId, active, nome], map: "usuarios_setor_active_nome_index")
   @@map("usuarios")
 }
 
 model PasswordResetToken {
-  id        String    @id @default(uuid())
+  id        String    @id @default(uuid(7)) @db.Char(36)
   userId    String
   tokenHash String    @unique
   expiresAt DateTime
@@ -113,7 +118,7 @@ model PasswordResetToken {
 }
 
 model RefreshToken {
-  id        String    @id @default(uuid())
+  id        String    @id @default(uuid(7)) @db.Char(36)
   userId    String
   tokenHash String    @unique
   family    String
@@ -129,7 +134,7 @@ model RefreshToken {
 }
 
 model Ambulancia {
-  id         String      @id @default(uuid())
+  id         String      @id @default(uuid(7)) @db.Char(36)
   tipo       TipoUnidade
   nome       String
   baseId     String
@@ -148,7 +153,7 @@ model Ambulancia {
 }
 
 model CategoriaProduto {
-  id         String   @id @default(uuid())
+  id         String   @id @default(uuid(7)) @db.Char(36)
   nome       String   @unique(map: "nome")
   userId     String
   active     Boolean  @default(true)
@@ -158,11 +163,12 @@ model CategoriaProduto {
   produtos Produto[] @relation("categoria_produtos")
   User     User      @relation("user_categoria_produto", fields: [userId], references: [id], onDelete: Cascade, map: "user_categoria_produto_fkey")
 
+  @@index([userId, active, nome], map: "categoria_produtos_user_active_nome_index")
   @@map("categoria_produtos")
 }
 
 model Produto {
-  id         String   @id @default(uuid())
+  id         String   @id @default(uuid(7)) @db.Char(36)
   nome       String
   codigo     Int
   unidade    Unidade
@@ -180,8 +186,11 @@ model Produto {
   CategoriaProduto CategoriaProduto   @relation("categoria_produtos", fields: [categoria], references: [nome], onDelete: Cascade, map: "categoria_produtos_fkey")
   User             User               @relation("user_produtos", fields: [userId], references: [id], onDelete: Cascade, map: "user_produtos_fkey")
   RequerimentoItem RequerimentoItem[]
+  estoques         Estoque[]
 
   @@unique([nome, codigo])
+  @@index([categoria, active, nome], map: "produtos_categoria_active_nome_index")
+  @@index([userId, active, nome], map: "produtos_user_active_nome_index")
   @@map("produtos")
 }
 
@@ -195,11 +204,12 @@ model CategoriasMedicamento {
   Medicamento Medicamento[] @relation("categoria_medicamento")
   User        User?         @relation(fields: [userId], references: [id])
 
+  @@index([userId, active, nome], map: "categorias_medicamento_user_active_nome_index")
   @@map("categorias_medicamento")
 }
 
 model Medicamento {
-  id            String   @id @default(uuid())
+  id            String   @id @default(uuid(7)) @db.Char(36)
   nome          String
   codigo        Int
   especificacao String
@@ -214,14 +224,15 @@ model Medicamento {
   CategoriasMedicamento   CategoriasMedicamento     @relation("categoria_medicamento", fields: [categoria], references: [nome], onDelete: Cascade, map: "categoria_medicamento_fkey")
   RequerimentoItem        RequerimentoItem[]
   ReceituarioMedicamentos ReceituarioMedicamentos[]
+  estoques                Estoque[]
 
   @@unique([nome, codigo])
   @@map("medicamentos")
 }
 
 model Requerimento {
-  id           String           @id @default(uuid())
-  numero       Int              @unique(map: "numero") @db.Int
+  id           String           @id @default(uuid(7)) @db.Char(36)
+  numero       Int              @unique(map: "numero") @default(autoincrement()) @db.Int
   tipo         TipoRequerimento
   status       Status           @default(Recebido)
   data_inicio  DateTime
@@ -244,11 +255,19 @@ model Requerimento {
   RequerimentoItems  RequerimentoItem[]
   Receituarios       Receituario[]
 
+  @@index([tipo, base, status, created_at], map: "requerimentos_tipo_base_status_created_index")
+  @@index([tipo, base, numero], map: "requerimentos_tipo_base_numero_index")
+  @@index([userId, created_at], map: "requerimentos_user_created_index")
+  @@index([setor], map: "requerimentos_setor_index")
+  @@index([cargo], map: "requerimentos_cargo_index")
+  @@index([numero], map: "requerimentos_numero_index")
+  @@index([base], map: "requerimentos_base_index")
+  @@index([ambulanciaId], map: "requerimentos_ambulancia_index")
   @@map("requerimentos")
 }
 
 model RequerimentoStatus {
-  id             String   @id @default(uuid())
+  id             String   @id @default(uuid(7)) @db.Char(36)
   requerimentoId String
   status         Status
   userId         String
@@ -257,11 +276,13 @@ model RequerimentoStatus {
   User         User         @relation(fields: [userId], references: [id], onDelete: Cascade, map: "requerimento_status_user_fkey")
   Requerimento Requerimento @relation(fields: [requerimentoId], references: [id], onDelete: Cascade, map: "requerimento_status_requerimento_fkey")
 
+  @@index([requerimentoId, created_at], map: "requerimento_status_requerimento_created_index")
+  @@index([userId, created_at], map: "requerimento_status_user_created_index")
   @@map("requerimento_status")
 }
 
 model RequerimentoItem {
-  id             String    @id @default(uuid())
+  id             String    @id @default(uuid(7)) @db.Char(36)
   requerimentoId String
   produtoId      String? // Se for um produto, medicamentoId será nulo
   medicamentoId  String? // Se for um medicamento, produtoId será nulo
@@ -287,7 +308,7 @@ model RequerimentoItem {
 }
 
 model VisitasBases {
-  id           String   @id @default(uuid())
+  id           String   @id @default(uuid(7)) @db.Char(36)
   data         DateTime @db.Date
   base         String?
   outro_motivo String?
@@ -299,13 +320,14 @@ model VisitasBases {
   Base Base? @relation(fields: [base], references: [nome], onDelete: Cascade, map: "visitas_bases_base_fkey")
   User User  @relation(fields: [userId], references: [id], onDelete: Cascade, map: "visitas_bases_user_fkey")
 
-  @@index([base], map: "visitas_bases_base_index")
+  @@index([base, data], map: "visitas_bases_base_data_index")
   @@index([data], map: "visitas_bases_data_index")
+  @@index([userId, data], map: "visitas_bases_user_data_index")
   @@map("visitas_bases")
 }
 
 model SendEmail {
-  id           String      @id @default(uuid())
+  id           String      @id @default(uuid(7)) @db.Char(36)
   status       StatusEmail
   tipo         TipoEmail
   email        String
@@ -321,7 +343,7 @@ model SendEmail {
 }
 
 model Log {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7)) @db.Char(36)
   tipo      TipoLog
   modulo    String
   artefato  String?
@@ -331,13 +353,13 @@ model Log {
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([modulo], map: "modulo_index")
-  @@index([userId], map: "user_index")
+  @@index([modulo, createdAt], map: "logs_modulo_created_index")
+  @@index([userId, createdAt], map: "logs_user_created_index")
   @@map("logs")
 }
 
 model Medico {
-  id          String        @id @default(uuid())
+  id          String        @id @default(uuid(7)) @db.Char(36)
   nome        String        @unique(map: "nome")
   crm         String        @unique(map: "crm")
   telefone    String?       @unique(map: "telefone")
@@ -353,7 +375,7 @@ model Medico {
 }
 
 model Receituario {
-  id                      String                    @id @default(uuid())
+  id                      String                    @id @default(uuid(7)) @db.Char(36)
   requerimentoId          String?
   status                  StatusReceituario
   numero                  String                    @unique(map: "numero")
@@ -374,11 +396,16 @@ model Receituario {
   Ambulancia              Ambulancia?               @relation(fields: [ambulanciaId], references: [id], onDelete: Cascade, map: "receituario_ambulancia_fkey")
   ReceituarioMedicamentos ReceituarioMedicamentos[]
 
+  @@index([baseId, status, numero], map: "receituarios_base_status_numero_index")
+  @@index([requerimentoId], map: "receituarios_requerimento_index")
+  @@index([medicoId], map: "receituarios_medico_index")
+  @@index([ambulanciaId], map: "receituarios_ambulancia_index")
+  @@index([userId], map: "receituarios_user_index")
   @@map("receituarios")
 }
 
 model ReceituarioMedicamentos {
-  id            String             @id @default(uuid())
+  id            String             @id @default(uuid(7)) @db.Char(36)
   receituarioId String
   medicamentoId String
   qnt           Int
@@ -395,11 +422,14 @@ model ReceituarioMedicamentos {
   Receituario   Receituario        @relation(fields: [receituarioId], references: [id], onDelete: Cascade, map: "receituario_medicamento_receiturario_fkey")
   Medicamento   Medicamento        @relation(fields: [medicamentoId], references: [id], onDelete: Cascade, map: "receituario_medicamentos_fkey")
 
+  @@index([receituarioId], map: "receituario_medicamentos_receituario_index")
+  @@index([medicamentoId], map: "receituario_medicamentos_medicamento_index")
+  @@index([userId], map: "receituario_medicamentos_user_index")
   @@map("receituario_medicamentos")
 }
 
 model Notificacao {
-  id           String          @id @default(uuid())
+  id           String          @id @default(uuid(7)) @db.Char(36)
   mensagem     String          @db.VarChar(254)
   artefatoUUID String
   tipo         TipoNotificacao
@@ -412,7 +442,100 @@ model Notificacao {
   updated_at   DateTime        @updatedAt
   User         User            @relation(fields: [userId], references: [id], onDelete: Cascade, map: "notificacao_user_fkey")
 
+  @@index([userId, removida, created_at], map: "notificacoes_user_removida_created_index")
   @@map("notificacoes")
+}
+
+model Estoque {
+  id            String  @id @default(uuid(7)) @db.Char(36)
+  baseId        String
+  produtoId     String?
+  medicamentoId String?
+
+  quantidadeMinima Int     @default(0)
+  ativo            Boolean @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Base        Base         @relation(fields: [baseId], references: [id], onDelete: Cascade)
+  Produto     Produto?     @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  Medicamento Medicamento? @relation(fields: [medicamentoId], references: [id], onDelete: Cascade)
+
+  lotes EstoqueLote[]
+
+  @@unique([baseId, produtoId])
+  @@unique([baseId, medicamentoId])
+  @@index([produtoId])
+  @@index([medicamentoId])
+  @@index([baseId, ativo], map: "estoques_base_ativo_index")
+  @@map("estoques")
+}
+
+model EstoqueLote {
+  id        String @id @default(uuid(7)) @db.Char(36)
+  estoqueId String
+  chaveLote String @db.VarChar(191)
+
+  lote       String?
+  validade   DateTime? @db.Date
+  quantidade Int       @default(0)
+
+  bloqueado      Boolean @default(false)
+  motivoBloqueio String?
+
+  active Boolean @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Estoque       Estoque               @relation(fields: [estoqueId], references: [id], onDelete: Cascade)
+  movimentacoes EstoqueMovimentacao[]
+
+  @@unique([estoqueId, chaveLote], name: "estoqueId_chaveLote")
+  @@index([validade])
+  @@index([estoqueId, validade])
+  @@index([estoqueId, bloqueado, validade])
+  @@index([estoqueId, active, validade], map: "estoque_lotes_estoque_active_validade_index")
+  @@map("estoque_lotes")
+}
+
+model EstoqueMovimentacao {
+  id     String @id @default(uuid(7)) @db.Char(36)
+  loteId String
+  userId String
+
+  tipo       TipoMovimentacaoEstoque
+  quantidade Int
+
+  saldoAnterior  Int
+  saldoPosterior Int
+
+  observacao String?
+
+  created_at DateTime @default(now())
+
+  Lote EstoqueLote @relation(fields: [loteId], references: [id], onDelete: Restrict)
+  User User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([loteId, created_at], map: "estoque_movimentacoes_lote_created_index")
+  @@index([userId, created_at], map: "estoque_movimentacoes_user_created_index")
+  @@index([tipo, created_at], map: "estoque_movimentacoes_tipo_created_index")
+  @@index([created_at])
+  @@map("estoque_movimentacoes")
+}
+
+enum TipoMovimentacaoEstoque {
+  Entrada
+  Saida
+  AjusteEntrada
+  AjusteSaida
+  Perda
+  Vencimento
+  TransferenciaEntrada
+  TransferenciaSaida
+  Devolucao
+  Desabilitado
 }
 
 enum TipoAmbulancias {
@@ -422,10 +545,12 @@ enum TipoAmbulancias {
 }
 
 enum TipoNotificacao {
+  Requerimento
   CME
   Farmacia       @map("Farmácia")
   Almoxarifado   @map("Almoxarifado")
   Administrativo @map("Administrativo")
+  Status
 }
 
 enum TipoRequerimento {

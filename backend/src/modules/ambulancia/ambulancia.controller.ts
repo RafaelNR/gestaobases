@@ -20,6 +20,8 @@ import {
   TypeSetor,
   Setor,
   Autenticado,
+  TypeCargo,
+  Cargo,
 } from '@src/infra/guard/roles.decorator';
 import { User, IUser } from '@src/common/decorator/user.decorator';
 import { LogService } from '../../infra/logger/repository/log.repository';
@@ -64,6 +66,7 @@ export class AmbulanciaController extends BaseController {
 
   @Get(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async findOne(@Param('id') id: string): Promise<IResponse<any>> {
     if (!id)
       throw new HttpException('Id não foi enviado.', HttpStatus.FORBIDDEN);
@@ -83,6 +86,7 @@ export class AmbulanciaController extends BaseController {
 
   @Post()
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async create(
     @User() user: IUser,
     @Body() createAmbulanciaRequestDto: CreateAmbulanciaRequestDto
@@ -126,6 +130,7 @@ export class AmbulanciaController extends BaseController {
 
   @Put(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async update(
     @User() user: IUser,
     @Param('id') id: string,
@@ -180,6 +185,7 @@ export class AmbulanciaController extends BaseController {
 
   @Delete(':id')
   @Setor(TypeSetor.Administrador)
+  @Cargo(TypeCargo.Almoxarifado)
   async remove(
     @User() user: IUser,
     @Param('id') id: string

@@ -1,12 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateMedicamentoRequestDto = exports.CreateMedicamentoRequestDto = void 0;
-const zod_nestjs_1 = require("@anatine/zod-nestjs");
-const medicamento_schema_1 = require("../validation/medicamento.schema");
-class CreateMedicamentoRequestDto extends (0, zod_nestjs_1.createZodDto)(medicamento_schema_1.CreateMedicamentoSchema) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
 }
-exports.CreateMedicamentoRequestDto = CreateMedicamentoRequestDto;
-class UpdateMedicamentoRequestDto extends (0, zod_nestjs_1.createZodDto)(medicamento_schema_1.UpdateMedicamentoSchema) {
-}
-exports.UpdateMedicamentoRequestDto = UpdateMedicamentoRequestDto;
+_export(exports, {
+    get CreateMedicamentoRequestDto () {
+        return CreateMedicamentoRequestDto;
+    },
+    get UpdateMedicamentoRequestDto () {
+        return UpdateMedicamentoRequestDto;
+    }
+});
+const _zodnestjs = require("@anatine/zod-nestjs");
+const _medicamentoschema = require("../validation/medicamento.schema");
+let CreateMedicamentoRequestDto = class CreateMedicamentoRequestDto extends (0, _zodnestjs.createZodDto)(_medicamentoschema.CreateMedicamentoSchema) {
+};
+let UpdateMedicamentoRequestDto = class UpdateMedicamentoRequestDto extends (0, _zodnestjs.createZodDto)(_medicamentoschema.UpdateMedicamentoSchema) {
+};
+
 //# sourceMappingURL=medicamento.dto.js.map

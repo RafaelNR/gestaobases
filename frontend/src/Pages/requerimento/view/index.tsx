@@ -13,8 +13,6 @@ import { useGetRequerimento } from "@/Hooks/useRequerimentos";
 import { getTipoFromRouteParam } from "../shared/routeTipo";
 import { usePermissions } from "@/Hooks/usePermissions";
 import { useEffect, useMemo } from "react";
-import { DownloadPDFButton } from "./components/pdf/DownloadButtonPDF";
-import { ViewButtonPDF } from "./components/pdf/ViewButtonPDF";
 import RequerimentoViewPage from "./RequerimentoView";
 import RequerimentoItens from "./RequerimentoItens";
 import Header from "./components/Header";
@@ -32,14 +30,15 @@ export default function Index() {
 
 	useEffect(() => {
 		if (user && requerimento) {
-			if (can("requerimentos:viewAny")) {
+			if (can("requerimentos:view:any")) {
 				return;
 			}
 
 			if (
-				can("requerimentos:view") &&
-				user?.Base.nome === requerimento.base &&
-				user.Setor.nome === requerimento.setor
+				(can("requerimentos:view:base") &&
+					user?.Base.nome === requerimento.base) ||
+				(can("requerimentos:view:setor") &&
+					user.Setor.nome === requerimento.setor)
 			) {
 				return;
 			}

@@ -1,43 +1,62 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.hashPassword = hashPassword;
-exports.verifyPassword = verifyPassword;
-exports.hashToken = hashToken;
-exports.verifyToken = verifyToken;
-const argon2_1 = __importDefault(require("argon2"));
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get hashPassword () {
+        return hashPassword;
+    },
+    get hashToken () {
+        return hashToken;
+    },
+    get verifyPassword () {
+        return verifyPassword;
+    },
+    get verifyToken () {
+        return verifyToken;
+    }
+});
+const _argon2 = /*#__PURE__*/ _interop_require_default(require("argon2"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 const ARGON2_OPTIONS = {
-    type: argon2_1.default.argon2id,
+    type: _argon2.default.argon2id,
     memoryCost: 65536,
     timeCost: 3,
-    parallelism: 2,
+    parallelism: 2
 };
 async function hashPassword(plain) {
-    return argon2_1.default.hash(plain, ARGON2_OPTIONS);
+    return _argon2.default.hash(plain, ARGON2_OPTIONS);
 }
 async function verifyPassword(hash, plain) {
     try {
-        return await argon2_1.default.verify(hash, plain, ARGON2_OPTIONS);
-    }
-    catch {
+        return await _argon2.default.verify(hash, plain, ARGON2_OPTIONS);
+    } catch  {
         return false;
     }
 }
 async function hashToken(token) {
-    return argon2_1.default.hash(token, {
+    return _argon2.default.hash(token, {
         ...ARGON2_OPTIONS,
         memoryCost: 4096,
-        timeCost: 1,
+        timeCost: 1
     });
 }
 async function verifyToken(hash, token) {
     try {
-        return await argon2_1.default.verify(hash, token);
-    }
-    catch {
+        return await _argon2.default.verify(hash, token);
+    } catch  {
         return false;
     }
 }
+
 //# sourceMappingURL=argon.js.map

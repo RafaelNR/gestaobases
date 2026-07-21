@@ -1,37 +1,58 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "CustomLogger", {
+    enumerable: true,
+    get: function() {
+        return CustomLogger;
+    }
+});
+const _common = require("@nestjs/common");
+const _nestjspino = require("nestjs-pino");
+function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
+}
+function _ts_metadata(k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CustomLogger = void 0;
-const common_1 = require("@nestjs/common");
-const nestjs_pino_1 = require("nestjs-pino");
-let CustomLogger = class CustomLogger extends nestjs_pino_1.PinoLogger {
-    constructor() {
+}
+let CustomLogger = class CustomLogger extends _nestjspino.PinoLogger {
+    constructor(){
         super({});
     }
     log(message, context) {
-        super.info({ context, message });
+        super.info({
+            context,
+            message
+        });
     }
     error(message, trace, context) {
-        super.error({ context, message, trace });
+        super.error({
+            context,
+            message,
+            trace
+        });
     }
     warn(message, context) {
-        super.warn({ context, message });
+        super.warn({
+            context,
+            message
+        });
     }
     debug(message, context) {
-        super.debug({ context, message });
+        super.debug({
+            context,
+            message
+        });
     }
 };
-exports.CustomLogger = CustomLogger;
-exports.CustomLogger = CustomLogger = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+CustomLogger = _ts_decorate([
+    (0, _common.Injectable)(),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [])
 ], CustomLogger);
+
 //# sourceMappingURL=customLogger.service.js.map

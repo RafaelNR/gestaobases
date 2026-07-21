@@ -1,24 +1,40 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertCondition = exports.assertPermission = exports.assertFound = void 0;
-const common_1 = require("@nestjs/common");
-const assertFound = (value, message = 'Requerimento não encontrado.') => {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get assertCondition () {
+        return assertCondition;
+    },
+    get assertFound () {
+        return assertFound;
+    },
+    get assertPermission () {
+        return assertPermission;
+    }
+});
+const _common = require("@nestjs/common");
+const assertFound = (value, message = 'Requerimento não encontrado.')=>{
     if (value == null) {
-        throw new common_1.HttpException(message, common_1.HttpStatus.NOT_FOUND);
+        throw new _common.HttpException(message, _common.HttpStatus.NOT_FOUND);
     }
     return value;
 };
-exports.assertFound = assertFound;
-const assertPermission = (condition, message = 'Sem permissão.') => {
+const assertPermission = (condition, message = 'Sem permissão.')=>{
     if (!condition) {
-        throw new common_1.HttpException(message, common_1.HttpStatus.FORBIDDEN);
+        throw new _common.HttpException(message, _common.HttpStatus.FORBIDDEN);
     }
 };
-exports.assertPermission = assertPermission;
-const assertCondition = (condition, message) => {
+const assertCondition = (condition, message)=>{
     if (!condition) {
-        throw new common_1.HttpException(message, common_1.HttpStatus.BAD_REQUEST);
+        throw new _common.HttpException(message, _common.HttpStatus.BAD_REQUEST);
     }
 };
-exports.assertCondition = assertCondition;
+
 //# sourceMappingURL=assert.js.map

@@ -1,59 +1,85 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateProdutoSchema = exports.CreateProdutoSchema = void 0;
-const zod_openapi_1 = require("@anatine/zod-openapi");
-const zod_1 = require("zod");
-exports.CreateProdutoSchema = (0, zod_openapi_1.extendApi)(zod_1.z.object({
-    nome: zod_1.z
-        .string({ error: 'Nome é requerido' })
-        .min(2, 'Nome deve conter pelo menos 2 caracteres.')
-        .max(190, 'Nome deve conter no máximo 190 caracteres.'),
-    codigo: zod_1.z
-        .number({ error: 'Código é requerido' })
-        .int('Código deve ser um número inteiro.')
-        .positive('Código deve ser maior que 0.'),
-    unidade: zod_1.z.enum(['Unidade', 'Pacote', 'Kit', 'Caixa'], {
-        error: 'Unidade deve ser Unidade, Pacote, Kit ou Caixa.',
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get CreateProdutoSchema () {
+        return CreateProdutoSchema;
+    },
+    get UpdateProdutoSchema () {
+        return UpdateProdutoSchema;
+    }
+});
+const _zodopenapi = require("@anatine/zod-openapi");
+const _zod = require("zod");
+const CreateProdutoSchema = (0, _zodopenapi.extendApi)(_zod.z.object({
+    nome: _zod.z.string({
+        error: 'Nome é requerido'
+    }).min(2, 'Nome deve conter pelo menos 2 caracteres.').max(190, 'Nome deve conter no máximo 190 caracteres.'),
+    codigo: _zod.z.number({
+        error: 'Código é requerido'
+    }).int('Código deve ser um número inteiro.').positive('Código deve ser maior que 0.'),
+    unidade: _zod.z.enum([
+        'Unidade',
+        'Pacote',
+        'Kit',
+        'Caixa'
+    ], {
+        error: 'Unidade deve ser Unidade, Pacote, Kit ou Caixa.'
     }),
-    categoria: zod_1.z.string({ error: 'Categoria é requerida.' }),
-    usa: zod_1.z.boolean().default(false),
-    cme: zod_1.z.boolean().default(false),
-    fora_alx: zod_1.z.boolean().default(false),
-    ordem: zod_1.z
-        .number({ error: 'Ordem é requerida.' })
-        .int('Ordem deve ser um número inteiro.')
-        .min(0, 'Ordem deve ser maior ou igual a 0.'),
-    descricao: zod_1.z.string().max(500).optional().or(zod_1.z.literal('')).nullable(),
-    active: zod_1.z.boolean().default(true),
+    categoria: _zod.z.string({
+        error: 'Categoria é requerida.'
+    }),
+    usa: _zod.z.boolean().default(false),
+    cme: _zod.z.boolean().default(false),
+    fora_alx: _zod.z.boolean().default(false),
+    ordem: _zod.z.number({
+        error: 'Ordem é requerida.'
+    }).int('Ordem deve ser um número inteiro.').min(0, 'Ordem deve ser maior ou igual a 0.'),
+    descricao: _zod.z.string().max(500).optional().or(_zod.z.literal('')).nullable(),
+    active: _zod.z.boolean().default(true)
 }), {
     title: 'Request create produto',
-    description: 'Um Produto',
+    description: 'Um Produto'
 });
-exports.UpdateProdutoSchema = (0, zod_openapi_1.extendApi)(zod_1.z.object({
-    id: zod_1.z.string({ error: 'Id do produto é requerido.' }),
-    nome: zod_1.z
-        .string({ error: 'Nome é requerido' })
-        .min(2, 'Nome deve conter pelo menos 2 caracteres.')
-        .max(190, 'Nome deve conter no máximo 190 caracteres.'),
-    codigo: zod_1.z
-        .number({ error: 'Código é requerido' })
-        .int('Código deve ser um número inteiro.')
-        .positive('Código deve ser maior que 0.'),
-    unidade: zod_1.z.enum(['Unidade', 'Pacote', 'Kit', 'Caixa'], {
-        error: 'Unidade deve ser Unidade, Pacote, Kit ou Caixa.',
+const UpdateProdutoSchema = (0, _zodopenapi.extendApi)(_zod.z.object({
+    id: _zod.z.string({
+        error: 'Id do produto é requerido.'
     }),
-    categoria: zod_1.z.string({ error: 'Categoria é requerida.' }),
-    usa: zod_1.z.boolean().default(false),
-    cme: zod_1.z.boolean().default(false),
-    fora_alx: zod_1.z.boolean().default(false),
-    ordem: zod_1.z
-        .number({ error: 'Ordem é requerida.' })
-        .int('Ordem deve ser um número inteiro.')
-        .min(0, 'Ordem deve ser maior ou igual a 0.'),
-    descricao: zod_1.z.string().max(500).optional().or(zod_1.z.literal('')).nullable(),
-    active: zod_1.z.boolean().default(true),
+    nome: _zod.z.string({
+        error: 'Nome é requerido'
+    }).min(2, 'Nome deve conter pelo menos 2 caracteres.').max(190, 'Nome deve conter no máximo 190 caracteres.'),
+    codigo: _zod.z.number({
+        error: 'Código é requerido'
+    }).int('Código deve ser um número inteiro.').positive('Código deve ser maior que 0.'),
+    unidade: _zod.z.enum([
+        'Unidade',
+        'Pacote',
+        'Kit',
+        'Caixa'
+    ], {
+        error: 'Unidade deve ser Unidade, Pacote, Kit ou Caixa.'
+    }),
+    categoria: _zod.z.string({
+        error: 'Categoria é requerida.'
+    }),
+    usa: _zod.z.boolean().default(false),
+    cme: _zod.z.boolean().default(false),
+    fora_alx: _zod.z.boolean().default(false),
+    ordem: _zod.z.number({
+        error: 'Ordem é requerida.'
+    }).int('Ordem deve ser um número inteiro.').min(0, 'Ordem deve ser maior ou igual a 0.'),
+    descricao: _zod.z.string().max(500).optional().or(_zod.z.literal('')).nullable(),
+    active: _zod.z.boolean().default(true)
 }), {
     title: 'Request update produto',
-    description: 'Um Produto',
+    description: 'Um Produto'
 });
+
 //# sourceMappingURL=produto.schema.js.map

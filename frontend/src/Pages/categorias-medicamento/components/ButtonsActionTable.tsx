@@ -1,7 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import TableActionButtons from "@/Components/Table/TableActionButtons";
 import { CATEGORIAS_MEDICAMENTO_PERMISSIONS } from "@/Guard/PermissionGroups";
@@ -27,18 +25,18 @@ export default function ButtonActionTable({ row }: Props) {
 					permission: CATEGORIAS_MEDICAMENTO_PERMISSIONS.EDIT,
 					onClick: () => handleClickOpenDialog({ m: "edit", s: row }),
 				},
-				{
-					id: "toggle-active",
-					label: row.active ? "Desativar" : "Ativar",
-					icon: <PowerSettingsNewIcon fontSize="small" />,
-					color: row.active ? "warning" : "success",
-					permission: CATEGORIAS_MEDICAMENTO_PERMISSIONS.TOGGLE_ACTIVE,
-					onClick: () =>
-						handleClickOpenDialog({
-							m: "toggle-active",
-							s: row,
-						}),
-				},
+				// {
+				// 	id: "toggle-active",
+				// 	label: row.active ? "Desativar" : "Ativar",
+				// 	icon: <PowerSettingsNewIcon fontSize="small" />,
+				// 	color: row.active ? "warning" : "success",
+				// 	permission: CATEGORIAS_MEDICAMENTO_PERMISSIONS.TOGGLE_ACTIVE,
+				// 	onClick: () =>
+				// 		handleClickOpenDialog({
+				// 			m: "toggle-active",
+				// 			s: row,
+				// 		}),
+				// },
 				{
 					id: "delete",
 					label: "Excluir",

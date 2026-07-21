@@ -9,6 +9,22 @@
 * 🟢 You can import this file directly.
 */
 
+export const TipoMovimentacaoEstoque = {
+  Entrada: 'Entrada',
+  Saida: 'Saida',
+  AjusteEntrada: 'AjusteEntrada',
+  AjusteSaida: 'AjusteSaida',
+  Perda: 'Perda',
+  Vencimento: 'Vencimento',
+  TransferenciaEntrada: 'TransferenciaEntrada',
+  TransferenciaSaida: 'TransferenciaSaida',
+  Devolucao: 'Devolucao',
+  Desabilitado: 'Desabilitado'
+} as const
+
+export type TipoMovimentacaoEstoque = (typeof TipoMovimentacaoEstoque)[keyof typeof TipoMovimentacaoEstoque]
+
+
 export const TipoAmbulancias = {
   USA: 'USA',
   USB: 'USB',
@@ -19,10 +35,12 @@ export type TipoAmbulancias = (typeof TipoAmbulancias)[keyof typeof TipoAmbulanc
 
 
 export const TipoNotificacao = {
+  Requerimento: 'Requerimento',
   CME: 'CME',
   Farmacia: 'Farmacia',
   Almoxarifado: 'Almoxarifado',
-  Administrativo: 'Administrativo'
+  Administrativo: 'Administrativo',
+  Status: 'Status'
 } as const
 
 export type TipoNotificacao = (typeof TipoNotificacao)[keyof typeof TipoNotificacao]

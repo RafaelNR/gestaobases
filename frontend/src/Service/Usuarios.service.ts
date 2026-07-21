@@ -50,6 +50,13 @@ export const usersService = {
 	},
 
 	/**
+	 * PUT /usuarios/perfil/:id
+	 */
+	async updatePerfil(id: string, dto: Omit<any, "status">): Promise<any> {
+		return apiPut<any>(`/usuarios/perfil/${encodeURIComponent(id)}`, dto);
+	},
+
+	/**
 	 * PUT /usuarios/bloquear/:id
 	 */
 	async block(id: string): Promise<void> {
