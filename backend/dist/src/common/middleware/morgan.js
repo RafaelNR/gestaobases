@@ -23,14 +23,28 @@ function _ts_decorate(decorators, target, key, desc) {
 }
 let MorganMiddleware = class MorganMiddleware {
     use(req, res, next) {
-        (0, _morgan.default)(process.env.NODE_ENV === 'DEV' ? 'dev' : 'production', {
-            stream: {
-                write: (message)=>this.logger.log(message)
-            }
-        })(req, res, next);
+        this.middleware(req, res, next);
     }
     constructor(){
-        this.logger = new _common.Logger(MorganMiddleware.name);
+        this.logger = new _common.Logger('HTTP');
+        this.middleware = (0, _morgan.default)(process.env.NODE_ENV === 'development' ? ':method :url :status :response-time ms' : [
+            ':remote-addr',
+            ':method',
+            ':url',
+            ':status',
+            ':response-time ms',
+            ':res[content-length] bytes',
+            '":user-agent"'
+        ].join(' | '), {
+            stream: {
+                write: (message)=>{
+                    this.logger.log(message.trim());
+                }
+            },
+            skip: (req)=>{
+                return req.originalUrl === '/health';
+            }
+        });
     }
 };
 MorganMiddleware = _ts_decorate([
