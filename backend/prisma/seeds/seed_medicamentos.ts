@@ -244,18 +244,18 @@ async function main() {
 
     for (const row of rows) {
       const medicamento = buildMedicamentoData(row, admin.id);
-      const medicamentoExistente = await tx.medicamento.findFirst({
-        where: { codigo: medicamento.codigo, nome: medicamento.nome },
-        select: { id: true },
-      });
+      // const medicamentoExistente = await tx.medicamento.findFirst({
+      //   where: { codigo: medicamento.codigo, nome: medicamento.nome },
+      //   select: { id: true },
+      // });
 
-      if (medicamentoExistente) {
-        await tx.medicamento.update({
-          where: { id: medicamentoExistente.id },
-          data: medicamento,
-        });
-        continue;
-      }
+      // if (medicamentoExistente) {
+      //   await tx.medicamento.update({
+      //     where: { id: medicamentoExistente.id },
+      //     data: medicamento,
+      //   });
+      //   continue;
+      // }
 
       await tx.medicamento.create({ data: medicamento });
     }

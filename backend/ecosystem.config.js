@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: 'gestao-bases-api',
-      script: './dist/main.js',
+      script: './dist/src/main.js',
       autorestart: true,
       watch: false,
       instances: 1,

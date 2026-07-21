@@ -41,7 +41,7 @@ const adapter = new PrismaMariaDb({
   database: process.env.MYSQL_DB,
   connectionLimit: 10,
   acquireTimeout: 20000,
-  connectTimeout: 5000,
+  connectTimeout: 20000,
   idleTimeout: 300,
 });
 
@@ -195,55 +195,61 @@ async function main() {
   const csvPath = getCsvPath();
   const rows = removeDuplicadosPorCodigo(parseProdutosCsv(csvPath));
 
-  await prisma.$transaction(async (tx) => {
-    const admin = await tx.user.findUnique({
-      where: { username: ADMIN_USERNAME },
-    });
-
-    if (!admin) {
-      throw new Error(
-        `Usuário administrador ${ADMIN_USERNAME} não encontrado.`
-      );
-    }
-
-    const categorias = [
-      ...new Set(rows.map((row) => categoriaPorMaterial[row.material])),
-    ];
-
-    for (const nome of categorias) {
-      if (!nome) {
-        continue;
-      }
-
-      await tx.categoriaProduto.upsert({
-        where: { nome },
-        update: {
-          active: true,
-          userId: admin.id,
-        },
-        create: {
-          nome,
-          userId: admin.id,
-        },
-      });
-    }
-
-    for (const row of rows) {
-      const produto = buildProdutoData(row, admin.id);
-
-      const produtoExistente = await tx.produto.findFirst({
-        where: { codigo: produto.codigo, nome: produto.nome },
-        select: { id: true },
+  await prisma.$transaction(
+    async (tx) => {
+      const admin = await tx.user.findUnique({
+        where: { username: ADMIN_USERNAME },
       });
 
-      if (produtoExistente) {
-        console.log('Produto já existe', produto);
-        continue;
+      if (!admin) {
+        throw new Error(
+          `Usuário administrador ${ADMIN_USERNAME} não encontrado.`
+        );
       }
 
-      await tx.produto.create({ data: produto });
+      const categorias = [
+        ...new Set(rows.map((row) => categoriaPorMaterial[row.material])),
+      ];
+
+      for (const nome of categorias) {
+        if (!nome) {
+          continue;
+        }
+
+        await tx.categoriaProduto.upsert({
+          where: { nome },
+          update: {
+            active: true,
+            userId: admin.id,
+          },
+          create: {
+            nome,
+            userId: admin.id,
+          },
+        });
+      }
+
+      for (const row of rows) {
+        const produto = buildProdutoData(row, admin.id);
+
+        // const produtoExistente = await tx.produto.findFirst({
+        //   where: { codigo: produto.codigo, nome: produto.nome },
+        //   select: { id: true },
+        // });
+
+        // if (produtoExistente) {
+        //   console.log('Produto já existe', produto);
+        //   continue;
+        // }
+
+        await tx.produto.create({ data: produto });
+      }
+    },
+    {
+      maxWait: 5_000,
+      timeout: 15_000,
     }
-  });
+  );
 
   console.log(`${rows.length} produtos processados a partir de ${csvPath}.`);
 }
