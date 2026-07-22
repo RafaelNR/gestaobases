@@ -95,6 +95,7 @@ export default function ButtonsCarrinho({
 					const newRequerimento = await createMutation.mutateAsync(
 						buildPayload({ ...values, status: "Rascunho" }),
 					);
+					resetForm?.();
 					navigate(
 						`/requerimentos/${newRequerimento.tipo.toLowerCase()}/edit/${newRequerimento.id}`,
 					);
@@ -135,10 +136,10 @@ export default function ButtonsCarrinho({
 				const created = await createMutation.mutateAsync(
 					buildPayload({ ...values, status: "Recebido" }),
 				);
-
-				if (created?.id) {
-					resetForm?.();
-				}
+				resetForm?.();
+				navigate(
+					`/requerimentos/${created.tipo.toLowerCase()}/view/${created.id}`,
+				);
 			},
 			[
 				buildPayload,
@@ -177,7 +178,7 @@ export default function ButtonsCarrinho({
 				flexDirection: "column",
 			}}
 		>
-			{requerimento?.status === "Rascunho" && (
+			{(!requerimento?.status || requerimento.status === "Rascunho") && (
 				<>
 					<LoadingButton
 						type="submit"

@@ -115,6 +115,98 @@ export default function Login() {
 					</Typography>
 				</Box>
 			</Box>
+
+			<Box
+				sx={{
+					display: { xs: "flex", md: "none" },
+					width: "100%",
+					minHeight: "100vh",
+					"@supports (min-height: 100svh)": {
+						minHeight: "100svh",
+					},
+					alignItems: "center",
+					justifyContent: "center",
+					boxSizing: "border-box",
+					px: { xs: 1, sm: 3 },
+					py: { xs: 2, sm: 4 },
+					backgroundColor: "rgba(255, 255, 255, 0.82)",
+					overflowY: "auto",
+				}}
+			>
+				<Box sx={{ width: "100%", maxWidth: 420 }}>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<Typography
+							fontWeight="bold"
+							sx={{
+								color: "secondary.main",
+								fontSize: { xs: "4rem", sm: "4.5rem" },
+								lineHeight: 1,
+							}}
+						>
+							GESTÃO DE
+						</Typography>
+						<Typography
+							fontWeight="bold"
+							sx={{
+								mb: 1.5,
+								fontSize: { xs: "4.75rem", sm: "4.5rem" },
+								lineHeight: 0.95,
+								color: "primary.main",
+							}}
+						>
+							BASES
+						</Typography>
+
+						<Typography
+							sx={{
+								mb: 2,
+								fontWeight: 400,
+								fontSize: { xs: "1rem", sm: "1.1rem" },
+								lineHeight: 1.45,
+								color: "secondary.main",
+							}}
+						>
+							Gerencie sua base e requerimentos de forma
+							<br />
+							ágil, segura e eficiente.
+						</Typography>
+					</Box>
+
+					<LoginBox />
+
+					<Grid container spacing={0.5} sx={{ width: "100%", mb: 1 }}>
+						{features.map(({ icon, label }) => (
+							<Grid size={3} key={label}>
+								<Box
+									sx={{
+										display: "flex",
+										alignItems: "center",
+										gap: 0.5,
+										borderRadius: 3,
+										p: { xs: 0.75, sm: 1 },
+										flexDirection: "column",
+									}}
+								>
+									{icon}
+									<Typography
+										fontWeight={600}
+										fontSize={{ xs: 12, sm: 13 }}
+										sx={{ color: "secondary.main" }}
+									>
+										{label}
+									</Typography>
+								</Box>
+							</Grid>
+						))}
+					</Grid>
+				</Box>
+			</Box>
 		</Box>
 	);
 }

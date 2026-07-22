@@ -211,7 +211,7 @@ export default function Carrinho({
 				</TableContainer>
 			)}
 
-			{(!requerimento?.status || requerimento.status === "Rascunho") && (
+			{!requerimento?.status || requerimento.status === "Rascunho" ? (
 				<Box
 					sx={{
 						display: "flex",
@@ -229,9 +229,7 @@ export default function Carrinho({
 						setCart={setCart}
 					/>
 				</Box>
-			)}
-
-			{requerimento?.status &&
+			) : (
 				!["Finalizado", "Cancelado"].includes(requerimento?.status) && (
 					<Box
 						sx={{
@@ -251,7 +249,8 @@ export default function Carrinho({
 							setCart={setCart}
 						/>
 					</Box>
-				)}
+				)
+			)}
 		</Paper>
 	);
 }
