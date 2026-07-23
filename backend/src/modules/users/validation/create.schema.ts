@@ -14,7 +14,7 @@ export const CreateUserRequestSchema = extendApi(
       .string({
         error: 'Nome é requerido',
       })
-      .min(5, 'Nome deve conter pelo menos 5 caracteres.')
+      .min(3, 'Nome deve conter pelo menos 3 caracteres.')
       .max(190, 'Nome deve conter no max. 190 caracteres.'),
     email: z.email().optional().nullable(),
     telefone: z.preprocess(

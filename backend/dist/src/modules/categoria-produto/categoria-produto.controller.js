@@ -129,7 +129,10 @@ _ts_decorate([
 _ts_decorate([
     (0, _common.Get)(':id'),
     (0, _rolesdecorator.Setor)(_rolesdecorator.TypeSetor.Administrador),
-    (0, _rolesdecorator.Cargo)(_rolesdecorator.TypeCargo.Almoxarifado),
+    (0, _rolesdecorator.Cargo)([
+        _rolesdecorator.TypeCargo.Almoxarifado,
+        _rolesdecorator.TypeCargo.AuxAlmoxarifado
+    ]),
     _ts_param(0, (0, _common.Param)('id')),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -140,7 +143,10 @@ _ts_decorate([
 _ts_decorate([
     (0, _common.Post)(),
     (0, _rolesdecorator.Setor)(_rolesdecorator.TypeSetor.Administrador),
-    (0, _rolesdecorator.Cargo)(_rolesdecorator.TypeCargo.Almoxarifado),
+    (0, _rolesdecorator.Cargo)([
+        _rolesdecorator.TypeCargo.Almoxarifado,
+        _rolesdecorator.TypeCargo.AuxAlmoxarifado
+    ]),
     _ts_param(0, (0, _userdecorator.User)()),
     _ts_param(1, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
@@ -153,7 +159,10 @@ _ts_decorate([
 _ts_decorate([
     (0, _common.Put)(':id'),
     (0, _rolesdecorator.Setor)(_rolesdecorator.TypeSetor.Administrador),
-    (0, _rolesdecorator.Cargo)(_rolesdecorator.TypeCargo.Almoxarifado),
+    (0, _rolesdecorator.Cargo)([
+        _rolesdecorator.TypeCargo.Almoxarifado,
+        _rolesdecorator.TypeCargo.AuxAlmoxarifado
+    ]),
     _ts_param(0, (0, _userdecorator.User)()),
     _ts_param(1, (0, _common.Param)('id')),
     _ts_param(2, (0, _common.Body)()),
@@ -168,7 +177,6 @@ _ts_decorate([
 _ts_decorate([
     (0, _common.Delete)(':id'),
     (0, _rolesdecorator.Setor)(_rolesdecorator.TypeSetor.Administrador),
-    (0, _rolesdecorator.Cargo)(_rolesdecorator.TypeCargo.Almoxarifado),
     _ts_param(0, (0, _userdecorator.User)()),
     _ts_param(1, (0, _common.Param)('id')),
     _ts_metadata("design:type", Function),

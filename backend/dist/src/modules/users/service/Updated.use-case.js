@@ -33,7 +33,7 @@ let UpdateUsuario = class UpdateUsuario {
     }
     async exec(dados, user) {
         const userOriginal = await this.userService.user({
-            username: dados.username
+            id: dados.id
         });
         if (!userOriginal) throw new _ValidateError.default('Usuário não existe');
         const setor = await this.userService.prisma.setor.findUnique({

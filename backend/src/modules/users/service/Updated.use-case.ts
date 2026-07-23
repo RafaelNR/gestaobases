@@ -13,7 +13,7 @@ export class UpdateUsuario {
 
   public async exec(dados: UpdateUserRequestDto, user: IUser) {
     const userOriginal = await this.userService.user({
-      username: dados.username,
+      id: dados.id,
     });
 
     if (!userOriginal) throw new ValidateError('Usuário não existe');

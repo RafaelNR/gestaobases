@@ -73,7 +73,7 @@ export class ProdutoController extends BaseController {
 
   @Post()
   @Setor([TypeSetor.Administrador])
-  @Cargo([TypeCargo.Almoxarifado])
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async create(
     @User() user: IUser,
     @Body() createProdutoRequestDto: CreateProdutoRequestDto
@@ -121,7 +121,7 @@ export class ProdutoController extends BaseController {
 
   @Put(':id')
   @Setor([TypeSetor.Administrador])
-  @Cargo([TypeCargo.Almoxarifado])
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async update(
     @User() user: IUser,
     @Param('id') id: string,
@@ -158,7 +158,7 @@ export class ProdutoController extends BaseController {
 
   @Delete(':id')
   @Setor([TypeSetor.Administrador])
-  @Cargo([TypeCargo.Almoxarifado])
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async remove(
     @User() user: IUser,
     @Param('id') id: string
@@ -203,7 +203,7 @@ export class ProdutoController extends BaseController {
 
   @Put(':id/toggle-active')
   @Setor([TypeSetor.Administrador])
-  @Cargo([TypeCargo.Almoxarifado])
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async toggleActive(
     @User() user: IUser,
     @Param('id') id: string

@@ -9,13 +9,13 @@ export const UpdateUserRequestSchema = extendApi(
       .string({
         error: 'Nome de usuário é requerido',
       })
-      .min(5, 'Nome de usuário deve conter pelo menos 5 caracteres.')
+      .min(3, 'Nome de usuário deve conter pelo menos 3 caracteres.')
       .max(190, 'Nome de usuário deve conter no max. 190 caracteres.'),
     nome: z
       .string({
         error: 'Nome é requerido',
       })
-      .min(5, 'Nome deve conter pelo menos 5 caracteres.')
+      .min(3, 'Nome deve conter pelo menos 3 caracteres.')
       .max(190, 'Nome deve conter no max. 190 caracteres.'),
     email: z.email().optional().nullable(),
     telefone: z.preprocess(
@@ -51,7 +51,7 @@ export const UpdatePerfilRequestSchema = extendApi(
       .string({
         error: 'Nome é requerido',
       })
-      .min(5, 'Nome deve conter pelo menos 5 caracteres.')
+      .min(3, 'Nome deve conter pelo menos 3 caracteres.')
       .max(190, 'Nome deve conter no max. 190 caracteres.'),
     email: z.email().optional(),
     telefone: z.preprocess(

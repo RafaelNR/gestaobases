@@ -53,7 +53,7 @@ export class CategoriaProdutoController extends BaseController {
 
   @Get(':id')
   @Setor(TypeSetor.Administrador)
-  @Cargo(TypeCargo.Almoxarifado)
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async findOne(@Param('id') id: string): Promise<IResponse<any>> {
     if (!id)
       throw new HttpException('Id não foi enviado.', HttpStatus.FORBIDDEN);
@@ -76,7 +76,7 @@ export class CategoriaProdutoController extends BaseController {
 
   @Post()
   @Setor(TypeSetor.Administrador)
-  @Cargo(TypeCargo.Almoxarifado)
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async create(
     @User() user: IUser,
     @Body() createCategoriaProdutoRequestDto: CreateCategoriaProdutoRequestDto
@@ -114,7 +114,7 @@ export class CategoriaProdutoController extends BaseController {
 
   @Put(':id')
   @Setor(TypeSetor.Administrador)
-  @Cargo(TypeCargo.Almoxarifado)
+  @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async update(
     @User() user: IUser,
     @Param('id') id: string,
@@ -153,7 +153,7 @@ export class CategoriaProdutoController extends BaseController {
 
   @Delete(':id')
   @Setor(TypeSetor.Administrador)
-  @Cargo(TypeCargo.Almoxarifado)
+  // @Cargo([TypeCargo.Almoxarifado, TypeCargo.AuxAlmoxarifado])
   async remove(
     @User() user: IUser,
     @Param('id') id: string
