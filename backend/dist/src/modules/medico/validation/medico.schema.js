@@ -25,8 +25,7 @@ const CreateMedicoSchema = (0, _zodopenapi.extendApi)(_zod.z.object({
     crm: _zod.z.string({
         error: 'CRM é requerido.'
     }).min(1, 'CRM é requerido.').max(20, 'CRM deve conter no máximo 20 caracteres.'),
-    telefone: _zod.z.string().max(20, 'Telefone deve conter no máximo 20 caracteres.').optional().nullable(),
-    email: _zod.z.string().email('E-mail inválido.').max(150, 'E-mail deve conter no máximo 150 caracteres.').optional().nullable()
+    telefone: _zod.z.string().max(20, 'Telefone deve conter no máximo 20 caracteres.').optional().nullable()
 }), {
     title: 'Request create medico',
     description: 'Um Médico'
@@ -41,8 +40,7 @@ const UpdateMedicoSchema = (0, _zodopenapi.extendApi)(_zod.z.object({
     crm: _zod.z.string({
         error: 'CRM é requerido.'
     }).min(1, 'CRM é requerido.').max(20, 'CRM deve conter no máximo 20 caracteres.'),
-    telefone: _zod.z.string().max(20, 'Telefone deve conter no máximo 20 caracteres.').optional().nullable(),
-    email: _zod.z.string().email('E-mail inválido.').max(150, 'E-mail deve conter no máximo 150 caracteres.').optional().nullable()
+    telefone: _zod.z.string().max(20, 'Telefone deve conter no máximo 20 caracteres.').optional().nullable()
 }), {
     title: 'Request update medico',
     description: 'Um Médico'

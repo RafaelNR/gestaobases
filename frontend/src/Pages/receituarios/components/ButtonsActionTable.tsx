@@ -3,12 +3,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import TableActionButtons from "@/Components/Table/TableActionButtons";
-import { USUARIOS_PERMISSIONS } from "@/Guard/PermissionGroups";
+import { RECEITUARIOS_PERMISSIONS } from "@/Guard/PermissionGroups";
 import useDialog from "@/Hooks/useDialog";
-import { Usuario } from "@/Types/Usuarios";
+import { Receituario } from "@/Types/Receituario";
 
 type Props = {
-	row: Usuario;
+	row: Receituario;
 };
 
 export default function ButtonActionTable({ row }: Props) {
@@ -16,14 +16,14 @@ export default function ButtonActionTable({ row }: Props) {
 
 	return (
 		<TableActionButtons
-			ariaLabel={`Ações do usuário ${row.nome}`}
+			ariaLabel={`Ações do receituário ${row.numero}`}
 			actions={[
 				{
 					id: "view",
-					label: "Visualizar",
+					label: "Detalhes",
 					icon: <VisibilityIcon fontSize="small" />,
 					color: "primary",
-					permission: USUARIOS_PERMISSIONS.VIEW,
+					permission: RECEITUARIOS_PERMISSIONS.VIEW,
 					onClick: () => handleClickOpenDialog({ m: "view", s: row }),
 				},
 				{
@@ -31,7 +31,7 @@ export default function ButtonActionTable({ row }: Props) {
 					label: "Editar",
 					icon: <EditIcon fontSize="small" />,
 					color: "primary",
-					permission: USUARIOS_PERMISSIONS.EDIT,
+					permission: RECEITUARIOS_PERMISSIONS.EDIT,
 					onClick: () => handleClickOpenDialog({ m: "edit", s: row }),
 				},
 				{
@@ -39,7 +39,7 @@ export default function ButtonActionTable({ row }: Props) {
 					label: "Desabilitar",
 					icon: <DeleteIcon fontSize="small" />,
 					color: "error",
-					permission: USUARIOS_PERMISSIONS.DELETE,
+					permission: RECEITUARIOS_PERMISSIONS.DELETE,
 					onClick: () => handleClickOpenDialog({ m: "delete", s: row }),
 				},
 			]}

@@ -3,10 +3,35 @@ import { receituarioSchema } from "@/Schemas/Receituario.schemas";
 
 export type ReceituarioSchemaInput = TypeOf<typeof receituarioSchema>;
 
-export type StatusReceituario = 'Aberto' | 'Finalizado' | 'Cancelado';
-export type UnidadeMedicamento = 'ampolas' | 'ml';
-export type TipoAdministracao = 'EV' | 'IM' | 'SC' | 'IN' | 'IR' | 'IO';
-export type TipoDiluente = 'agua_destilada' | 'nacl09';
+export type StatusReceituario = "Aberto" | "Finalizado" | "Cancelado";
+export type UnidadeMedicamento = "ampolas" | "ml";
+export type TipoAdministracao = "EV" | "IM" | "SC" | "IN" | "IR" | "IO";
+export type TipoDiluente = "agua_destilada" | "nacl09";
+
+export const STATUS_COLORS: Record<
+	StatusReceituario,
+	"default" | "info" | "success" | "error"
+> = {
+	Aberto: "info",
+	Finalizado: "success",
+	Cancelado: "error",
+};
+export const ALL_STATUS: StatusReceituario[] = [
+	"Aberto",
+	"Finalizado",
+	"Cancelado",
+];
+
+export const ADMINISTRACAO_OPTIONS: TipoAdministracao[] = [
+	"EV",
+	"IM",
+	"SC",
+	"IN",
+	"IR",
+	"IO",
+];
+export const UNIDADE_OPTIONS: UnidadeMedicamento[] = ["ampolas", "ml"];
+export const DILUENTE_OPTIONS: TipoDiluente[] = ["agua_destilada", "nacl09"];
 
 export type ReceituarioMedicamento = {
 	id: string;
@@ -22,7 +47,12 @@ export type ReceituarioMedicamento = {
 	obs?: string | null;
 	created_at: string;
 	updated_at: string;
-	Medicamento?: { id: string; nome: string; codigo: string; especificacao: string } | null;
+	Medicamento?: {
+		id: string;
+		nome: string;
+		codigo: string;
+		especificacao: string;
+	} | null;
 };
 
 export type Receituario = {
@@ -47,20 +77,20 @@ export type Receituario = {
 };
 
 export const ADMINISTRACAO_LABELS: Record<TipoAdministracao, string> = {
-	EV: 'Endovenosa',
-	IM: 'Intramuscular',
-	SC: 'Subcutânea',
-	IN: 'Inalação',
-	IR: 'Retal',
-	IO: 'Intraóssea',
+	EV: "Endovenosa",
+	IM: "Intramuscular",
+	SC: "Subcutânea",
+	IN: "Inalação",
+	IR: "Retal",
+	IO: "Intraóssea",
 };
 
 export const DILUENTE_LABELS: Record<TipoDiluente, string> = {
-	agua_destilada: 'Água Destilada',
-	nacl09: 'NaCl 0,9%',
+	agua_destilada: "Água Destilada",
+	nacl09: "NaCl 0,9%",
 };
 
 export const UNIDADE_LABELS: Record<UnidadeMedicamento, string> = {
-	ampolas: 'Ampola(s)',
-	ml: 'mL',
+	ampolas: "Ampola(s)",
+	ml: "mL",
 };

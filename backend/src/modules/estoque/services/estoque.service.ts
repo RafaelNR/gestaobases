@@ -260,6 +260,7 @@ export class EstoqueService {
             Regular: 0,
             Atencao: 0,
             Alerta: 0,
+            Hoje: 0,
             Vencido: 0,
           },
         };
@@ -288,6 +289,7 @@ export class EstoqueService {
             Regular: 0,
             Atencao: 0,
             Alerta: 0,
+            Hoje: 0,
             Vencido: 0,
           },
         }),
@@ -348,9 +350,13 @@ export class EstoqueService {
   ) {
     // Acesso a todas as bases
     if (
-      [TypeSetor.Administrador, TypeSetor.Enfermagem, TypeSetor.Frota].includes(
-        user.setor
-      )
+      [
+        TypeSetor.Administrador,
+        TypeSetor.Enfermagem,
+        TypeSetor.Frota,
+        TypeSetor.Almoxarifado,
+        TypeSetor.Farmacia,
+      ].includes(user.setor)
     ) {
       where.baseId = query.baseId ? query.baseId : undefined;
     }
@@ -387,11 +393,13 @@ export class EstoqueService {
           ? { validade: null }
           : query.status === StatusValidadeEstoque.Vencido
             ? { validade: { lt: inicioHoje } }
-            : query.status === StatusValidadeEstoque.Alerta
-              ? { validade: { gte: inicioHoje, lte: dataLimite(7) } }
-              : query.status === StatusValidadeEstoque.Atencao
-                ? { validade: { gt: dataLimite(7), lte: dataLimite(15) } }
-                : { validade: { gt: dataLimite(15) } };
+            : query.status === StatusValidadeEstoque.Hoje
+              ? { validade: { gte: inicioHoje, lte: inicioHoje } }
+              : query.status === StatusValidadeEstoque.Alerta
+                ? { validade: { gt: inicioHoje, lte: dataLimite(7) } }
+                : query.status === StatusValidadeEstoque.Atencao
+                  ? { validade: { gt: dataLimite(7), lte: dataLimite(15) } }
+                  : { validade: { gt: dataLimite(15) } };
       where.lotes = { some: { active: true, ...validade } };
     }
 

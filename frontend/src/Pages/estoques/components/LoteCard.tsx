@@ -35,9 +35,7 @@ export default function LoteCard({
 				gap={2}
 			>
 				<Box flex={1}>
-					<Typography fontWeight={700}>
-						Lote: {lote.lote || "Saldo sem lote"}
-					</Typography>
+					<Typography fontWeight={700}>Lote: {lote.lote || "-"}</Typography>
 					<Typography variant="caption" color="text.secondary">
 						Validade:{" "}
 						{lote.validade

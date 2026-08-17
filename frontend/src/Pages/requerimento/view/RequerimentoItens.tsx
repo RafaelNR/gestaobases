@@ -126,7 +126,9 @@ export default function Index({
 							<TableCell align="center" width={120}>
 								Quantidade
 							</TableCell>
-							{tipo === "Farmacia" && <TableCell>Ocorrência</TableCell>}
+							{tipo === "Farmacia" && (
+								<TableCell align="center">Ocorrência</TableCell>
+							)}
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -161,7 +163,9 @@ export default function Index({
 									</Typography>
 								</TableCell>
 								{tipo === "Farmacia" && (
-									<TableCell>{item.ocorrencia ?? "-"}</TableCell>
+									<TableCell align="center" width={160}>
+										{item.ocorrencia ?? "-"}
+									</TableCell>
 								)}
 							</TableRow>
 						))}

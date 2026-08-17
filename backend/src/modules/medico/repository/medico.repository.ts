@@ -20,7 +20,6 @@ export class MedicoRepository {
     nome: string;
     crm: string;
     telefone?: string | null;
-    email?: string | null;
     userId: string;
   }): Promise<Medico> {
     return this.prisma.medico.create({ data });
@@ -32,7 +31,7 @@ export class MedicoRepository {
       nome: string;
       crm: string;
       telefone?: string | null;
-      email?: string | null;
+      userId: string;
     }
   ): Promise<Medico> {
     return this.prisma.medico.update({ where: { id }, data });

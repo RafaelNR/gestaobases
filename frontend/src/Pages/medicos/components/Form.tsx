@@ -32,15 +32,6 @@ export default function Form() {
 					inputProps={{ maxLength: 20 }}
 				/>
 			</Grid>
-			<Grid size={{ xs: 12 }}>
-				<FormInput
-					name="email"
-					label="E-mail (opcional)"
-					fullWidth
-					type="email"
-					inputProps={{ maxLength: 150 }}
-				/>
-			</Grid>
 		</Grid>
 	);
 }

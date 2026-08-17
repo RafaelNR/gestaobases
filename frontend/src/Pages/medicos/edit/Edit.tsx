@@ -14,7 +14,6 @@ import type { Medico, MedicoSchemaInput } from "@/Types/Medico";
 import Form from "../components/Form";
 import { medicoSchema } from "@/Schemas/Medico.schemas";
 
-
 const FORM_ID = "medico-edit-form";
 
 export default function EditMedico({
@@ -36,9 +35,8 @@ export default function EditMedico({
 					nome: medico.nome,
 					crm: medico.crm,
 					telefone: medico.telefone ?? "",
-					email: medico.email ?? "",
 				}
-			: { nome: "", crm: "", telefone: "", email: "" },
+			: { nome: "", crm: "", telefone: "" },
 	});
 	const {
 		handleSubmit,
@@ -54,7 +52,6 @@ export default function EditMedico({
 				nome: values.nome,
 				crm: values.crm,
 				telefone: values.telefone || null,
-				email: values.email || null,
 			});
 			onClose();
 		},
@@ -63,7 +60,10 @@ export default function EditMedico({
 	);
 
 	const onError: SubmitErrorHandler<MedicoSchemaInput> = useCallback(() => {
-		handleSnackBar({ type: "error", message: "Preencha os campos obrigatórios." });
+		handleSnackBar({
+			type: "error",
+			message: "Preencha os campos obrigatórios.",
+		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

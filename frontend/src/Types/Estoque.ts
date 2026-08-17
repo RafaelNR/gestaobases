@@ -12,6 +12,7 @@ export type StatusValidadeEstoque =
 	| "Regular"
 	| "Atencao"
 	| "Alerta"
+	| "Hoje"
 	| "Vencido";
 export type TipoMovimentacaoEstoque =
 	| "Entrada"

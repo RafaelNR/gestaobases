@@ -5,7 +5,7 @@ export const usuarioInsertSchema = z.object({
 		.string({
 			error: "Nome é requerido.",
 		})
-		.min(5, "Nome deve conter pelo menos 5 caracteres.")
+		.min(3, "Nome deve conter pelo menos 3 caracteres.")
 		.max(190, "Nome deve conter no max. 190 caracteres."),
 	username: z
 		.string({
@@ -49,7 +49,7 @@ export const perfilSchema = z.object({
 		.string({
 			error: "Nome é requerido.",
 		})
-		.min(5, "Nome deve conter pelo menos 5 caracteres.")
+		.min(3, "Nome deve conter pelo menos 3 caracteres.")
 		.max(190, "Nome deve conter no max. 190 caracteres."),
 	telefone: z.preprocess(
 		(val) => (val === "" ? null : val),

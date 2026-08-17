@@ -35,7 +35,14 @@ let AmbulanciaController = class AmbulanciaController extends _BaseController.Ba
         super(), this.ambulanciaRepository = ambulanciaRepository, this.logService = logService;
     }
     // ----- GET (/ambulancias) - Administrador ---
-    async findAll() {
+    async findAll(user) {
+        if (user.setor === _rolesdecorator.TypeSetor.Base) {
+            const ambulancias = await this.ambulanciaRepository.findByBaseId(user.baseId);
+            return this.handleSuccessResponse({
+                code: _common.HttpStatus.OK,
+                response: ambulancias
+            });
+        }
         const ambulancias = await this.ambulanciaRepository.findAll();
         return this.handleSuccessResponse({
             code: _common.HttpStatus.OK,
@@ -144,8 +151,11 @@ let AmbulanciaController = class AmbulanciaController extends _BaseController.Ba
 _ts_decorate([
     (0, _common.Get)(),
     (0, _rolesdecorator.Autenticado)(),
+    _ts_param(0, (0, _userdecorator.User)()),
     _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:paramtypes", [
+        typeof _userdecorator.IUser === "undefined" ? Object : _userdecorator.IUser
+    ]),
     _ts_metadata("design:returntype", Promise)
 ], AmbulanciaController.prototype, "findAll", null);
 _ts_decorate([

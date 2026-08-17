@@ -65,7 +65,6 @@ let MedicoController = class MedicoController extends _BaseController.BaseContro
             nome: dto.nome,
             crm: dto.crm,
             telefone: dto.telefone ?? null,
-            email: dto.email ?? null,
             userId: user.id
         });
         this.logService.created({
@@ -89,7 +88,7 @@ let MedicoController = class MedicoController extends _BaseController.BaseContro
             nome: dto.nome,
             crm: dto.crm,
             telefone: dto.telefone ?? null,
-            email: dto.email ?? null
+            userId: user.id
         });
         this.logService.updated({
             mensagem: `Médico "${updated.nome}" atualizado pelo usuário ${user.nome}`,

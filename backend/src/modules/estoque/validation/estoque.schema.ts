@@ -16,8 +16,8 @@ export const CreateEstoqueSchema = z
 
 export const CreateLoteSchema = z.object({
   estoqueId: uuid,
-  lote: z.string().trim().min(1).max(191).optional().nullable(),
-  validade: z.coerce.date().optional().nullable(),
+  validade: z.coerce.date('Data de validade inválida').optional().nullable(),
+  lote: z.string('Lote inválido').optional().nullable(),
   quantidade: z.preprocess(
     (value) => Number(value),
     z.number('Quantidade inválida').min(1, 'Quantidade deve ser maior que 0')
@@ -69,6 +69,6 @@ export const EstoqueQuerySchema = z.object({
   search: z.string().trim().max(100).optional(),
   tipo: z.enum(['produto', 'medicamento']).optional(),
   status: z
-    .enum(['SemValidade', 'Regular', 'Atencao', 'Alerta', 'Vencido'])
+    .enum(['SemValidade', 'Regular', 'Atencao', 'Alerta', 'Hoje', 'Vencido'])
     .optional(),
 });

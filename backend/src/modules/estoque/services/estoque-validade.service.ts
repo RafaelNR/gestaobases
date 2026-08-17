@@ -3,6 +3,7 @@ export enum StatusValidadeEstoque {
   Regular = 'Regular',
   Atencao = 'Atencao',
   Alerta = 'Alerta',
+  Hoje = 'Hoje',
   Vencido = 'Vencido',
 }
 
@@ -12,8 +13,12 @@ function inicioDiaUtc(data: Date): number {
   return Date.UTC(data.getUTCFullYear(), data.getUTCMonth(), data.getUTCDate());
 }
 
-export function buildChaveLote(lote?: string | null, validade?: Date | null): string {
-  const loteNormalizado = lote?.trim().replace(/\s+/g, ' ').toUpperCase() || 'SEM_LOTE';
+export function buildChaveLote(
+  lote?: string | null,
+  validade?: Date | null
+): string {
+  const loteNormalizado =
+    lote?.trim().replace(/\s+/g, ' ').toUpperCase() || 'SEM_LOTE';
 
   if (!lote && !validade) return 'SEM_LOTE';
 
@@ -36,11 +41,13 @@ export function classificarValidade(validade: Date | null, hoje = new Date()) {
   const status =
     diasParaVencer < 0
       ? StatusValidadeEstoque.Vencido
-      : diasParaVencer <= 7
-        ? StatusValidadeEstoque.Alerta
-        : diasParaVencer <= 15
-          ? StatusValidadeEstoque.Atencao
-          : StatusValidadeEstoque.Regular;
+      : diasParaVencer === 0
+        ? StatusValidadeEstoque.Hoje
+        : diasParaVencer <= 7
+          ? StatusValidadeEstoque.Alerta
+          : diasParaVencer <= 15
+            ? StatusValidadeEstoque.Atencao
+            : StatusValidadeEstoque.Regular;
 
   return { status, diasParaVencer };
 }

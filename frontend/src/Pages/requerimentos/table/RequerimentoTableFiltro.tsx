@@ -27,6 +27,7 @@ import {
 } from "./RequerimentoTableFiltro.helpers";
 import SelectStatusController from "@/Components/Select/SelectStatusController";
 import TextFieldController from "@/Components/TextField/TextFieldController";
+import { usePermissions } from "@/Hooks/usePermissions";
 
 type Props = {
 	tipo: TipoRequerimento;
@@ -43,9 +44,8 @@ const DEFAULT_FILTER_VALUES: RequerimentoFiltroFormValues = {
 	numero: undefined,
 };
 
-export default function RequerimentoTableFiltro({
-	onFilterChange,
-}: Props) {
+export default function RequerimentoTableFiltro({ onFilterChange }: Props) {
+	const { can } = usePermissions();
 	const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 	const methods = useForm<RequerimentoFiltroFormValues>({
@@ -107,17 +107,25 @@ export default function RequerimentoTableFiltro({
 						<Stack spacing={1.5}>
 							<Grid container spacing={1.5}>
 								<Grid size={{ xs: 12, md: 6, lg: 1 }}>
-									<TextFieldController name="numero" label="Número" size="small" />
+									<TextFieldController
+										name="numero"
+										label="Número"
+										size="small"
+									/>
 								</Grid>
 								<Grid size={{ xs: 12, md: 6, lg: 1 }}>
 									<SelectStatusController />
 								</Grid>
-								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-									<AutocompleteBaseController />
-								</Grid>
-								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
-									<AutocompleteFacilitadorController />
-								</Grid>
+								{can("requerimentos:filtro:bases") && (
+									<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+										<AutocompleteBaseController />
+									</Grid>
+								)}
+								{can("requerimentos:filtro:facilitador") && (
+									<Grid size={{ xs: 12, md: 6, lg: 2 }}>
+										<AutocompleteFacilitadorController />
+									</Grid>
+								)}
 								<Grid size={{ xs: 12, md: 6, lg: 2 }}>
 									<AutocompleteAmbulanciaController />
 								</Grid>

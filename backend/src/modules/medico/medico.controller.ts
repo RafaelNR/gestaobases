@@ -90,7 +90,6 @@ export class MedicoController extends BaseController {
       nome: dto.nome,
       crm: dto.crm,
       telefone: dto.telefone ?? null,
-      email: dto.email ?? null,
       userId: user.id,
     });
 
@@ -128,7 +127,7 @@ export class MedicoController extends BaseController {
       nome: dto.nome,
       crm: dto.crm,
       telefone: dto.telefone ?? null,
-      email: dto.email ?? null,
+      userId: user.id,
     });
 
     this.logService.updated({

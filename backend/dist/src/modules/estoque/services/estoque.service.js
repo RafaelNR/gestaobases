@@ -288,6 +288,7 @@ let EstoqueService = class EstoqueService {
                         Regular: 0,
                         Atencao: 0,
                         Alerta: 0,
+                        Hoje: 0,
                         Vencido: 0
                     }
                 };
@@ -312,6 +313,7 @@ let EstoqueService = class EstoqueService {
                             Regular: 0,
                             Atencao: 0,
                             Alerta: 0,
+                            Hoje: 0,
                             Vencido: 0
                         }
                     }
@@ -381,7 +383,9 @@ let EstoqueService = class EstoqueService {
         if ([
             _rolesdecorator.TypeSetor.Administrador,
             _rolesdecorator.TypeSetor.Enfermagem,
-            _rolesdecorator.TypeSetor.Frota
+            _rolesdecorator.TypeSetor.Frota,
+            _rolesdecorator.TypeSetor.Almoxarifado,
+            _rolesdecorator.TypeSetor.Farmacia
         ].includes(user.setor)) {
             where.baseId = query.baseId ? query.baseId : undefined;
         }
@@ -413,9 +417,14 @@ let EstoqueService = class EstoqueService {
                 validade: {
                     lt: inicioHoje
                 }
-            } : query.status === _estoquevalidadeservice.StatusValidadeEstoque.Alerta ? {
+            } : query.status === _estoquevalidadeservice.StatusValidadeEstoque.Hoje ? {
                 validade: {
                     gte: inicioHoje,
+                    lte: inicioHoje
+                }
+            } : query.status === _estoquevalidadeservice.StatusValidadeEstoque.Alerta ? {
+                validade: {
+                    gt: inicioHoje,
                     lte: dataLimite(7)
                 }
             } : query.status === _estoquevalidadeservice.StatusValidadeEstoque.Atencao ? {

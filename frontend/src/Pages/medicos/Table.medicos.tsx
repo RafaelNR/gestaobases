@@ -26,14 +26,8 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
 import { useGetMedicos } from "@/Hooks/useMedicos";
 import useDialog from "@/Hooks/useDialog";
-
-function formatDate(iso: string) {
-	return new Date(iso).toLocaleDateString("pt-BR", {
-		day: "2-digit",
-		month: "2-digit",
-		year: "numeric",
-	});
-}
+import { DateFormat } from "@/Utils/dates";
+import ButtonActionTable from "./components/ButtonsActionTable";
 
 export default function MedicosTable() {
 	const { data: medicos, isLoading } = useGetMedicos();
@@ -100,7 +94,6 @@ export default function MedicosTable() {
 								<TableCell sx={{ fontWeight: 700 }}>Nome</TableCell>
 								<TableCell sx={{ fontWeight: 700 }}>CRM</TableCell>
 								<TableCell sx={{ fontWeight: 700 }}>Telefone</TableCell>
-								<TableCell sx={{ fontWeight: 700 }}>E-mail</TableCell>
 								<TableCell sx={{ fontWeight: 700 }}>Criado em</TableCell>
 								<TableCell align="center" sx={{ fontWeight: 700 }}>
 									Ações
@@ -163,42 +156,11 @@ export default function MedicosTable() {
 										</TableCell>
 										<TableCell>
 											<Typography variant="body2" color="text.secondary">
-												{m.email ?? "—"}
-											</Typography>
-										</TableCell>
-										<TableCell>
-											<Typography variant="body2" color="text.secondary">
-												{formatDate(m.created_at)}
+												{DateFormat(m.created_at)}
 											</Typography>
 										</TableCell>
 										<TableCell align="center">
-											<Tooltip title="Visualizar">
-												<IconButton
-													size="small"
-													onClick={() => handleClickOpenDialog({ m: "view", s: m })}
-													sx={{ color: "info.main" }}
-												>
-													<VisibilityIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Editar">
-												<IconButton
-													size="small"
-													onClick={() => handleClickOpenDialog({ m: "edit", s: m })}
-													sx={{ color: "primary.main" }}
-												>
-													<EditIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Excluir">
-												<IconButton
-													size="small"
-													onClick={() => handleClickOpenDialog({ m: "delete", s: m })}
-													sx={{ color: "error.main" }}
-												>
-													<DeleteIcon fontSize="small" />
-												</IconButton>
-											</Tooltip>
+											<ButtonActionTable row={m} />
 										</TableCell>
 									</TableRow>
 								))

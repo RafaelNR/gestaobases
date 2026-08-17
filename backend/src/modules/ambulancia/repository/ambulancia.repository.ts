@@ -24,6 +24,25 @@ export class AmbulanciaRepository {
     });
   }
 
+  async findByBaseId(baseId: string): Promise<Ambulancia[]> {
+    return this.prisma.ambulancia.findMany({
+      where: { baseId },
+      orderBy: { nome: 'asc' },
+      include: {
+        Base: {
+          select: {
+            nome: true,
+          },
+        },
+        User: {
+          select: {
+            nome: true,
+          },
+        },
+      },
+    });
+  }
+
   async findByBase(base: string): Promise<Ambulancia[]> {
     return this.prisma.ambulancia.findMany({
       where: { Base: { nome: base } },

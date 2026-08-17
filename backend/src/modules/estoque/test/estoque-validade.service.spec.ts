@@ -15,12 +15,15 @@ describe('estoque-validade', () => {
     ['2026-07-27', StatusValidadeEstoque.Atencao],
     ['2026-07-20', StatusValidadeEstoque.Atencao],
     ['2026-07-19', StatusValidadeEstoque.Alerta],
-    ['2026-07-12', StatusValidadeEstoque.Alerta],
+    ['2026-07-13', StatusValidadeEstoque.Alerta],
+    ['2026-07-12', StatusValidadeEstoque.Hoje],
     ['2026-07-11', StatusValidadeEstoque.Vencido],
   ])('classifica validade %s como %s', (validade, status) => {
     expect(
-      classificarValidade(validade ? new Date(`${validade}T12:00:00.000Z`) : null, hoje)
-        .status
+      classificarValidade(
+        validade ? new Date(`${validade}T12:00:00.000Z`) : null,
+        hoje
+      ).status
     ).toBe(status);
   });
 

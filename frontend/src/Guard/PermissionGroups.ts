@@ -198,6 +198,8 @@ export const REQUERIMENTOS_PERMISSIONS = {
 	STATUS_SEPARACAO: "requerimentos:status:separacao", // Pode alterar o status do requerimento para separação.
 	STATUS_FINALIZADO: "requerimentos:status:finalizado", // Pode alterar o status do requerimento para finalizado.
 	STATUS_CANCELADO: "requerimentos:status:cancelado", // Pode alterar o status do requerimento para cancelado.
+	FILTRO_BASES: "requerimentos:filtro:bases", // Pode filtrar os requerimentos por base.
+	FILTRO_FACILITADOR: "requerimentos:filtro:facilitador", // Pode filtrar os requerimentos por base.
 } as const;
 
 // Menus específicos das bases descentralizadas de requerimentos, menus para abrir requerimentos

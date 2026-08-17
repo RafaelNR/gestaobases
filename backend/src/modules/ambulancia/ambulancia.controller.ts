@@ -40,7 +40,18 @@ export class AmbulanciaController extends BaseController {
 
   @Get()
   @Autenticado()
-  async findAll(): Promise<IResponse<any>> {
+  async findAll(@User() user: IUser): Promise<IResponse<any>> {
+    if (user.setor === TypeSetor.Base) {
+      const ambulancias = await this.ambulanciaRepository.findByBaseId(
+        user.baseId
+      );
+
+      return this.handleSuccessResponse({
+        code: HttpStatus.OK,
+        response: ambulancias,
+      });
+    }
+
     const ambulancias = await this.ambulanciaRepository.findAll();
 
     return this.handleSuccessResponse({

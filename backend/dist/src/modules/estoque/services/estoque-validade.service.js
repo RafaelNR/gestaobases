@@ -24,6 +24,7 @@ var StatusValidadeEstoque = /*#__PURE__*/ function(StatusValidadeEstoque) {
     StatusValidadeEstoque["Regular"] = "Regular";
     StatusValidadeEstoque["Atencao"] = "Atencao";
     StatusValidadeEstoque["Alerta"] = "Alerta";
+    StatusValidadeEstoque["Hoje"] = "Hoje";
     StatusValidadeEstoque["Vencido"] = "Vencido";
     return StatusValidadeEstoque;
 }({});
@@ -45,7 +46,7 @@ function classificarValidade(validade, hoje = new Date()) {
         };
     }
     const diasParaVencer = Math.round((inicioDiaUtc(validade) - inicioDiaUtc(hoje)) / MS_POR_DIA);
-    const status = diasParaVencer < 0 ? "Vencido" : diasParaVencer <= 7 ? "Alerta" : diasParaVencer <= 15 ? "Atencao" : "Regular";
+    const status = diasParaVencer < 0 ? "Vencido" : diasParaVencer === 0 ? "Hoje" : diasParaVencer <= 7 ? "Alerta" : diasParaVencer <= 15 ? "Atencao" : "Regular";
     return {
         status,
         diasParaVencer

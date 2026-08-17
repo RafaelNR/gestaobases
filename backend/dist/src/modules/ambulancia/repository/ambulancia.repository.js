@@ -42,6 +42,28 @@ let AmbulanciaRepository = class AmbulanciaRepository {
             }
         });
     }
+    async findByBaseId(baseId) {
+        return this.prisma.ambulancia.findMany({
+            where: {
+                baseId
+            },
+            orderBy: {
+                nome: 'asc'
+            },
+            include: {
+                Base: {
+                    select: {
+                        nome: true
+                    }
+                },
+                User: {
+                    select: {
+                        nome: true
+                    }
+                }
+            }
+        });
+    }
     async findByBase(base) {
         return this.prisma.ambulancia.findMany({
             where: {

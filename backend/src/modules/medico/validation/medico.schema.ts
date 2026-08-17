@@ -16,12 +16,12 @@ export const CreateMedicoSchema = extendApi(
       .max(20, 'Telefone deve conter no máximo 20 caracteres.')
       .optional()
       .nullable(),
-    email: z
-      .string()
-      .email('E-mail inválido.')
-      .max(150, 'E-mail deve conter no máximo 150 caracteres.')
-      .optional()
-      .nullable(),
+    // email: z
+    //   .string()
+    //   .email('E-mail inválido.')
+    //   .max(150, 'E-mail deve conter no máximo 150 caracteres.')
+    //   .optional()
+    //   .nullable(),
   }),
   {
     title: 'Request create medico',
@@ -45,12 +45,12 @@ export const UpdateMedicoSchema = extendApi(
       .max(20, 'Telefone deve conter no máximo 20 caracteres.')
       .optional()
       .nullable(),
-    email: z
-      .string()
-      .email('E-mail inválido.')
-      .max(150, 'E-mail deve conter no máximo 150 caracteres.')
-      .optional()
-      .nullable(),
+    // email: z
+    //   .string()
+    //   .email('E-mail inválido.')
+    //   .max(150, 'E-mail deve conter no máximo 150 caracteres.')
+    //   .optional()
+    //   .nullable(),
   }),
   {
     title: 'Request update medico',

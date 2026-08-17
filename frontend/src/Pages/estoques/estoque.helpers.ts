@@ -12,7 +12,7 @@ export function resumirValidades(items: EstoqueItem[]) {
 			}
 			return acc;
 		},
-		{ SemValidade: 0, Regular: 0, Atencao: 0, Alerta: 0, Vencido: 0 },
+		{ SemValidade: 0, Regular: 0, Atencao: 0, Alerta: 0, Hoje: 0, Vencido: 0 },
 	);
 }
 

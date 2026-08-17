@@ -38,8 +38,8 @@ const CreateEstoqueSchema = _zod.z.object({
 });
 const CreateLoteSchema = _zod.z.object({
     estoqueId: uuid,
-    lote: _zod.z.string().trim().min(1).max(191).optional().nullable(),
-    validade: _zod.z.coerce.date().optional().nullable(),
+    validade: _zod.z.coerce.date('Data de validade inválida').optional().nullable(),
+    lote: _zod.z.string('Lote inválido').optional().nullable(),
     quantidade: _zod.z.preprocess((value)=>Number(value), _zod.z.number('Quantidade inválida').min(1, 'Quantidade deve ser maior que 0'))
 });
 const MovimentarEstoqueSchema = _zod.z.object({
@@ -92,6 +92,7 @@ const EstoqueQuerySchema = _zod.z.object({
         'Regular',
         'Atencao',
         'Alerta',
+        'Hoje',
         'Vencido'
     ]).optional()
 });
