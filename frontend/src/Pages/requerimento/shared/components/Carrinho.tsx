@@ -14,6 +14,7 @@ import {
 	Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import type {
@@ -45,7 +46,7 @@ export default function Carrinho({
 	requerimento,
 }: RequerimentoPageProps) {
 	function removeFromCart(id: string) {
-		setCart((prev) => prev.filter((c) => c.itemId !== id));
+		setCart((prev) => prev.filter((c) => getCartItemKey(c) !== id));
 	}
 
 	function updateQty(id: string, qty: number) {
@@ -54,15 +55,50 @@ export default function Carrinho({
 			return;
 		}
 		setCart((prev) =>
-			prev.map((c) => (c.itemId === id ? { ...c, quantidade: qty } : c)),
+			prev.map((c) =>
+				getCartItemKey(c) === id ? { ...c, quantidade: qty } : c,
+			),
 		);
 	}
 
 	function updateOcorrencia(id: string, value: string) {
 		setCart((prev) =>
-			prev.map((c) => (c.itemId === id ? { ...c, ocorrencia: value } : c)),
+			prev.map((c) =>
+				getCartItemKey(c) === id ? { ...c, ocorrencia: value } : c,
+			),
 		);
 	}
+
+	function getCartItemKey(item: CartItem) {
+		return item.cartItemId ?? item.requerimentoItemId ?? item.itemId;
+	}
+
+	function duplicateMedication(item: CartItem) {
+		setCart((prev) => {
+			const index = prev.findIndex(
+				(currentItem) => getCartItemKey(currentItem) === getCartItemKey(item),
+			);
+
+			const duplicatedItem: CartItem = {
+				...item,
+				cartItemId: crypto.randomUUID(),
+				requerimentoItemId: undefined,
+				quantidade: 1,
+				ocorrencia: "",
+			};
+
+			return [
+				...prev.slice(0, index + 1),
+				duplicatedItem,
+				...prev.slice(index + 1),
+			];
+		});
+	}
+
+	const totalQuantity = cart.reduce(
+		(total, item) => total + item.quantidade,
+		0,
+	);
 
 	return (
 		<Paper
@@ -82,13 +118,20 @@ export default function Carrinho({
 			>
 				<ShoppingCartIcon fontSize="small" color="primary" />
 				<Typography variant="subtitle1" fontWeight={600}>
-					Carrinho
+					Resumo do Pedido
 				</Typography>
 				<ChipItensCarrinho
 					qnt={cart.length}
 					size="medium"
 					color={cart.length > 0 ? "primary" : "default"}
 				/>
+				{cart.length > 0 && (
+					<Chip
+						label={`${totalQuantity} unidade(s)`}
+						size="small"
+						variant="outlined"
+					/>
+				)}
 			</Box>
 
 			{cart.length === 0 ? (
@@ -123,7 +166,7 @@ export default function Carrinho({
 						</TableHead>
 						<TableBody>
 							{cart.map((item) => (
-								<React.Fragment key={item.itemId}>
+								<React.Fragment key={getCartItemKey(item)}>
 									<TableRow>
 										<TableCell
 											sx={{
@@ -149,7 +192,7 @@ export default function Carrinho({
 												value={item.quantidade}
 												onChange={(e) =>
 													updateQty(
-														item.itemId,
+														getCartItemKey(item),
 														parseInt(e.target.value, 10) || 1,
 													)
 												}
@@ -175,8 +218,14 @@ export default function Carrinho({
 													size="small"
 													fullWidth
 													value={item.ocorrencia ?? ""}
+													error={
+														tipo === "Farmacia" && !item.ocorrencia?.trim()
+													}
 													onChange={(e) =>
-														updateOcorrencia(item.itemId, e.target.value)
+														updateOcorrencia(
+															getCartItemKey(item),
+															e.target.value,
+														)
 													}
 													inputProps={{
 														min: 1,
@@ -190,7 +239,7 @@ export default function Carrinho({
 										)}
 										<TableCell
 											sx={{
-												width: 36,
+												width: 100,
 												pb: tipo === "Farmacia" ? 0.5 : undefined,
 											}}
 										>
@@ -198,10 +247,21 @@ export default function Carrinho({
 												type="button"
 												size="small"
 												color="error"
-												onClick={() => removeFromCart(item.itemId)}
+												onClick={() => removeFromCart(getCartItemKey(item))}
 											>
 												<DeleteIcon fontSize="small" />
 											</IconButton>
+											{tipo === "Farmacia" && (
+												<IconButton
+													type="button"
+													size="small"
+													color="primary"
+													aria-label={`Duplicar medicamento ${item.nome}`}
+													onClick={() => duplicateMedication(item)}
+												>
+													<ContentCopyIcon fontSize="small" />
+												</IconButton>
+											)}
 										</TableCell>
 									</TableRow>
 								</React.Fragment>

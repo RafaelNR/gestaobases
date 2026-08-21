@@ -162,8 +162,7 @@ let RequerimentoService = class RequerimentoService {
             where = {
                 status: {
                     notIn: [
-                        _client.Status.Rascunho,
-                        _client.Status.Cancelado
+                        _client.Status.Rascunho
                     ]
                 }
             };

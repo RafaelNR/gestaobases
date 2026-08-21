@@ -26,6 +26,7 @@ import { useNavigate } from "react-router";
 import { TypeSetor } from "@/Guard/Types";
 
 export type CartItem = {
+	cartItemId?: string;
 	requerimentoItemId?: string;
 	itemId: string;
 	nome: string;
@@ -63,6 +64,7 @@ function buildCartFromRequerimentoItems(items: RequerimentoItemEntry[]) {
 			const medicamento = item.Medicamento;
 
 			return {
+				cartItemId: item.id,
 				requerimentoItemId: item.id,
 				itemId: item.medicamentoId ?? item.produtoId ?? "",
 				nome: medicamento?.nome ?? produto?.nome ?? "Item sem nome",
@@ -260,12 +262,12 @@ export default function RequerimentoPage({ requerimentoId }: Props) {
 				<FormRequerimento tipo={tipo} />
 			)}
 			<Grid container spacing={2} sx={{ alignItems: "flex-start", mt: 1 }}>
-				<Grid size={{ xs: 12, md: 8 }}>
+				<Grid size={{ xs: 12, md: 7 }}>
 					<Catalogo tipo={tipo} cart={cart} setCart={setCart} />
 				</Grid>
 
 				<Grid
-					size={{ xs: 12, md: 4 }}
+					size={{ xs: 12, md: 5 }}
 					sx={{
 						display: { xs: "none", md: "block" },
 						alignSelf: "flex-start",

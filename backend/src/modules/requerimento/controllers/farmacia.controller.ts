@@ -124,7 +124,7 @@ export class FarmaciaController extends BaseController {
   // ----- PUT (/requerimentos/farmacia/:id) - Farmacia ----
 
   @Put(':id')
-  @Setor(TypeSetor.Farmacia)
+  @Setor([TypeSetor.Farmacia, TypeSetor.Base])
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateRequerimentoFarmaciaRequestDto,

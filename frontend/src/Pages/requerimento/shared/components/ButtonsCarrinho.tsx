@@ -55,8 +55,10 @@ export default function ButtonsCarrinho({
 		snackBar.success("Carrinho limpo com sucesso!");
 	}
 
-	const isFormValid =
-		cart.length > 0 && (tipo !== "Farmacia" || ambulancia !== "");
+	const hasMissingOcorrencia =
+		tipo === "Farmacia" && cart.some((item) => !item.ocorrencia?.trim());
+	const canUseCart = cart.length > 0 && (tipo !== "Farmacia" || ambulancia !== "");
+	const isFormValid = canUseCart && !hasMissingOcorrencia;
 
 	function buildFormItems(): RequerimentoCartFormItem[] {
 		return cart.map((item) =>
@@ -185,7 +187,7 @@ export default function ButtonsCarrinho({
 						variant="outlined"
 						color="error"
 						fullWidth
-						disabled={!isFormValid}
+						disabled={!canUseCart}
 						loading={createMutation.isPending || updateMutation.isPending}
 						onClick={clearCart}
 					>

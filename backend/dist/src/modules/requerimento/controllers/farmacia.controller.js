@@ -238,7 +238,10 @@ _ts_decorate([
 ], FarmaciaController.prototype, "enviar", null);
 _ts_decorate([
     (0, _common.Put)(':id'),
-    (0, _rolesdecorator.Setor)(_rolesdecorator.TypeSetor.Farmacia),
+    (0, _rolesdecorator.Setor)([
+        _rolesdecorator.TypeSetor.Farmacia,
+        _rolesdecorator.TypeSetor.Base
+    ]),
     _ts_param(0, (0, _common.Param)('id')),
     _ts_param(1, (0, _common.Body)()),
     _ts_param(2, (0, _userdecorator.User)()),

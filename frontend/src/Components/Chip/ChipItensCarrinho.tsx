@@ -7,7 +7,7 @@ type Props = {
 export default function ChipItensCarrinho({ qnt, ...props }: Props) {
 	return (
 		<Chip
-			label={`${qnt || 0} item(s)`}
+			label={`${qnt || 0} ite(ns)`}
 			size="small"
 			variant="outlined"
 			{...props}

@@ -9,6 +9,8 @@ import {
 	IconButton,
 	InputAdornment,
 	Paper,
+	Chip,
+	Stack,
 	Table,
 	TableBody,
 	TableCell,
@@ -20,6 +22,8 @@ import {
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useGetProdutos } from "@/Hooks/useProdutos";
@@ -108,8 +112,49 @@ export default function Catalogo({
 		);
 	}, [catalogEntries, search]);
 
+	const totalQuantity = useMemo(
+		() => cart.reduce((total, item) => total + item.quantidade, 0),
+		[cart],
+	);
+
 	function getCartItem(id: string) {
 		return cart.find((c) => c.itemId === id) ?? null;
+	}
+
+	function getCartItemKey(item: CartItem) {
+		return item.cartItemId ?? item.requerimentoItemId ?? item.itemId;
+	}
+
+	function duplicateMedication(entry: CatalogEntry) {
+		setCart((prev) => {
+			const item = prev.find((cartItem) => cartItem.itemId === entry.id);
+			if (!item) return prev;
+
+			return [
+				...prev,
+				{
+					...item,
+					cartItemId: crypto.randomUUID(),
+					requerimentoItemId: undefined,
+					quantidade: 1,
+					ocorrencia: "",
+				},
+			];
+		});
+	}
+
+	function removeFromCart(entry: CatalogEntry) {
+		if (removeTimeouts.current[entry.id]) {
+			clearTimeout(removeTimeouts.current[entry.id]);
+			delete removeTimeouts.current[entry.id];
+		}
+
+		setCart((prev) => {
+			const index = prev.findIndex((item) => item.itemId === entry.id);
+			return index < 0
+				? prev
+				: prev.filter((_, itemIndex) => itemIndex !== index);
+		});
 	}
 
 	function updateCartQuantity(entry: CatalogEntry, quantidade: number) {
@@ -123,7 +168,16 @@ export default function Catalogo({
 			// Evita criar múltiplos timeouts
 			if (!removeTimeouts.current[entry.id]) {
 				removeTimeouts.current[entry.id] = setTimeout(() => {
-					setCart((prev) => prev.filter((c) => c.itemId !== entry.id));
+					setCart((prev) => {
+						let removed = false;
+						return prev.filter((c) => {
+							if (!removed && c.itemId === entry.id) {
+								removed = true;
+								return false;
+							}
+							return true;
+						});
+					});
 
 					delete removeTimeouts.current[entry.id];
 				}, 2000);
@@ -131,17 +185,20 @@ export default function Catalogo({
 		}
 
 		setCart((prev) => {
-			const existing = prev.find((c) => c.itemId === entry.id);
+			const existingIndex = prev.findIndex((c) => c.itemId === entry.id);
+			const existing = existingIndex >= 0 ? prev[existingIndex] : undefined;
 
 			if (existing) {
+				const existingKey = getCartItemKey(existing);
 				return prev.map((c) =>
-					c.itemId === entry.id ? { ...c, quantidade } : c,
+					getCartItemKey(c) === existingKey ? { ...c, quantidade } : c,
 				);
 			}
 
 			return [
 				...prev,
 				{
+					cartItemId: crypto.randomUUID(),
 					itemId: entry.id,
 					nome: entry.nome,
 					codigo: entry.codigo,
@@ -155,9 +212,26 @@ export default function Catalogo({
 
 	return (
 		<Paper sx={{ p: 2 }}>
-			<Typography variant="subtitle1" fontWeight={600} mb={1.5}>
-				Catálogo {tipo}
-			</Typography>
+			<Stack
+				direction="row"
+				justifyContent="space-between"
+				alignItems="center"
+				mb={1.5}
+			>
+				<Typography variant="subtitle1" fontWeight={600}>
+					Catálogo {tipo}
+				</Typography>
+				<Stack direction="row" gap={0.75}>
+					<Chip
+						label={`${cart.length} item(ns)`}
+						color={cart.length > 0 ? "primary" : "default"}
+						size="small"
+					/>
+					{cart.length > 0 && (
+						<Chip label={`${totalQuantity} unidade(s)`} size="small" />
+					)}
+				</Stack>
+			</Stack>
 			<TextField
 				size="small"
 				fullWidth
@@ -181,9 +255,11 @@ export default function Catalogo({
 						<TableRow>
 							<TableCell>Código</TableCell>
 							<TableCell>Nome</TableCell>
-							<TableCell>Categoria</TableCell>
 							<TableCell align="center" sx={{ width: 130 }}>
 								Qtd
+							</TableCell>
+							<TableCell align="center" sx={{ width: 150 }}>
+								Ações
 							</TableCell>
 						</TableRow>
 					</TableHead>
@@ -198,8 +274,14 @@ export default function Catalogo({
 									}}
 								>
 									<TableCell>{entry.codigo}</TableCell>
-									<TableCell>{entry.nome}</TableCell>
-									<TableCell>{entry.categoria}</TableCell>
+									<TableCell>
+										<Typography variant="body2" fontWeight={500}>
+											{entry.nome}
+										</Typography>
+										<Typography variant="caption" color="text.secondary">
+											{entry.categoria}
+										</Typography>
+									</TableCell>
 									<TableCell align="center">
 										{cartItem ? (
 											<TextField
@@ -221,10 +303,39 @@ export default function Catalogo({
 												sx={{ width: 72 }}
 											/>
 										) : (
+											"—"
+										)}
+									</TableCell>
+									<TableCell align="center">
+										{cartItem ? (
+											<>
+												<IconButton
+													type="button"
+													size="small"
+													color="error"
+													aria-label={`Remover ${entry.nome} do carrinho`}
+													onClick={() => removeFromCart(entry)}
+												>
+													<DeleteIcon fontSize="small" />
+												</IconButton>
+												{tipo === "Farmacia" && (
+													<IconButton
+														type="button"
+														size="small"
+														color="primary"
+														aria-label={`Duplicar medicamento ${entry.nome}`}
+														onClick={() => duplicateMedication(entry)}
+													>
+														<ContentCopyIcon fontSize="small" />
+													</IconButton>
+												)}
+											</>
+										) : (
 											<IconButton
 												type="button"
 												size="small"
 												color="primary"
+												aria-label={`Adicionar ${entry.nome} ao carrinho`}
 												onClick={() => updateCartQuantity(entry, 1)}
 											>
 												<AddIcon fontSize="small" />

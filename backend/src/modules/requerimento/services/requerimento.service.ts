@@ -217,7 +217,7 @@ export class RequerimentoService {
 
     if (this.isGetAll(user, tipo)) {
       where = {
-        status: { notIn: [Status.Rascunho, Status.Cancelado] },
+        status: { notIn: [Status.Rascunho] },
       };
     } else {
       where = {
