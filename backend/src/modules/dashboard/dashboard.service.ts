@@ -5,6 +5,7 @@ import { TipoRequerimento } from '@generated/prisma/enums';
 import { IUser } from '@/src/common/decorator/user.decorator';
 import { TypeSetor } from '@/src/infra/guard/roles.decorator';
 import { classificarValidade } from '../estoque/services/estoque-validade.service';
+import dayjs from 'dayjs';
 
 export interface DashboardStats {
   totalLotesAtivos: number;
@@ -19,6 +20,8 @@ export type ProximaVisitaBase = {
   data: Date;
   base: string;
   descricao: string | null;
+  requerimentoId: string | null;
+  tipo: TipoRequerimento | null;
   requerimentoRecebidoNaSemana: boolean;
   prioridade: 'vermelho' | 'amarelo' | 'verde';
 };
@@ -53,6 +56,22 @@ export class DashboardService {
     private readonly prisma: PrismaService
     // private readonly redisService: RedisService
   ) {}
+
+  getByTipo(user: IUser): TipoRequerimento | undefined {
+    if (user?.setor === 'Almoxarifado') {
+      return 'Almoxarifado';
+    }
+
+    if (user?.setor === 'CME') {
+      return 'CME';
+    }
+
+    if (user?.setor === 'Farmacia') {
+      return 'Farmacia';
+    }
+
+    return undefined;
+  }
 
   async countByStatus(query: {
     tipo?: TipoRequerimento;
@@ -129,42 +148,39 @@ export class DashboardService {
     )
       ? (dias as PeriodoVisitas)
       : 3;
-    const agora = new Date();
-    const inicioHoje = new Date(
-      agora.getFullYear(),
-      agora.getMonth(),
-      agora.getDate()
-    );
-    const fimPeriodo = new Date(inicioHoje);
-    fimPeriodo.setDate(fimPeriodo.getDate() + periodoDias);
+
+    const inicioHoje = dayjs().startOf('day').subtract(3, 'day');
+    const fimPeriodo = inicioHoje.add(periodoDias + 3, 'day');
 
     const visitas = await this.prisma.visitasBases.findMany({
       where: {
         base: { not: null },
-        data: { gte: inicioHoje, lt: fimPeriodo },
+        data: { gte: inicioHoje.toDate(), lt: fimPeriodo.toDate() },
         ...(user.setor === TypeSetor.Base ? { base: user.base } : {}),
       },
       select: { id: true, data: true, base: true, descricao: true },
       orderBy: [{ data: 'asc' }, { base: 'asc' }],
     });
 
+    const tipo = this.getByTipo(user);
+
     const bases = [
       ...new Set(visitas.map((visita) => visita.base).filter(Boolean)),
     ] as string[];
     if (bases.length === 0) return [];
-
-    const inicioSemana = new Date(inicioHoje);
-    const diaDaSemana = inicioSemana.getDay();
-    inicioSemana.setDate(
-      inicioSemana.getDate() - (diaDaSemana === 0 ? 6 : diaDaSemana - 1)
-    );
-    const recebidos = await this.prisma.requerimento.findMany({
+    const requerimentos = await this.prisma.requerimento.findMany({
       where: {
         base: { in: bases },
-        created_at: { gte: inicioSemana, lte: agora },
-        status: 'Recebido',
+        created_at: {
+          gte: inicioHoje.toDate(),
+          lte: fimPeriodo.toDate(),
+        },
+        status: {
+          notIn: ['Rascunho', 'Analise', 'Finalizado'],
+        },
+        ...(tipo ? { tipo: tipo } : {}),
       },
-      select: { base: true, created_at: true },
+      select: { base: true, created_at: true, id: true, tipo: true },
       orderBy: { created_at: 'asc' },
     });
 
@@ -176,29 +192,35 @@ export class DashboardService {
       visitasPorBase.set(visita.base, visitasDaBase);
     }
 
-    const visitasComRecebido = new Set<string>();
-    for (const requerimento of recebidos) {
+    const requerimentoPorVisita = new Map<string, string>();
+    for (const requerimento of requerimentos) {
       if (!requerimento.base) continue;
       const visita = visitasPorBase
         .get(requerimento.base)
         ?.find(
           (item) =>
             item.data >= requerimento.created_at &&
-            !visitasComRecebido.has(item.id)
+            !requerimentoPorVisita.has(item.id)
         );
-      if (visita) visitasComRecebido.add(visita.id);
+      if (visita) requerimentoPorVisita.set(visita.id, requerimento.id);
     }
 
     return visitas.map((visita) => {
       const diasRestantes = Math.round(
-        (visita.data.getTime() - inicioHoje.getTime()) / 86_400_000
+        (visita.data.getTime() - inicioHoje.toDate().getTime()) / 86_400_000
       );
-      const requerimentoRecebidoNaSemana = visitasComRecebido.has(visita.id);
+      const requerimentoId = requerimentoPorVisita.get(visita.id) ?? null;
+      const requerimento = requerimentos.find(
+        (item) => item.id === requerimentoId
+      );
+      const requerimentoRecebidoNaSemana = requerimentoId !== null;
       return {
         id: visita.id,
         data: visita.data,
         base: visita.base!,
         descricao: visita.descricao,
+        requerimentoId,
+        tipo: requerimento?.tipo ?? null,
         requerimentoRecebidoNaSemana,
         prioridade: requerimentoRecebidoNaSemana
           ? 'verde'

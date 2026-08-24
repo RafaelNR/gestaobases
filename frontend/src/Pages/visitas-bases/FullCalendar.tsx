@@ -36,24 +36,24 @@ import type { VisitasBasesCalendarFilters } from "./types";
 
 const BASE_COLORS_OBJ: Record<string, string> = {
 	Barbacena: "#1976d2",
-	Congonhas: "#7b1fa2",
-	"São João Del Rei": "#f57c00",
 	"Alto Rio Doce": "#1976d2",
-	Piranga: "#388e3c",
-	Tiradentes: "#7b1fa2",
-	"Resende Costa": "#f57c00",
+	Barroso: "#1976d2",
+	Carandaí: "#1976d2",
+	Ibertioga: "#1976d2",
+	Congonhas: "#7b1fa2",
 	"Entre Rios de Minas": "#7b1fa2",
-	"Conselheiro Lafaiete": "#388e3c",
+	"Ouro Branco": "#7b1fa2",
+	"São João Del Rei": "#f57c00",
+	Tiradentes: "#f57c00",
+	"Resende Costa": "#f57c00",
 	"Lagoa Dourada": "#f57c00",
 	Nazareno: "#f57c00",
-	Barroso: "#1976d2",
 	"Madre de Deus de Minas": "#f57c00",
 	"Bom Sucesso": "#f57c00",
-	Carandaí: "#1976d2",
 	"São Tiago": "#f57c00",
+	Piranga: "#388e3c",
+	"Conselheiro Lafaiete": "#388e3c",
 	"Rio Espera": "#388e3c",
-	"Ouro Branco": "#7b1fa2",
-	Ibertioga: "#1976d2",
 };
 
 const FALLBACK_EVENT_COLOR = "#d32f2f";
@@ -96,7 +96,10 @@ function getVisitaColor(visita: VisitaBase): string {
 }
 
 function getMobileVisitaDate(visita: VisitaBase): string {
-	return dayjs(visita.data).locale("pt-br").format("DD/MM - dddd");
+	return dayjs(visita.data)
+		.add(3, "hours")
+		.locale("pt-br")
+		.format("DD/MM - dddd");
 }
 
 function renderEventContent(eventInfo: EventContentArg) {
@@ -172,7 +175,11 @@ function MobileVisitasAgenda({
 			})}
 		>
 			<Stack spacing={1.5}>
-				<Stack direction="row" alignItems="center" justifyContent="space-between">
+				<Stack
+					direction="row"
+					alignItems="center"
+					justifyContent="space-between"
+				>
 					<IconButton
 						aria-label="Mês anterior"
 						onClick={() => changeMonth(-1)}
@@ -254,7 +261,11 @@ function MobileVisitasAgenda({
 									})}
 								>
 									<Box sx={{ minWidth: 0 }}>
-										<Typography variant="caption" color="text.secondary" fontWeight={700}>
+										<Typography
+											variant="caption"
+											color="text.secondary"
+											fontWeight={700}
+										>
 											{getMobileVisitaDate(visita)}
 										</Typography>
 										<Typography variant="body1" fontWeight={800} noWrap>

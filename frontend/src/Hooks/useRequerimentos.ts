@@ -23,7 +23,7 @@ export function useGetRequerimentos(tipo: TipoRequerimento) {
 		queryKey: requerimentoKeys.all(tipo),
 		queryFn: () =>
 			requerimentoServices[tipo].findAll() as Promise<Requerimento[]>,
-		refetchInterval: 60000 * 10, // 10 minuto
+		refetchInterval: 60000 * 5, // 5 minuto
 	});
 }
 
@@ -35,7 +35,7 @@ export function useGetRequerimentosByFiltro(
 		queryKey: requerimentoKeys.filtered(tipo, filtro),
 		queryFn: () =>
 			requerimentoServices[tipo].findAll(filtro) as Promise<Requerimento[]>,
-		refetchInterval: 60000 * 10, // 10 minuto
+		refetchInterval: 60000 * 5, // 5 minuto
 	});
 }
 

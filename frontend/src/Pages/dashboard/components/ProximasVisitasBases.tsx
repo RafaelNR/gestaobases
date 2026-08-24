@@ -1,6 +1,6 @@
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
 	Alert,
 	Box,
@@ -16,6 +16,7 @@ import {
 	Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import { useProximasVisitas } from "@/Hooks/useDashBoard";
 import useLocalStore from "@/Hooks/useLocalStore";
 import type { ProximaVisitaBase } from "@/Types/VisitaBase";
@@ -74,57 +75,115 @@ function VisitaDetalhes({ visita }: { visita: ProximaVisitaBase }) {
 	);
 }
 
-function VisitaLinha({ visita }: { visita: ProximaVisitaBase }) {
-	const prioridade = PRIORIDADE[visita.prioridade];
+function VisitaInterativa({
+	visita,
+	onOpen,
+	children,
+}: {
+	visita: ProximaVisitaBase;
+	onOpen: (visita: ProximaVisitaBase) => void;
+	children: ReactNode;
+}) {
+	const clicavel = Boolean(visita.requerimentoId && visita.tipo);
 
 	return (
-		<Stack
-			direction={{ xs: "column", sm: "row" }}
-			spacing={1}
-			alignItems={{ sm: "center" }}
-			justifyContent="space-between"
+		<Box
+			onClick={clicavel ? () => onOpen(visita) : undefined}
+			onKeyDown={
+				clicavel
+					? (event) => {
+						if (event.key === "Enter" || event.key === " ") {
+							event.preventDefault();
+							onOpen(visita);
+						}
+					}
+					: undefined
+			}
+			role={clicavel ? "button" : undefined}
+			tabIndex={clicavel ? 0 : undefined}
 			sx={{
-				p: 1.25,
-				borderRadius: 2,
-				backgroundColor: prioridade.background,
+				cursor: clicavel ? "pointer" : "default",
+				...(clicavel && {
+					"&:hover": { opacity: 0.86 },
+					"&:focus-visible": {
+						outline: "2px solid",
+						outlineColor: "primary.main",
+						outlineOffset: 2,
+					},
+				}),
 			}}
 		>
-			<Stack direction="row" spacing={1.25} alignItems="center">
-				<Box
-					sx={{
-						width: 10,
-						height: 10,
-						borderRadius: "50%",
-						backgroundColor: `${prioridade.color}.main`,
-					}}
-				/>
-				<Box>
-					<Typography variant="caption" color="text.secondary" fontWeight={700}>
-							{dataCivil(visita.data).format("DD/MM/YYYY")}
-					</Typography>
-					<VisitaDetalhes visita={visita} />
-				</Box>
-			</Stack>
-			<StatusChip visita={visita} />
-		</Stack>
+			{children}
+		</Box>
 	);
 }
 
-function DestaqueLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
+function VisitaLinha({
+	visita,
+	onOpen,
+}: {
+	visita: ProximaVisitaBase;
+	onOpen: (visita: ProximaVisitaBase) => void;
+}) {
+	const prioridade = PRIORIDADE[visita.prioridade];
+
+	return (
+		<VisitaInterativa visita={visita} onOpen={onOpen}>
+			<Stack
+				direction={{ xs: "column", sm: "row" }}
+				spacing={1}
+				alignItems={{ sm: "center" }}
+				justifyContent="space-between"
+				sx={{
+					p: 1.25,
+					borderRadius: 2,
+					backgroundColor: prioridade.background,
+				}}
+			>
+				<Stack direction="row" spacing={1.25} alignItems="center">
+					<Box
+						sx={{
+							width: 10,
+							height: 10,
+							borderRadius: "50%",
+							backgroundColor: `${prioridade.color}.main`,
+						}}
+					/>
+					<Box>
+						<Typography variant="caption" color="text.secondary" fontWeight={700}>
+							{dataCivil(visita.data).format("DD/MM/YYYY")}
+						</Typography>
+						<VisitaDetalhes visita={visita} />
+					</Box>
+				</Stack>
+				<StatusChip visita={visita} />
+			</Stack>
+		</VisitaInterativa>
+	);
+}
+
+function DestaqueLayout({
+	visitas,
+	onOpen,
+}: {
+	visitas: ProximaVisitaBase[];
+	onOpen: (visita: ProximaVisitaBase) => void;
+}) {
 	const [proxima, ...restantes] = visitas;
 	const prioridade = PRIORIDADE[proxima.prioridade];
 
 	return (
 		<Stack spacing={1.5}>
-			<Box
-				sx={{
-					p: 2,
-					borderRadius: 2.5,
-					background: `linear-gradient(135deg, ${prioridade.background}, rgba(255,255,255,0.75))`,
-					border: "1px solid",
-					borderColor: `${prioridade.color}.main`,
-				}}
-			>
+			<VisitaInterativa visita={proxima} onOpen={onOpen}>
+				<Box
+					sx={{
+						p: 2,
+						borderRadius: 2.5,
+						background: `linear-gradient(135deg, ${prioridade.background}, rgba(255,255,255,0.75))`,
+						border: "1px solid",
+						borderColor: `${prioridade.color}.main`,
+					}}
+				>
 				<Typography variant="overline" color="text.secondary" fontWeight={800}>
 					Próxima visita
 				</Typography>
@@ -146,15 +205,22 @@ function DestaqueLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
 					</Box>
 					<StatusChip visita={proxima} />
 				</Stack>
-			</Box>
+				</Box>
+			</VisitaInterativa>
 			{restantes.map((visita) => (
-				<VisitaLinha key={visita.id} visita={visita} />
+				<VisitaLinha key={visita.id} visita={visita} onOpen={onOpen} />
 			))}
 		</Stack>
 	);
 }
 
-function TimelineLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
+function TimelineLayout({
+	visitas,
+	onOpen,
+}: {
+	visitas: ProximaVisitaBase[];
+	onOpen: (visita: ProximaVisitaBase) => void;
+}) {
 	const grupos = useMemo(() => {
 		return visitas.reduce<Map<string, ProximaVisitaBase[]>>((mapa, visita) => {
 			const chave = dataCivil(visita.data).format("YYYY-MM-DD");
@@ -194,7 +260,7 @@ function TimelineLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
 										backgroundColor: `${PRIORIDADE[visita.prioridade].color}.main`,
 									}}
 								/>
-								<VisitaLinha visita={visita} />
+								<VisitaLinha visita={visita} onOpen={onOpen} />
 							</Box>
 						))}
 					</Stack>
@@ -204,7 +270,13 @@ function TimelineLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
 	);
 }
 
-function GradeLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
+function GradeLayout({
+	visitas,
+	onOpen,
+}: {
+	visitas: ProximaVisitaBase[];
+	onOpen: (visita: ProximaVisitaBase) => void;
+}) {
 	const grupos = useMemo(() => {
 		return visitas.reduce<Map<string, ProximaVisitaBase[]>>((mapa, visita) => {
 			const chave = dataCivil(visita.data).format("YYYY-MM-DD");
@@ -233,21 +305,26 @@ function GradeLayout({ visitas }: { visitas: ProximaVisitaBase[] }) {
 						{visitasDoDia.map((visita) => {
 							const prioridade = PRIORIDADE[visita.prioridade];
 							return (
-								<Box
+								<VisitaInterativa
 									key={visita.id}
-									sx={{
-										p: 1,
-										borderRadius: 1.5,
-										backgroundColor: prioridade.background,
-										border: "1px solid",
-										borderColor: `${prioridade.color}.main`,
-									}}
+									visita={visita}
+									onOpen={onOpen}
 								>
-									<VisitaDetalhes visita={visita} />
-									<Box mt={0.75}>
-										<StatusChip visita={visita} />
+									<Box
+										sx={{
+											p: 1,
+											borderRadius: 1.5,
+											backgroundColor: prioridade.background,
+											border: "1px solid",
+											borderColor: `${prioridade.color}.main`,
+										}}
+									>
+										<VisitaDetalhes visita={visita} />
+										<Box mt={0.75}>
+											<StatusChip visita={visita} />
+										</Box>
 									</Box>
-								</Box>
+								</VisitaInterativa>
 							);
 						})}
 					</Stack>
@@ -266,6 +343,15 @@ export default function ProximasVisitasBases() {
 	});
 	const [layout, setLayout] = useState<Layout>("grade");
 	const { data = [], isLoading, isError } = useProximasVisitas(dias);
+	const navigate = useNavigate();
+
+	function abrirRequerimento(visita: ProximaVisitaBase) {
+		if (!visita.requerimentoId || !visita.tipo) return;
+
+		navigate(
+			`/requerimentos/${visita.tipo.toLowerCase()}/view/${visita.requerimentoId}`,
+		);
+	}
 
 	useEffect(() => {
 		setData(STORAGE_KEY, String(dias));
@@ -344,11 +430,11 @@ export default function ProximasVisitasBases() {
 					!isError &&
 					data.length > 0 &&
 					(layout === "destaque" ? (
-						<DestaqueLayout visitas={data} />
+						<DestaqueLayout visitas={data} onOpen={abrirRequerimento} />
 					) : layout === "timeline" ? (
-						<TimelineLayout visitas={data} />
+						<TimelineLayout visitas={data} onOpen={abrirRequerimento} />
 					) : (
-						<GradeLayout visitas={data} />
+						<GradeLayout visitas={data} onOpen={abrirRequerimento} />
 					))}
 			</CardContent>
 		</Card>

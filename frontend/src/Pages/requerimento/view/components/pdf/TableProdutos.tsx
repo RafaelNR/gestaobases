@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View as PdfView } from "@react-pdf/renderer";
 import {
+	TipoRequerimento,
 	type Requerimento,
 	type RequerimentoItemEntry,
 } from "@/Types/Requerimento";
@@ -54,11 +55,13 @@ function getItemCategory(item: RequerimentoItemEntry) {
 	return item.Medicamento?.categoria ?? item.Produto?.categoria ?? "-";
 }
 
-function getOrdem(item: RequerimentoItemEntry) {
-	return item.Produto?.ordem ?? "-";
-}
-
-export function TableProdutos({ itens }: { itens: RequerimentoItemEntry[] }) {
+export function TableProdutos({
+	itens,
+	tipo,
+}: {
+	itens: RequerimentoItemEntry[];
+	tipo: TipoRequerimento;
+}) {
 	return (
 		<PdfView style={pdfStyles.table}>
 			<PdfView style={pdfStyles.tableHeader} fixed>
@@ -66,7 +69,9 @@ export function TableProdutos({ itens }: { itens: RequerimentoItemEntry[] }) {
 				<Text style={[pdfStyles.th, pdfStyles.itemCol]}>Item</Text>
 				<Text style={[pdfStyles.th, pdfStyles.detailCol]}>Categoria</Text>
 				<Text style={[pdfStyles.th, pdfStyles.qtyCol]}>Quantidade</Text>
-				{/* <Text style={[pdfStyles.th, pdfStyles.qtyCol]}>ordem</Text> */}
+				{tipo === "Farmacia" && (
+					<Text style={[pdfStyles.th, pdfStyles.qtyCol]}>Ocorrência</Text>
+				)}
 			</PdfView>
 			{itens.map((item, index) => {
 				const rowStyle =
@@ -86,9 +91,11 @@ export function TableProdutos({ itens }: { itens: RequerimentoItemEntry[] }) {
 						<Text style={[pdfStyles.td, pdfStyles.qtyCol]}>
 							{item.quantidade}
 						</Text>
-						{/* <Text style={[pdfStyles.td, pdfStyles.qtyCol]}>
-							{getOrdem(item)}
-						</Text> */}
+						{tipo === "Farmacia" && (
+							<Text style={[pdfStyles.td, pdfStyles.qtyCol]}>
+								{item.ocorrencia}
+							</Text>
+						)}
 					</PdfView>
 				);
 			})}

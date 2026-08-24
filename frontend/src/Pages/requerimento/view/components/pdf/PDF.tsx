@@ -268,7 +268,7 @@ export function RequerimentoPDFDocument({
 							Nenhum {tipo === "Farmacia" ? "medicamento(s)" : "produto(s)"}.
 						</Text>
 					) : (
-						<TableProdutos itens={itens as any} />
+						<TableProdutos itens={itens as any} tipo={tipo} />
 					)}
 				</PdfView>
 
@@ -289,7 +289,10 @@ export function RequerimentoPDFDocument({
 									Nenhum produto fora do almoxarifado.
 								</Text>
 							) : (
-								<TableProdutos itens={itensForaAlmoxarifado as any} />
+								<TableProdutos
+									itens={itensForaAlmoxarifado as any}
+									tipo={tipo}
+								/>
 							)}
 						</PdfView>
 					)}

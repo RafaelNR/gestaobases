@@ -24,8 +24,18 @@ describe('DashboardService próximas visitas', () => {
       },
       requerimento: {
         findMany: jest.fn<(...args: any[]) => Promise<any[]>>().mockResolvedValue([
-          { base: 'Base A', created_at: data(-1) },
-          { base: 'Base A', created_at: data(1) },
+          {
+            id: 'requerimento-1',
+            tipo: 'Farmacia',
+            base: 'Base A',
+            created_at: data(-1),
+          },
+          {
+            id: 'requerimento-2',
+            tipo: 'CME',
+            base: 'Base A',
+            created_at: data(1),
+          },
         ]),
       },
     };
@@ -41,13 +51,30 @@ describe('DashboardService próximas visitas', () => {
         where: expect.objectContaining({ base: 'Base A' }),
       }),
     );
-    expect(response.map(({ prioridade, requerimentoRecebidoNaSemana }) => ({
+    expect(response.map(({ prioridade, requerimentoRecebidoNaSemana, requerimentoId, tipo }) => ({
       prioridade,
       requerimentoRecebidoNaSemana,
+      requerimentoId,
+      tipo,
     }))).toEqual([
-      { prioridade: 'verde', requerimentoRecebidoNaSemana: true },
-      { prioridade: 'vermelho', requerimentoRecebidoNaSemana: false },
-      { prioridade: 'verde', requerimentoRecebidoNaSemana: true },
+      {
+        prioridade: 'verde',
+        requerimentoRecebidoNaSemana: true,
+        requerimentoId: 'requerimento-1',
+        tipo: 'Farmacia',
+      },
+      {
+        prioridade: 'vermelho',
+        requerimentoRecebidoNaSemana: false,
+        requerimentoId: null,
+        tipo: null,
+      },
+      {
+        prioridade: 'verde',
+        requerimentoRecebidoNaSemana: true,
+        requerimentoId: 'requerimento-2',
+        tipo: 'CME',
+      },
     ]);
   });
 });

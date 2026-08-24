@@ -4,6 +4,7 @@ import {
 } from "@/Schemas/Visitas.schemas";
 import { TypeOf } from "zod";
 import { Usuario } from "./Usuarios";
+import type { TipoRequerimento } from "./Requerimento";
 
 export type VisitaCreateSchemaInput = TypeOf<typeof visitaCreateSchema>;
 
@@ -25,6 +26,8 @@ export type ProximaVisitaBase = {
 	data: string;
 	base: string;
 	descricao: string | null;
+	requerimentoId: string | null;
+	tipo: TipoRequerimento | null;
 	requerimentoRecebidoNaSemana: boolean;
 	prioridade: "vermelho" | "amarelo" | "verde";
 };

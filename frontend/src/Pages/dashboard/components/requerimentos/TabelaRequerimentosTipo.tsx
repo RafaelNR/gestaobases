@@ -34,9 +34,14 @@ const OPEN_STATUSES: RequerimentoStatus[] = [
 interface Props {
 	tipo: TipoRequerimento;
 	titulo: string;
+	isAll?: boolean;
 }
 
-export default function TabelaRequerimentosTipo({ tipo, titulo }: Props) {
+export default function TabelaRequerimentosTipo({
+	tipo,
+	titulo,
+	isAll,
+}: Props) {
 	const navigate = useNavigate();
 	const { data: all = [], isLoading } = useGetRequerimentos(tipo);
 
@@ -194,7 +199,11 @@ export default function TabelaRequerimentosTipo({ tipo, titulo }: Props) {
 											)}
 										</TableCell>
 										<TableCell sx={{ py: 1 }}>
-											<Typography variant="body2" noWrap sx={{ maxWidth: 150 }}>
+											<Typography
+												variant="body2"
+												noWrap
+												sx={{ maxWidth: isAll ? 150 : 300 }}
+											>
 												{r.User.nome}
 											</Typography>
 										</TableCell>

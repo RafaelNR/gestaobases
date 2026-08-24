@@ -274,7 +274,11 @@ export default function Render() {
 						md: selectedFilter === "todos" ? 4 : 12,
 					}}
 				>
-					<TabelaRequerimentosTipo tipo={option.tipo} titulo={option.label} />
+					<TabelaRequerimentosTipo
+						tipo={option.tipo}
+						titulo={option.label}
+						isAll={selectedFilter === "todos"}
+					/>
 				</Grid>
 			))}
 

@@ -24,11 +24,16 @@ import snackBar from "@/Hooks/useSnackBar";
 import SelectOutroMotivoController from "./SelectOutroMotivoController";
 import dayjs from "dayjs";
 import { visitaCreateSchema } from "@/Schemas/Visitas.schemas";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Controller } from "react-hook-form";
+import useLayout from "@/Hooks/useLayout";
 
 export default function DialogCreated() {
 	const createMut = useCreateVisitaBase();
 	const { modal, id, selected, handleCloseDialog } = useDialog();
 	const isEditing = Boolean(id);
+	const { isMobile } = useLayout();
 	const isSaving = createMut.isPending;
 	const isBusy = isSaving;
 
@@ -82,6 +87,30 @@ export default function DialogCreated() {
 				</DialogTitle>
 				<DialogContent>
 					<Stack spacing={2} mt={1}>
+						{isMobile && (
+							<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+								<Controller
+									name="data"
+									control={methods.control}
+									render={({ field, fieldState }) => (
+										<DatePicker
+											label="Data da visita"
+											value={field.value ? dayjs(field.value) : null}
+											onChange={(date) => field.onChange(date?.toDate() ?? null)}
+											minDate={dayjs()}
+											slotProps={{
+												textField: {
+													fullWidth: true,
+													size: "small",
+													error: Boolean(fieldState.error),
+													helperText: fieldState.error?.message,
+												},
+											}}
+										/>
+									)}
+								/>
+							</LocalizationProvider>
+						)}
 						<SelectBasesController
 							name="base"
 							fullWidth
