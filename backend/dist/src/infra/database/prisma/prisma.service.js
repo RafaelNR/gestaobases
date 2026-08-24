@@ -34,10 +34,11 @@ function getPrismaAdapter(configService) {
         user: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DB'),
-        connectionLimit: 15,
         acquireTimeout: 10000,
         connectTimeout: 5000,
-        idleTimeout: 300
+        connectionLimit: 15,
+        minimumIdle: 5,
+        idleTimeout: 1800
     });
     return adapter;
 }

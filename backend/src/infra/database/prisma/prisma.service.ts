@@ -19,10 +19,11 @@ function getPrismaAdapter(configService: ConfigService<EnvironmentVariables>) {
     user: configService.get('MYSQL_USER'),
     password: configService.get('MYSQL_PASSWORD'),
     database: configService.get('MYSQL_DB'),
-    connectionLimit: 15, // pool size
     acquireTimeout: 10000, // wait up to 10s for a connection
     connectTimeout: 5000, // 5s connect timeout (similar to v6)
-    idleTimeout: 300, // 300s idle timeout (seconds)a
+    connectionLimit: 15, // max connections in pool
+    minimumIdle: 5, // min connections in pool (mantem sempre 5 abertas)
+    idleTimeout: 1800, // 30 minutes (depois disso fecha a conexão)
     //logger: {
     // network: (info) => console.log('PrismaAdapterNetwork', info),
     // query: (info) => console.log('PrismaAdapterQuery', info),
@@ -36,11 +37,15 @@ function getPrismaAdapter(configService: ConfigService<EnvironmentVariables>) {
 @Injectable()
 export class PrismaService
   extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy {
+  implements OnModuleInit, OnModuleDestroy
+{
   public readonly adapter!: PrismaMariaDb;
   public readonly logger: Logger;
 
-  constructor(@Inject(ConfigService) private readonly configService: ConfigService<EnvironmentVariables>) {
+  constructor(
+    @Inject(ConfigService)
+    private readonly configService: ConfigService<EnvironmentVariables>
+  ) {
     super({ adapter: getPrismaAdapter(configService) });
     this.logger = new Logger(PrismaService.name);
   }
