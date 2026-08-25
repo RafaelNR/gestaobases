@@ -37,6 +37,23 @@ let ProdutoRepository = class ProdutoRepository {
             }
         });
     }
+    async findAllByTipo(tipo) {
+        return this.prisma.produto.findMany({
+            orderBy: {
+                nome: 'asc'
+            },
+            include: {
+                User: {
+                    select: {
+                        nome: true
+                    }
+                }
+            },
+            where: {
+                cme: tipo === 'cme' ? true : false
+            }
+        });
+    }
     async findOne(id) {
         return this.prisma.produto.findUnique({
             where: {

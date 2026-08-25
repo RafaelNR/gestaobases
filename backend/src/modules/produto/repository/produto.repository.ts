@@ -17,6 +17,16 @@ export class ProdutoRepository {
     });
   }
 
+  async findAllByTipo(tipo: string): Promise<Produto[]> {
+    return this.prisma.produto.findMany({
+      orderBy: { nome: 'asc' },
+      include: { User: { select: { nome: true } } },
+      where: {
+        cme: tipo === 'cme' ? true : false,
+      },
+    });
+  }
+
   async findOne(id: string): Promise<Produto | null> {
     return this.prisma.produto.findUnique({
       where: { id },

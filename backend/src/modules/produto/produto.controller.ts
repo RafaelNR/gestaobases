@@ -36,12 +36,25 @@ export class ProdutoController extends BaseController {
     super();
   }
 
-  // ----- GET (/produtos) - Administrador/Farmacia ----
+  // ----- GET (/produtos) - Administrador/Almoxarifado ----
 
   @Get()
   @Autenticado()
   async findAll(): Promise<IResponse<any>> {
     const produtos = await this.repository.findAll();
+
+    return this.handleSuccessResponse({
+      code: HttpStatus.OK,
+      response: produtos,
+    });
+  }
+
+  // ----- GET (/produtos/:tipo) - Autenticado ----
+
+  @Get(':tipo')
+  @Autenticado()
+  async findAllByTipo(@Param('tipo') tipo: string): Promise<IResponse<any>> {
+    const produtos = await this.repository.findAllByTipo(tipo);
 
     return this.handleSuccessResponse({
       code: HttpStatus.OK,

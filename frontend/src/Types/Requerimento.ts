@@ -62,7 +62,15 @@ export type RequerimentoItemEntry = {
 	updated_at: string;
 	Produto?: Pick<
 		Produto,
-		"id" | "nome" | "codigo" | "unidade" | "categoria" | "ordem" | "fora_alx"
+		| "id"
+		| "nome"
+		| "codigo"
+		| "unidade"
+		| "categoria"
+		| "ordem"
+		| "fora_alx"
+		| "cme"
+		| "usa"
 	> | null;
 	Medicamento?: Pick<
 		Medicamento,

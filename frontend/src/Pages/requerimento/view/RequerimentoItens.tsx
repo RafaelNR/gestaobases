@@ -33,6 +33,10 @@ function getItemDetail(item: RequerimentoItemEntry) {
 	return item.Medicamento?.especificacao ?? item.Produto?.unidade ?? "-";
 }
 
+function getItemDetailProduto(item: RequerimentoItemEntry) {
+	return `${item.Produto?.usa ? "USA" : "USA/USB"} - ${item.Produto?.cme ? "CME" : "Almoxarifado"}`;
+}
+
 function getItemCategoria(item: RequerimentoItemEntry) {
 	const entry = item as RequerimentoItemEntry & {
 		Medicamento?: { categoria?: string | null } | null;
@@ -156,7 +160,21 @@ export default function Index({
 									</Typography>
 								</TableCell>
 								<TableCell>{getItemCategoria(item)}</TableCell>
-								<TableCell>{getItemDetail(item)}</TableCell>
+								<TableCell>
+									<Typography variant="body2">{getItemDetail(item)}</Typography>
+									{tipo !== "Farmacia" && (
+										<Typography
+											variant="subtitle2"
+											sx={{
+												fontStyle: "italic",
+												fontSize: 10,
+												color: "#afafaf",
+											}}
+										>
+											{getItemDetailProduto(item)}
+										</Typography>
+									)}
+								</TableCell>
 								<TableCell align="center">
 									<Typography variant="body2" fontWeight={800}>
 										{item.quantidade}

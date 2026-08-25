@@ -41,6 +41,7 @@ type CatalogEntry = {
 	codigo: number;
 	categoria: string;
 	usa?: boolean;
+	cme?: boolean;
 };
 
 interface RequerimentoPageProps {
@@ -58,9 +59,12 @@ export default function Catalogo({
 	const [search, setSearch] = useState("");
 	const removeTimeouts = useRef<Record<string, NodeJS.Timeout>>({});
 
+	// Base tem USA
 	const isUsa = ["USA", "USA_USB"].includes(user?.Base.tipo_ambulancias || "")
 		? true
 		: false;
+
+	console.log(user);
 
 	const { data: produtos = [] } = useGetProdutos();
 	const { data: medicamentos = [] } = useGetMedicamentos();
@@ -82,23 +86,25 @@ export default function Catalogo({
 		}
 		if (tipo === "CME") {
 			return (produtos as Produto[])
-				.filter((p) => p.active && p.cme && (isUsa || !p.usa))
+				.filter((p) => p.active && p.cme && (isUsa ? p.usa || !p.usa : !p.usa))
 				.map((p) => ({
 					id: p.id,
 					nome: p.nome,
 					codigo: p.codigo,
 					categoria: p.categoria,
 					usa: p.usa,
+					cme: p.cme,
 				}));
 		}
 		return (produtos as Produto[])
-			.filter((p) => p.active && (isUsa || !p.usa))
+			.filter((p) => p.active && !p.cme && (isUsa ? p.usa || !p.usa : !p.usa))
 			.map((p) => ({
 				id: p.id,
 				nome: p.nome,
 				codigo: p.codigo,
 				categoria: p.categoria,
 				usa: p.usa,
+				cme: p.cme,
 			}));
 	}, [tipo, produtos, medicamentos, isUsa, user]);
 
@@ -123,6 +129,10 @@ export default function Catalogo({
 
 	function getCartItemKey(item: CartItem) {
 		return item.cartItemId ?? item.requerimentoItemId ?? item.itemId;
+	}
+
+	function getItemDetailProduto(item: CatalogEntry) {
+		return `${item.usa ? "USA" : "USA/USB"} - ${item.cme ? "CME" : "Almoxarifado"}`;
 	}
 
 	function duplicateMedication(entry: CatalogEntry) {
@@ -275,11 +285,25 @@ export default function Catalogo({
 								>
 									<TableCell>{entry.codigo}</TableCell>
 									<TableCell>
-										<Typography variant="body2" fontWeight={500}>
+										<Typography variant="body2" fontWeight={700}>
 											{entry.nome}
 										</Typography>
-										<Typography variant="caption" color="text.secondary">
+										<Typography
+											variant="caption"
+											color="text.secondary"
+											fontWeight={500}
+										>
 											{entry.categoria}
+										</Typography>
+										<Typography
+											variant="caption"
+											sx={{
+												fontStyle: "italic",
+												fontSize: 10,
+												color: "#afafaf",
+											}}
+										>
+											{""} - {getItemDetailProduto(entry)}
 										</Typography>
 									</TableCell>
 									<TableCell align="center">

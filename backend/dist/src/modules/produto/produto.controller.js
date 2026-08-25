@@ -34,9 +34,17 @@ let ProdutoController = class ProdutoController extends _BaseController.BaseCont
     constructor(repository, logService){
         super(), this.repository = repository, this.logService = logService;
     }
-    // ----- GET (/produtos) - Administrador/Farmacia ----
+    // ----- GET (/produtos) - Administrador/Almoxarifado ----
     async findAll() {
         const produtos = await this.repository.findAll();
+        return this.handleSuccessResponse({
+            code: _common.HttpStatus.OK,
+            response: produtos
+        });
+    }
+    // ----- GET (/produtos/:tipo) - Autenticado ----
+    async findAllByTipo(tipo) {
+        const produtos = await this.repository.findAllByTipo(tipo);
         return this.handleSuccessResponse({
             code: _common.HttpStatus.OK,
             response: produtos
@@ -152,6 +160,16 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", []),
     _ts_metadata("design:returntype", Promise)
 ], ProdutoController.prototype, "findAll", null);
+_ts_decorate([
+    (0, _common.Get)(':tipo'),
+    (0, _rolesdecorator.Autenticado)(),
+    _ts_param(0, (0, _common.Param)('tipo')),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        String
+    ]),
+    _ts_metadata("design:returntype", Promise)
+], ProdutoController.prototype, "findAllByTipo", null);
 _ts_decorate([
     (0, _common.Get)(':id'),
     (0, _rolesdecorator.Setor)([

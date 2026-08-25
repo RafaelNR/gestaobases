@@ -10,6 +10,8 @@ export const REQUERIMENTO_ITEM_INCLUDE = {
       categoria: true,
       ordem: true,
       fora_alx: true,
+      usa: true,
+      cme: true,
     },
   },
   Medicamento: {

@@ -17,7 +17,9 @@ const REQUERIMENTO_ITEM_INCLUDE = {
             unidade: true,
             categoria: true,
             ordem: true,
-            fora_alx: true
+            fora_alx: true,
+            usa: true,
+            cme: true
         }
     },
     Medicamento: {
