@@ -3,7 +3,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { DashboardService } from '../dashboard.service';
 
 describe('DashboardService próximas visitas', () => {
-  it('filtra pela base do usuário e prioriza recebido na semana', async () => {
+  it('retorna somente visitas de hoje em diante e separa os requerimentos por tipo', async () => {
     const agora = new Date();
     const inicioHoje = new Date(
       Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate()),
@@ -14,29 +14,54 @@ describe('DashboardService próximas visitas', () => {
       return visita;
     };
 
+    const visitas = [
+      {
+        id: 'visita-anterior',
+        data: data(-1),
+        base: 'Base A',
+        descricao: null,
+      },
+      { id: 'visita-1', data: data(0), base: 'Base A', descricao: null },
+      {
+        id: 'visita-2',
+        data: data(1),
+        base: 'Base A',
+        descricao: 'Rota norte',
+      },
+      { id: 'visita-3', data: data(2), base: 'Base A', descricao: null },
+    ];
+
     const prisma = {
       visitasBases: {
-        findMany: jest.fn<(...args: any[]) => Promise<any[]>>().mockResolvedValue([
-          { id: 'visita-1', data: data(0), base: 'Base A', descricao: null },
-          { id: 'visita-2', data: data(1), base: 'Base A', descricao: 'Rota norte' },
-          { id: 'visita-3', data: data(2), base: 'Base A', descricao: null },
-        ]),
+        findMany: jest
+          .fn<(...args: any[]) => Promise<any[]>>()
+          .mockImplementation(async ({ where }: any) =>
+            visitas.filter((visita) => visita.data >= where.data.gte)
+          ),
       },
       requerimento: {
-        findMany: jest.fn<(...args: any[]) => Promise<any[]>>().mockResolvedValue([
-          {
-            id: 'requerimento-1',
-            tipo: 'Farmacia',
-            base: 'Base A',
-            created_at: data(-1),
-          },
-          {
-            id: 'requerimento-2',
-            tipo: 'CME',
-            base: 'Base A',
-            created_at: data(1),
-          },
-        ]),
+        findMany: jest
+          .fn<(...args: any[]) => Promise<any[]>>()
+          .mockResolvedValue([
+            {
+              id: 'requerimento-1',
+              tipo: 'Farmacia',
+              base: 'Base A',
+              created_at: data(-2),
+            },
+            {
+              id: 'requerimento-2',
+              tipo: 'CME',
+              base: 'Base A',
+              created_at: data(-1),
+            },
+            {
+              id: 'requerimento-3',
+              tipo: 'Almoxarifado',
+              base: 'Base A',
+              created_at: data(1),
+            },
+          ]),
       },
     };
     const service = new DashboardService(prisma as any);
@@ -51,29 +76,52 @@ describe('DashboardService próximas visitas', () => {
         where: expect.objectContaining({ base: 'Base A' }),
       }),
     );
-    expect(response.map(({ prioridade, requerimentoRecebidoNaSemana, requerimentoId, tipo }) => ({
-      prioridade,
-      requerimentoRecebidoNaSemana,
-      requerimentoId,
-      tipo,
+    expect(
+      prisma.visitasBases.findMany.mock.calls[0][0].where.data.gte
+    ).toEqual(expect.any(Date));
+    expect(response.map((visita) => ({
+      reqCMEId: visita.reqCMEId,
+      reqCMERecebido: visita.reqCMERecebido,
+      prioridadeCME: visita.prioridadeCME,
+      reqFarmaciaId: visita.reqFarmaciaId,
+      reqFarmaciaRecebido: visita.reqFarmaciaRecebido,
+      prioridadeFarmacia: visita.prioridadeFarmacia,
+      reqAlxId: visita.reqAlxId,
+      reqAlxRecebido: visita.reqAlxRecebido,
+      prioridadeAlx: visita.prioridadeAlx,
     }))).toEqual([
       {
-        prioridade: 'verde',
-        requerimentoRecebidoNaSemana: true,
-        requerimentoId: 'requerimento-1',
-        tipo: 'Farmacia',
+        reqCMEId: 'requerimento-2',
+        reqCMERecebido: true,
+        prioridadeCME: 'verde',
+        reqFarmaciaId: 'requerimento-1',
+        reqFarmaciaRecebido: true,
+        prioridadeFarmacia: 'verde',
+        reqAlxId: null,
+        reqAlxRecebido: false,
+        prioridadeAlx: 'vermelho',
       },
       {
-        prioridade: 'vermelho',
-        requerimentoRecebidoNaSemana: false,
-        requerimentoId: null,
-        tipo: null,
+        reqCMEId: null,
+        reqCMERecebido: false,
+        prioridadeCME: 'amarelo',
+        reqFarmaciaId: null,
+        reqFarmaciaRecebido: false,
+        prioridadeFarmacia: 'amarelo',
+        reqAlxId: 'requerimento-3',
+        reqAlxRecebido: true,
+        prioridadeAlx: 'verde',
       },
       {
-        prioridade: 'verde',
-        requerimentoRecebidoNaSemana: true,
-        requerimentoId: 'requerimento-2',
-        tipo: 'CME',
+        reqCMEId: null,
+        reqCMERecebido: false,
+        prioridadeCME: 'amarelo',
+        reqFarmaciaId: null,
+        reqFarmaciaRecebido: false,
+        prioridadeFarmacia: 'amarelo',
+        reqAlxId: null,
+        reqAlxRecebido: false,
+        prioridadeAlx: 'vermelho',
       },
     ]);
   });

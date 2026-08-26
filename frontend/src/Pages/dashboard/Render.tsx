@@ -289,7 +289,7 @@ export default function Render() {
 			{can(DASHBOARD_REQUERIMENTOS_PERMISSIONS.CARD_VISITAS) && (
 				<>
 					<Grid size={{ xs: 12 }}>
-						<ProximasVisitasBases />
+						<ProximasVisitasBases tipo={selectedFilter} />
 					</Grid>
 
 					<Grid size={{ xs: 12 }}>

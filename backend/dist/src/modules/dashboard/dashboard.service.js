@@ -119,8 +119,9 @@ let DashboardService = class DashboardService {
     }
     async findProximasVisitas(user, dias) {
         const periodoDias = PERIODOS_VISITAS.includes(dias) ? dias : 3;
-        const inicioHoje = (0, _dayjs.default)().startOf('day').subtract(3, 'day');
-        const fimPeriodo = inicioHoje.add(periodoDias + 3, 'day');
+        const inicioHoje = (0, _dayjs.default)().startOf('day');
+        const inicioRequerimentos = inicioHoje.subtract(3, 'day');
+        const fimPeriodo = inicioHoje.add(periodoDias, 'day');
         const visitas = await this.prisma.visitasBases.findMany({
             where: {
                 base: {
@@ -149,7 +150,6 @@ let DashboardService = class DashboardService {
                 }
             ]
         });
-        const tipo = this.getByTipo(user);
         const bases = [
             ...new Set(visitas.map((visita)=>visita.base).filter(Boolean))
         ];
@@ -160,7 +160,7 @@ let DashboardService = class DashboardService {
                     in: bases
                 },
                 created_at: {
-                    gte: inicioHoje.toDate(),
+                    gte: inicioRequerimentos.toDate(),
                     lte: fimPeriodo.toDate()
                 },
                 status: {
@@ -169,10 +169,7 @@ let DashboardService = class DashboardService {
                         'Analise',
                         'Finalizado'
                     ]
-                },
-                ...tipo ? {
-                    tipo: tipo
-                } : {}
+                }
             },
             select: {
                 base: true,
@@ -191,26 +188,38 @@ let DashboardService = class DashboardService {
             visitasDaBase.push(visita);
             visitasPorBase.set(visita.base, visitasDaBase);
         }
-        const requerimentoPorVisita = new Map();
-        for (const requerimento of requerimentos){
-            if (!requerimento.base) continue;
-            const visita = visitasPorBase.get(requerimento.base)?.find((item)=>item.data >= requerimento.created_at && !requerimentoPorVisita.has(item.id));
-            if (visita) requerimentoPorVisita.set(visita.id, requerimento.id);
+        const requerimentosPorVisita = new Map();
+        for (const tipoRequerimento of Object.values(_enums.TipoRequerimento)){
+            for (const requerimento of requerimentos.filter((item)=>item.tipo === tipoRequerimento)){
+                if (!requerimento.base) continue;
+                const visita = visitasPorBase.get(requerimento.base)?.find((item)=>item.data >= requerimento.created_at && !requerimentosPorVisita.get(item.id)?.[tipoRequerimento]);
+                if (!visita) continue;
+                const requerimentosDaVisita = requerimentosPorVisita.get(visita.id) ?? {};
+                requerimentosDaVisita[tipoRequerimento] = requerimento.id;
+                requerimentosPorVisita.set(visita.id, requerimentosDaVisita);
+            }
         }
         return visitas.map((visita)=>{
             const diasRestantes = Math.round((visita.data.getTime() - inicioHoje.toDate().getTime()) / 86_400_000);
-            const requerimentoId = requerimentoPorVisita.get(visita.id) ?? null;
-            const requerimento = requerimentos.find((item)=>item.id === requerimentoId);
-            const requerimentoRecebidoNaSemana = requerimentoId !== null;
+            const requerimentosDaVisita = requerimentosPorVisita.get(visita.id) ?? {};
+            const reqCMEId = requerimentosDaVisita[_enums.TipoRequerimento.CME] ?? null;
+            const reqFarmaciaId = requerimentosDaVisita[_enums.TipoRequerimento.Farmacia] ?? null;
+            const reqAlxId = requerimentosDaVisita[_enums.TipoRequerimento.Almoxarifado] ?? null;
+            const prioridade = (requerimentoId)=>requerimentoId !== null ? 'verde' : diasRestantes <= 1 ? 'vermelho' : 'amarelo';
             return {
                 id: visita.id,
                 data: visita.data,
                 base: visita.base,
                 descricao: visita.descricao,
-                requerimentoId,
-                tipo: requerimento?.tipo ?? null,
-                requerimentoRecebidoNaSemana,
-                prioridade: requerimentoRecebidoNaSemana ? 'verde' : diasRestantes <= 1 ? 'vermelho' : 'amarelo'
+                reqCMEId,
+                reqFarmaciaId,
+                reqAlxId,
+                reqCMERecebido: reqCMEId !== null,
+                prioridadeCME: prioridade(reqCMEId),
+                reqFarmaciaRecebido: reqFarmaciaId !== null,
+                prioridadeFarmacia: prioridade(reqFarmaciaId),
+                reqAlxRecebido: reqAlxId !== null,
+                prioridadeAlx: prioridade(reqAlxId)
             };
         });
     }

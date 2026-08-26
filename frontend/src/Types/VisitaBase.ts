@@ -4,7 +4,6 @@ import {
 } from "@/Schemas/Visitas.schemas";
 import { TypeOf } from "zod";
 import { Usuario } from "./Usuarios";
-import type { TipoRequerimento } from "./Requerimento";
 
 export type VisitaCreateSchemaInput = TypeOf<typeof visitaCreateSchema>;
 
@@ -26,8 +25,13 @@ export type ProximaVisitaBase = {
 	data: string;
 	base: string;
 	descricao: string | null;
-	requerimentoId: string | null;
-	tipo: TipoRequerimento | null;
-	requerimentoRecebidoNaSemana: boolean;
-	prioridade: "vermelho" | "amarelo" | "verde";
+	reqAlxId: string | null;
+	reqAlxRecebido: boolean;
+	prioridadeAlx: "vermelho" | "amarelo" | "verde";
+	reqFarmaciaId: string | null;
+	reqFarmaciaRecebido: boolean;
+	prioridadeFarmacia: "vermelho" | "amarelo" | "verde";
+	reqCMEId: string | null;
+	reqCMERecebido: boolean;
+	prioridadeCME: "vermelho" | "amarelo" | "verde";
 };
