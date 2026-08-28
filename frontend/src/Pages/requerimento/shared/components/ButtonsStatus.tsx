@@ -19,6 +19,7 @@ import ChipStatusRequerimento from "@/Components/Chip/ChipStatusRequerimento";
 import { CartItem } from "../RequerimentoPage";
 import { usePermissions } from "@/Hooks/usePermissions";
 import { Permission } from "@/Guard";
+import { useNavigate } from "react-router";
 
 type StatusAction = {
 	status: Extract<
@@ -77,6 +78,8 @@ export default function ButtonsStatus({
 	requerimento,
 }: ButtonsStatusProps) {
 	const { can } = usePermissions();
+	const navigate = useNavigate();
+
 	const changeStatusMutation = useChangeStatusRequerimento(tipo);
 
 	const currentStatus = requerimento?.status;
@@ -92,8 +95,11 @@ export default function ButtonsStatus({
 			}
 
 			await changeStatusMutation.mutateAsync({ id, status });
+			if (status === "Finalizado" || status === "Cancelado") {
+				navigate(`/requerimentos/${tipo.toLocaleLowerCase()}/view/${id}`);
+			}
 		},
-		[changeStatusMutation, requerimento?.id],
+		[changeStatusMutation, requerimento?.id, navigate, tipo],
 	);
 
 	return (

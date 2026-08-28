@@ -120,7 +120,7 @@ let DashboardService = class DashboardService {
     async findProximasVisitas(user, dias) {
         const periodoDias = PERIODOS_VISITAS.includes(dias) ? dias : 3;
         const inicioHoje = (0, _dayjs.default)().startOf('day');
-        const inicioRequerimentos = inicioHoje.subtract(3, 'day');
+        const inicioRequerimentos = inicioHoje.subtract(4, 'day');
         const fimPeriodo = inicioHoje.add(periodoDias, 'day');
         const visitas = await this.prisma.visitasBases.findMany({
             where: {
@@ -154,20 +154,20 @@ let DashboardService = class DashboardService {
             ...new Set(visitas.map((visita)=>visita.base).filter(Boolean))
         ];
         if (bases.length === 0) return [];
+        // Requerimentos que estão entre o início do período até a data de hoje + o período dias
         const requerimentos = await this.prisma.requerimento.findMany({
             where: {
                 base: {
                     in: bases
                 },
                 created_at: {
-                    gte: inicioRequerimentos.toDate(),
+                    gt: inicioRequerimentos.toDate(),
                     lte: fimPeriodo.toDate()
                 },
                 status: {
                     notIn: [
                         'Rascunho',
-                        'Analise',
-                        'Finalizado'
+                        'Cancelado'
                     ]
                 }
             },
